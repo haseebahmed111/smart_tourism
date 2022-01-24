@@ -1,0 +1,48 @@
+
+
+    <div class="sidebar">
+      <div class="sidebar-wrapper">
+        <div class="logo">
+          <a target="_blank" rel="sponsored noopener noreferrer" 
+             href="{% url 'tour_guide_home' %}" class="simple-text logo-mini">
+            ST
+          </a>
+          <a target="_blank" rel="sponsored noopener noreferrer" 
+             href="{% url 'tour_guide_home' %}" class="simple-text logo-normal">
+            Tour Guide
+          </a>
+        </div>
+
+        <ul class="nav">
+        {% if request.user.is_authenticated %}
+
+          <li class=" active ">
+            <a href="{% url 'tour_guide_home' %}">
+              <i class="tim-icons icon-chart-pie-36"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="{% if 'icons' in segment %} active {% endif %}">
+            <a href="{% url 'add_language' %}">
+              <i class="tim-icons icon-atom"></i>
+              <p>Add Language</p>
+            </a>
+          </li>
+          <li class="{% if 'maps' in segment %} active {% endif %}">
+            <a href="{% url 'tour_guide_profile_info' %}">
+              <i class="tim-icons icon-pin"></i>
+              <p>Edit Profile</p>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'logout' %}" >
+              <i class="tim-icons icon-button-power"></i>
+              <p>Logout</p>
+            </a>
+          </li>
+          {% endif %}
+                    
+        </ul>
+        
+      </div>
+    </div>

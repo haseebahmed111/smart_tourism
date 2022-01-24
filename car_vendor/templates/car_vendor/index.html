@@ -1,0 +1,62 @@
+{% extends "car_vendor/layouts/base.html" %}
+
+{% block title %} UI Tables {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card ">
+      <div class="card-header">
+        <h4 class="card-title"> Manage Cars</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table tablesorter " id="">
+            <thead class=" text-primary">
+              <tr>
+                <th>
+                   Manufacturer/Model
+                </th>
+                <th>
+                  Year
+                </th>
+                <th>
+                  Added
+                </th>
+                <th class="text-center">
+                  Manage
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                    Toyota Prius
+                </td>
+                <td>
+                2019
+                </td>
+                <td>
+                    21 January,2019
+                </td>
+                <td class="text-center">
+                <a href="{% url 'update_car' %}">Update</a>/
+                    <a href="{% url 'delete_car' %}">Delete</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

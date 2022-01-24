@@ -1,0 +1,102 @@
+{% extends "trip_vendor/layouts/base.html" %}
+
+{% block title %} Page User {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="title">Add Trip</h5>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="row">
+            <div class="col-md-5 pr-md-1">
+              <div class="form-group">
+                <label>By Vendor (disabled)</label>
+                <input type="text" class="form-control" disabled="" value="{{ request.user.id }}">
+              </div>
+            </div>
+            <div class="col-md-3 px-md-1">
+              <div class="form-group">
+                <label>From</label>
+                <input type="text" class="form-control" value="Lahore">
+              </div>
+            </div>
+            <div class="col-md-4 pl-md-1">
+              <div class="form-group">
+                <label for="exampleInputEmail1">To</label>
+                <input type="text" class="form-control" value="Kashmir">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 pr-md-1">
+              <div class="form-group">
+                <label>Date</label>
+                <input type="text" class="form-control" placeholder="Company" value="January 29, 2022">
+              </div>
+            </div>
+            <div class="col-md-6 pl-md-1">
+              <div class="form-group">
+                <label>Vehicle Type</label>
+                <input type="text" class="form-control" placeholder="Last Name" value="Coaster">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Heading</label>
+                <input type="text" class="form-control" placeholder="Home Address" value="Explore Kashmir with Us.">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 pr-md-1">
+              <div class="form-group">
+                <label>City</label>
+                <input type="text" class="form-control" placeholder="City" value="Mike">
+              </div>
+            </div>
+            <div class="col-md-4 px-md-1">
+              <div class="form-group">
+                <label>Rent (per Day)</label>
+                <input type="text" class="form-control" placeholder="Country" value="Rs. 4,000">
+              </div>
+            </div>
+            <div class="col-md-4 pl-md-1">
+              <div class="form-group">
+                <label>Rent (per Month)</label>
+                <input type="number" class="form-control" placeholder="Rs. 24,000">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <div class="form-group">
+                <label>Description</label>
+                <textarea rows="4" cols="80" class="form-control" placeholder="Here can be your description" value="Mike">Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</textarea>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="card-footer">
+        <a href="{% url 'trip_vendor_home' %}" class="btn btn-fill btn-primary">Add</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

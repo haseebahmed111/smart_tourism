@@ -1,0 +1,102 @@
+{% extends "user/layouts/base.html" %}
+
+{% block title %} Page User {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="title">Share Trip Data</h5>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="row">
+            <div class="col-md-5 pr-md-1">
+              <div class="form-group">
+                <label>User id (disabled)</label>
+                <input type="text" class="form-control" disabled="" value="{{ request.user.id }}">
+              </div>
+            </div>
+            <div class="col-md-3 px-md-1">
+              <div class="form-group">
+                <label>From</label>
+                <input type="text" class="form-control" value="Lahore">
+              </div>
+            </div>
+            <div class="col-md-4 pl-md-1">
+              <div class="form-group">
+                <label for="exampleInputEmail1">To</label>
+                <input type="text" class="form-control" value="Kashmir">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 pr-md-1">
+              <div class="form-group">
+                <label>Date</label>
+                <input type="text" class="form-control" placeholder="Company" value="January 21, 2022">
+              </div>
+            </div>
+            <div class="col-md-6 pl-md-1">
+              <div class="form-group">
+                <label>Vehicle Type</label>
+                <input type="text" class="form-control" placeholder="Last Name" value="Car">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Route (places you visit on the way)</label>
+                <input type="text" class="form-control" placeholder="Home Address" value="Islamabad, Murree, Kashmir.">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 pr-md-1">
+              <div class="form-group">
+                <label>Number of days</label>
+                <input type="text" class="form-control" placeholder="City" value="6 days">
+              </div>
+            </div>
+            <div class="col-md-4 px-md-1">
+              <div class="form-group">
+                <label>Expense (Total)</label>
+                <input type="text" class="form-control" placeholder="Country" value="Rs. 20,000">
+              </div>
+            </div>
+            <div class="col-md-4 pl-md-1">
+              <div class="form-group">
+                <label>Food Expense </label>
+                <input type="number" class="form-control" placeholder="Rs. 8,000">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <div class="form-group">
+                <label>Description</label>
+                <textarea rows="4" cols="80" class="form-control" placeholder="Here can be your description" value="Mike">Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</textarea>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="card-footer">
+        <a href="{% url 'dashboard' %}" class="btn btn-fill btn-primary">Share</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

@@ -1,0 +1,62 @@
+{% extends "management/layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card ">
+      <div class="card-header">
+        <h4 class="card-title"> Manage Users</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table tablesorter " id="">
+            <thead class=" text-primary">
+              <tr>
+                <th>
+                  Name
+                </th>
+                <th>
+                  City
+                </th>
+                <th>
+                  Type
+                </th>
+                <th class="text-center">
+                  Manage
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                    Haseeb Ahmed
+                </td>
+                <td>
+                Bahawalpur
+                </td>
+                <td>
+                    Car Vendor
+                </td>
+                <td class="text-center">
+                <a href="{% url 'update_user' %}">Update</a>/
+                    <a href="{% url 'delete_user' %}">Delete</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
