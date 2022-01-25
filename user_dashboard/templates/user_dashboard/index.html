@@ -17,6 +17,7 @@
         <div class="table-responsive">
           <table class="table tablesorter " id="">
             <thead class=" text-primary">
+
               <tr>
                 <th>
                    From
@@ -33,21 +34,24 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+             {% for trip in shared_trips %}
+   <tr>
                 <td>
-                    Lahore
+                    {{ trip.from_place }}
                 </td>
                 <td>
-                Kachmir
+                    {{ trip.to_place }}
                 </td>
                 <td>
-                    1 January,2022
+                    {{ trip.date}}
                 </td>
                 <td class="text-center">
                 <a href="{% url 'update_trip' %}">Update</a>/
                     <a href="{% url 'delete_trip' %}">Delete</a>
                 </td>
               </tr>
+            {% endfor %}
+
             </tbody>
           </table>
         </div>

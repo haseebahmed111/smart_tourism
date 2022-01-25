@@ -1,4 +1,4 @@
-{% extends "car_vendor/layouts/base.html" %}
+{% extends "user_dashboard/layouts/base.html" %}
 
 {% block title %}Delete Car{% endblock %}
 
@@ -11,12 +11,12 @@
         <div class="col-md-12">
             <div class="card card-profile">
                 <div class="card-body">
-                    <h6 class="card-category text-gray">Delete Car</h6>
+                    <h6 class="card-category text-gray">Delete Trip</h6>
                     <h4 class="card-title">
-                        Are you sure you want to delete this Car?
+                        Are you sure you want to delete this Shared Trip Data?
                     </h4>
-                    <a href="{% url 'car_vendor_home' %}" class="btn btn-primary btn-round">No</a>
-                    <a href="{% url 'car_vendor_home' %}" class="btn btn-danger btn-round">Yes</a>
+                    <a href="{% url 'dashboard' %}" class="btn btn-primary btn-round">No</a>
+                    <a href="{% url 'dashboard' %}" class="btn btn-danger btn-round">Yes</a>
                 </div>
             </div>
         </div>
