@@ -102,7 +102,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'share_data' %}">
+                            <a href="{% url 'share_trip_data' %}">
                                 <i class="material-icons">view_day</i> Share Data
                             </a>
                         </li>
@@ -394,33 +394,35 @@
 </div>
 <div class="section section-blog">
     <div class="container">
-        <h2 class="section-title">Latest Articles</h2>
+        <h2 class="section-title">Shared Trips Data</h2>
         <div class="row">
+            {% for trip in shared_trips %}
             <div class="col-md-4">
 
                 <div class="card card-blog">
                     <div class="card-image">
                         <a href="#pablo">
-                            <img src="/static/assets/img/examples/gucci.jpg" alt="">
+                            {% if trip.image %}
+                            <img src="{{ trip.image.url }}" alt="">
                         </a>
                         <div class="colored-shadow"
-                             style="background-image: url(&quot;assets/img/examples/color1.jpg&quot;); opacity: 1;"></div>
+                             style="background-image: url('{{trip.image.url}}'); opacity: 1;"></div>
                         <div class="ripple-container"></div>
+                        {% endif %}
                     </div>
                     <div class="card-content">
-                        <h6 class="category text-rose">Gilgit Valley</h6>
+                        <h6 class="category text-rose">{{ trip.from_place }} - {{ trip.to_place }}</h6>
                         <h4 class="card-title">
-                            <a href="#pablo">Learn about the bueaty of Gilgit Valley</a>
+                            <a href="#pablo">{{ trip.heading}}</a>
                         </h4>
                         <p class="card-description">
-                            Don't be scared of the truth because we need to restart the human foundation in truth And I
-                            love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+                            {{ trip.description}}
                         </p>
                     </div>
                 </div>
 
             </div>
-
+    {% endfor %}
 
         </div>
     </div>

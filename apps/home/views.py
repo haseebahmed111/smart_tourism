@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from user_dashboard.models import ShareTrip
 
 
 def index(request):
-    return render(request, 'home/examples/get_recommendations.html')
+    shared_trips = ShareTrip.objects.all()
+    return render(request, 'home/examples/get_recommendations.html', {'shared_trips': shared_trips})
 
 
 def login(request):

@@ -14,7 +14,7 @@ def dashboard(request):
 # @login_required(login_url="/account/login/")
 def share_trip_data(request):
     if request.method == "POST":
-        form = ShareTripForm(request.POST)
+        form = ShareTripForm(request.POST,request.FILES)
         if form.is_valid():
             shared_data = form.save(commit=False)
             shared_data.user = request.user

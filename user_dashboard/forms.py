@@ -75,7 +75,7 @@ class ShareTripForm(forms.ModelForm):
                 "class": "form-control"
             }
         ))
-    image = forms.ImageField( required=False)
+    #image = forms.ImageField( required=False)
 
     class Meta:
         model = ShareTrip
