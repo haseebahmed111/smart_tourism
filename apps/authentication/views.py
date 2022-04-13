@@ -18,7 +18,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 if user.groups.filter(name="management") or user.is_superuser:
-                    return redirect('management_home')
+                    return redirect('admin:index')
                 if user.groups.filter(name="tour_guide"):
                     return redirect('tour_guide_home')
                 if user.groups.filter(name="car_vendor"):

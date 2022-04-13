@@ -144,10 +144,10 @@
                                     <i class="material-icons">timeline</i>
                                 </div>
                                 <div class="description">
-                                    <h4 class="info-title">Marketing</h4>
+                                    <h4 class="info-title">Trips</h4>
                                     <p class="description">
-                                        We've created the marketing campaign of the website. It was a very interesting
-                                        collaboration.
+                                        We recomment you trips depending on your budget and number of days you want to
+                                        spend exploring the nature.
                                     </p>
                                 </div>
                             </div>
@@ -157,10 +157,10 @@
                                     <i class="material-icons">code</i>
                                 </div>
                                 <div class="description">
-                                    <h4 class="info-title">Fully Coded in HTML5</h4>
+                                    <h4 class="info-title">Vendor</h4>
                                     <p class="description">
-                                        We've developed the website with HTML5 and CSS3. The client has access to the
-                                        code using GitHub.
+                                        You will be able to see trip/car vendors,tour guides and can book your
+                                        trips/vehicles and get tour guides all in one place.
                                     </p>
                                 </div>
                             </div>
@@ -170,49 +170,96 @@
                                     <i class="material-icons">group</i>
                                 </div>
                                 <div class="description">
-                                    <h4 class="info-title">Built Audience</h4>
+                                    <h4 class="info-title">User Revies</h4>
                                     <p class="description">
-                                        There is also a Fully Customizable CMS Admin Dashboard for this product.
+                                        You can see reviews of users about places and past trips and can have an Idea of
+                                        experience and can choose best places to visit according to your liking.
                                     </p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-5">
 
-                            <form class="form" method="" action="">
+                            <form class="form" method="post" action="">
+                                {% csrf_token %}
+
                                 <div class="card-content">
                                     <div class="input-group">
 											<span class="input-group-addon">
 												<i class="material-icons">face</i>
 											</span>
-                                        <input type="text" class="form-control" placeholder="First Name...">
+                                        {{ form.first_name }}
+                                        {#                                        <input type="text" class="form-control" placeholder="Your Sweet Name...">#}
                                     </div>
+                                    <span class="text-danger">{{ form.first_name.errors }}</span>
+                                    <div class="input-group">
+											<span class="input-group-addon">
+												<i class="material-icons">face</i>
+											</span>
+                                        {{ form.last_name }}
+                                        {#                                        <input type="text" class="form-control" placeholder="Your Sweet Name...">#}
+                                    </div>
+                                    <span class="text-danger">{{ form.last_name.errors }}</span>
+
 
                                     <div class="input-group">
 											<span class="input-group-addon">
 												<i class="material-icons">email</i>
 											</span>
-                                        <input type="text" class="form-control" placeholder="Email...">
+                                        {{ form.email }}
+                                        {#                                        <input type="email" class="form-control" placeholder="Email...">#}
                                     </div>
+                                    <span class="text-danger">{{ form.email.errors }}</span>
+
+                                    <div class="input-group">
+											<span class="input-group-addon">
+												<i class="material-icons">perm_identity</i>
+											</span>
+                                        {{ form.username }}
+                                        {#                                        <input type="email" class="form-control" placeholder="Email...">#}
+                                    </div>
+                                    <span class="text-danger">{{ form.username.errors }}</span>
 
                                     <div class="input-group">
 											<span class="input-group-addon">
 												<i class="material-icons">lock_outline</i>
 											</span>
-                                        <input type="password" placeholder="Password..." class="form-control"/>
+                                        {{ form.password1 }}
+                                        {#                                        <input type="password" placeholder="Password..." class="form-control"/>#}
                                     </div>
+                                    <span class="text-danger">{{ form.password1.errors }}</span>
+
+                                    <div class="input-group">
+											<span class="input-group-addon">
+												<i class="material-icons">lock_outline</i>
+											</span>
+                                        {{ form.password2 }}
+                                        {#                                        <input type="password" placeholder="Password..." class="form-control"/>#}
+                                    </div>
+                                    <span class="text-danger">{{ form.password2.errors }}</span>
 
                                     <!-- If you want to add a checkbox to this form, uncomment this code -->
 
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="optionsCheckboxes" checked>
+                                            <input type="checkbox" name="optionsCheckboxes" required>
                                             I agree to the <a href="#something">terms and conditions</a>.
                                         </label>
                                     </div>
                                 </div>
                                 <div class="footer text-center">
-                                    <a href="#pablo" class="btn btn-primary btn-round">Get Started</a>
+                                    <button type="submit" name="register" class="btn btn-fill btn-primary btn-round">
+                                        Register
+                                    </button>
+
+
+                                    {#                                    <a href="#pablo" class="btn btn-primary btn-round">Get Started</a>#}
+                                </div>
+                                <div class="text-center">
+
+                                    &nbsp; &nbsp;
+                                    Already have an account? <a href="{% url 'home_login' %}" class="text-primary">Log
+                                    in</a>
                                 </div>
                             </form>
                         </div>

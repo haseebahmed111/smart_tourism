@@ -22,7 +22,7 @@
                   Name
                 </th>
                 <th>
-                  City
+                  Email
                 </th>
                 <th>
                   Type
@@ -33,21 +33,27 @@
               </tr>
             </thead>
             <tbody>
+            {% for user,groups in users %}
               <tr>
                 <td>
-                    Haseeb Ahmed
+                    {{ user.username}}
                 </td>
                 <td>
-                Bahawalpur
+                    {{ user.email }}
                 </td>
                 <td>
-                    Car Vendor
+                    {% for group in groups %}
+                    {{ group.name}}{% if not forloop.last %},{% endif %}
+                        {% empty %}
+                        Basic User
+                        {% endfor %}
                 </td>
                 <td class="text-center">
                 <a href="{% url 'update_user' %}">Update</a>/
                     <a href="{% url 'delete_user' %}">Delete</a>
                 </td>
               </tr>
+            {% endfor %}
             </tbody>
           </table>
         </div>

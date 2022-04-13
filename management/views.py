@@ -1,11 +1,19 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User, Group
 from django.shortcuts import render
 
 
 # Create your views here.
 @login_required(login_url="/account/login/")
 def index(request):
-    return render(request, 'management/index.html')
+    users = User.objects.all().exclude(username=request.user.username)
+    users_data = []
+    for user in users:
+        groups = Group.objects.filter(user=user)
+        print(groups)
+        users_data.append([user, groups])
+
+    return render(request, 'management/index.html', {'users': users_data})
 
 
 @login_required(login_url="/account/login/")

@@ -1,5 +1,8 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from apps.authentication.forms import SignUpFormHome, LoginForm
 from user_dashboard.models import ShareTrip
 
 
@@ -8,8 +11,34 @@ def index(request):
     return render(request, 'home/examples/get_recommendations.html', {'shared_trips': shared_trips})
 
 
-def login(request):
-    return render(request, 'home/examples/login-page.html')
+def home_login(request):
+    form = LoginForm(request.POST or None)
+
+    msg = None
+
+    if request.method == "POST":
+
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request,user)
+                if user.groups.filter(name="management") or user.is_superuser:
+                    return redirect('admin:index')
+                if user.groups.filter(name="tour_guide"):
+                    return redirect('tour_guide_home')
+                if user.groups.filter(name="car_vendor"):
+                    return redirect('car_vendor_home')
+                if user.groups.filter(name="trip_vendor"):
+                    return redirect('trip_vendor_home')
+                return redirect("dashboard")
+            else:
+                msg = 'Invalid credentials'
+        else:
+            msg = 'Error validating the form'
+
+    return render(request, 'home/examples/login-page.html',{'form':form})
 
 
 def car_vendor(request):
@@ -41,4 +70,25 @@ def share_data(request):
 
 
 def signup(request):
-    return render(request, 'home/examples/signup-page.html')
+    msg = None
+    success = False
+
+    if request.method == "POST":
+        form = SignUpFormHome(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get("username")
+            raw_password = form.cleaned_data.get("password1")
+            user = authenticate(username=username, password=raw_password)
+
+            msg = 'User created - please <a href="/login">login</a>.'
+            success = True
+
+            return redirect('home_login')
+
+        else:
+            print(form.errors)
+            msg = 'Form is not valid'
+    else:
+        form = SignUpFormHome()
+    return render(request, 'home/examples/signup-page.html', {'form': form})
