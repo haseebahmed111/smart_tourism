@@ -1,23 +1,34 @@
 from django import forms
 
-from .models import ShareTrip
+from apps.home.models import City
+from .models import ShareTrip, RoleElevationRequest, Complaint
 
 
 class ShareTripForm(forms.ModelForm):
-    from_place = forms.CharField(
+    title = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Starting City",
+                "placeholder": "Short Info",
                 "class": "form-control"
             }
         ))
-    to_place = forms.CharField(
-        widget=forms.TextInput(
+    from_city = forms.ModelChoiceField(
+        queryset=City.objects.all(),
+        widget=forms.Select(
             attrs={
-                "placeholder": "Destination City",
+                "placeholder": "From City",
                 "class": "form-control"
             }
         ))
+    to_city = forms.ModelChoiceField(
+        queryset=City.objects.all(),
+        widget=forms.Select(
+            attrs={
+                "placeholder": "To City",
+                "class": "form-control"
+            }
+        ))
+
     vehicle = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -32,10 +43,24 @@ class ShareTripForm(forms.ModelForm):
                 "class": "form-control"
             }
         ))
+    trip_duration = forms.IntegerField(
+        widget=forms.NumberInput(
+            attrs={
+                "placeholder": "Number of Days Spent on this Trip",
+                "class": "form-control"
+            }
+        ))
     persons = forms.IntegerField(
         widget=forms.NumberInput(
             attrs={
                 "placeholder": "Total Persons on Trip",
+                "class": "form-control"
+            }
+        ))
+    total_budget_spent = forms.IntegerField(
+        widget=forms.NumberInput(
+            attrs={
+                "placeholder": "Total Budget Spent",
                 "class": "form-control"
             }
         ))
@@ -46,24 +71,17 @@ class ShareTripForm(forms.ModelForm):
                 "class": "form-control"
             }
         ))
-    budget_spent_hotel = forms.IntegerField(
+    budget_spent_accommodation = forms.IntegerField(
         widget=forms.NumberInput(
             attrs={
                 "placeholder": "Budget Spent on Hotelling",
                 "class": "form-control"
             }
         ))
-    budget_spent = forms.IntegerField(
+    budget_spent_travelling = forms.IntegerField(
         widget=forms.NumberInput(
             attrs={
-                "placeholder": "Total Budget Spent",
-                "class": "form-control"
-            }
-        ))
-    heading = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Short Info",
+                "placeholder": "Budget Spent on Fuel Etc",
                 "class": "form-control"
             }
         ))
@@ -75,9 +93,69 @@ class ShareTripForm(forms.ModelForm):
                 "class": "form-control"
             }
         ))
-    #image = forms.ImageField( required=False)
+
+    image = forms.ImageField(required=False)
 
     class Meta:
         model = ShareTrip
-        fields = ('from_place', 'to_place', 'vehicle','date', 'persons', 'budget_spent', 'budget_spent_food',
-                  'budget_spent_hotel', 'heading', 'description', 'image')
+        fields = ('title', 'from_city', 'to_city', 'vehicle', 'date', 'trip_duration', 'persons', 'total_budget_spent',
+                  'budget_spent_food',
+                  'budget_spent_accommodation', 'budget_spent_travelling', 'description', 'image')
+
+
+class RoleForm(forms.ModelForm):
+    role = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Requested Role",
+                "class": "form-control",
+
+            }
+        ))
+    contact_number = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Contact Number",
+                "class": "form-control"
+            }
+        ))
+    info = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "placeholder": "Why you need this Role?",
+                "class": "form-control"
+            }
+        ))
+
+    class Meta:
+        model = RoleElevationRequest
+        fields = ('role', 'contact_number', 'info')
+
+
+class ComplaintForm(forms.ModelForm):
+    title = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Requested Role",
+                "class": "form-control",
+
+            }
+        ))
+    contact_number = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Contact Number",
+                "class": "form-control"
+            }
+        ))
+    complaint_description = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "placeholder": "Why you need this Role?",
+                "class": "form-control"
+            }
+        ))
+
+    class Meta:
+        model = Complaint
+        fields = ('title', 'contact_number', 'complaint_description')

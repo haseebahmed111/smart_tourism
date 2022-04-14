@@ -103,13 +103,16 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Karachi'
 
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
+
+X_FRAME_OPTIONS = 'ALLOWALL'
+
 
 #############################################################
 # SRC: https://devcenter.heroku.com/articles/django-assets

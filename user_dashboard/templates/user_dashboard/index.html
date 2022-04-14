@@ -1,6 +1,6 @@
 {% extends "user_dashboard/layouts/base.html" %}
 
-{% block title %} UI Tables {% endblock %}
+{% block title %} User Dashboard {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -11,7 +11,7 @@
   <div class="col-md-12">
     <div class="card ">
       <div class="card-header">
-        <h4 class="card-title"> Shared trips</h4>
+        <h4 class="card-title">Your Shared trips</h4>
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -26,7 +26,10 @@
                   To
                 </th>
                 <th>
-                  Departure Date
+                  Shared on
+                </th>
+                  <th>
+                  Approved
                 </th>
                 <th class="text-center">
                   Manage
@@ -37,17 +40,20 @@
              {% for trip in shared_trips %}
    <tr>
                 <td>
-                    {{ trip.from_place }}
+                    {{ trip.from_city }}
                 </td>
                 <td>
-                    {{ trip.to_place }}
+                    {{ trip.to_city }}
                 </td>
                 <td>
-                    {{ trip.date}}
+                    {{ trip.shared_on}}
+                </td>
+       <td>
+                    {{ trip.is_approved}}
                 </td>
                 <td class="text-center">
-                <a href="{% url 'update_trip' %}">Update</a>/
-                    <a href="{% url 'delete_trip' %}">Delete</a>
+                <a href="{% url 'update_trip_data' trip.id %}">Update</a>/
+                    <a href="{% url 'delete_trip_data' trip.id %}">Delete</a>
                 </td>
               </tr>
             {% endfor %}

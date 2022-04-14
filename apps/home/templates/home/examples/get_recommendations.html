@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -21,115 +22,9 @@
 </head>
 
 <body class="ecommerce-page">
-<nav class="navbar navbar-default navbar-transparent navbar-fixed-top navbar-color-on-scroll" color-on-scroll="100"
-     id="sectionsNav">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{% url 'home' %}">Smart Tourism</a>
-        </div>
-
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="{% url 'home' %}">
-                        <i class="material-icons">apps</i> Trips
-                    </a>
-                </li>
-
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="material-icons">view_day</i> Vendors
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu dropdown-with-icons">
-                        <li>
-                            <a href="{% url 'car_vendor' %}">
-                                <i class="material-icons">dns</i> Car Vendor
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'vendor' %}">
-                                <i class="material-icons">build</i> Trip Vendor
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'tour_guide' %}">
-                                <i class="material-icons">list</i> Tour Guide
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="material-icons">view_carousel</i> Profile
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu dropdown-with-icons">
-                        {% if not request.user.is_authenticated %}
-                            <li>
-                                <a href="{% url 'home_login' %}">
-                                    <i class="material-icons">fingerprint</i> Login
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'home_signup' %}">
-                                    <i class="material-icons">person_add</i> Register
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'login' %}">
-                                    <i class="material-icons">person_add</i> Vendor Login
-                                </a>
-                            </li>
-                        {% endif %}
-                        <li>
-                            <a href="{% url 'private_trip' %}">
-                                <i class="material-icons">view_quilt</i> Private Trip
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'update_trip' %}">
-                                <i class="material-icons">location_on</i> Update Trip
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'share_trip_data' %}">
-                                <i class="material-icons">view_day</i> Share Data
-                            </a>
-                        </li>
-                        {% if request.user.is_authenticated %}
-                            <li>
-                                <a href="{% url 'logout' %}">
-                                    <i class="material-icons">person_add</i> Logout
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="{% url 'search' %}" target="_blank"
-                       class="btn btn-white btn-simple">
-                        <i class="material-icons">shopping_cart</i> Book Now
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-    </div>
-</nav>
-
+{% include 'home/includes/navbar.html' %}
 <div class="page-header header-filter header-small" data-parallax="true"
-     style="background-image: url('/static/assets/img/examples/ecommerce-tips2.jpg');">
+     style="background-image: url({% static 'assets/img/examples/ecommerce-tips2.jpg' %});">
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -397,32 +292,32 @@
         <h2 class="section-title">Shared Trips Data</h2>
         <div class="row">
             {% for trip in shared_trips %}
-            <div class="col-md-4">
+                <div class="col-md-4">
 
-                <div class="card card-blog">
-                    <div class="card-image">
-                        <a href="#pablo">
-                            {% if trip.image %}
-                            <img src="{{ trip.image.url }}" alt="">
-                        </a>
-                        <div class="colored-shadow"
-                             style="background-image: url('{{trip.image.url}}'); opacity: 1;"></div>
-                        <div class="ripple-container"></div>
-                        {% endif %}
+                    <div class="card card-blog">
+                        <div class="card-image">
+                            <a href="#pablo">
+                                {% if trip.image %}
+                                    <img src="{{ trip.image.url }}" alt="">
+                                    </a>
+                                    <div class="colored-shadow"
+                                         style="background-image: url('{{ trip.image.url }}'); opacity: 1;"></div>
+                                    <div class="ripple-container"></div>
+                                {% endif %}
+                        </div>
+                        <div class="card-content">
+                            <h6 class="category text-rose">{{ trip.from_place }} - {{ trip.to_place }}</h6>
+                            <h4 class="card-title">
+                                <a href="#pablo">{{ trip.heading }}</a>
+                            </h4>
+                            <p class="card-description">
+                                {{ trip.description }}
+                            </p>
+                        </div>
                     </div>
-                    <div class="card-content">
-                        <h6 class="category text-rose">{{ trip.from_place }} - {{ trip.to_place }}</h6>
-                        <h4 class="card-title">
-                            <a href="#pablo">{{ trip.heading}}</a>
-                        </h4>
-                        <p class="card-description">
-                            {{ trip.description}}
-                        </p>
-                    </div>
+
                 </div>
-
-            </div>
-    {% endfor %}
+            {% endfor %}
 
         </div>
     </div>

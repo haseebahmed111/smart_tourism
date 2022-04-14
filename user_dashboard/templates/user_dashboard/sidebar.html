@@ -16,22 +16,22 @@
         <ul class="nav">
         {% if request.user.is_authenticated %}
 
-          <li class=" active ">
+          <li class="{% if 'user' in segment %} active {% endif %}">
             <a href="{% url 'dashboard' %}">
               <i class="tim-icons icon-chart-pie-36"></i>
-              <p>Dashboard</p>
+              <p>Your Shared Data</p>
             </a>
           </li>
-          <li class="{% if 'icons' in segment %} active {% endif %}">
+          <li class="{% if 'share_trip_data' in segment %} active {% endif %}">
             <a href="{% url 'share_trip_data' %}">
-              <i class="tim-icons icon-atom"></i>
+              <i class="tim-icons icon-pin"></i>
               <p>Share Trip Data</p>
             </a>
           </li>
-          <li class="{% if 'maps' in segment %} active {% endif %}">
-            <a href="{% url 'dashboard' %}">
-              <i class="tim-icons icon-pin"></i>
-              <p>View Shared Tips</p>
+          <li class="{% if 'role_elevation' in segment %} active {% endif %}">
+            <a href="{% url 'role_elevation' %}">
+              <i class="tim-icons icon-atom"></i>
+              <p>Request Role Elevation</p>
             </a>
           </li>
           <li>
