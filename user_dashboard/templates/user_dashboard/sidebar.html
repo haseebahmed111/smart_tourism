@@ -34,6 +34,12 @@
               <p>Request Role Elevation</p>
             </a>
           </li>
+            <li class="{% if 'complaint' in segment %} active {% endif %}">
+            <a href="{% url 'complaint' %}">
+              <i class="tim-icons icon-atom"></i>
+              <p>Complain</p>
+            </a>
+          </li>
           <li>
             <a href="{% url 'logout' %}" >
               <i class="tim-icons icon-button-power"></i>

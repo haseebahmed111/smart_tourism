@@ -15,8 +15,9 @@
                     <h4 class="card-title">
                         Are you sure you want to delete this Language?
                     </h4>
+                    <p>{{ language.language_name }}</p>
                     <a href="{% url 'tour_guide_home' %}" class="btn btn-primary btn-round">No</a>
-                    <a href="{% url 'tour_guide_home' %}" class="btn btn-danger btn-round">Yes</a>
+                    <a href="{% url 'delete_language_check' language.id 1 %}" class="btn btn-danger btn-round">Yes</a>
                 </div>
             </div>
         </div>

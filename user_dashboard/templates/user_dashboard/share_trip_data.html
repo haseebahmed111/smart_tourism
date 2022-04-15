@@ -8,26 +8,26 @@
 {% block content %}
 
     <div class="row">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="title">Share Trip Data</h5>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="title">Share Trip Data</h5>
+                </div>
+
+                <div class="card-body">
+                    <form enctype="multipart/form-data" role="form" method="post" action="">
+
+                        {% csrf_token %}
+                        {{ form }}
+                        <button type="submit" class="btn btn-fill btn-primary">Share</button>
+
+                    </form>
+
+                </div>
+
             </div>
-
-            <div class="card-body">
-                <form enctype="multipart/form-data" role="form" method="post" action="">
-
-                    {% csrf_token %}
-                    {{ form }}
-                    <button type="submit" class="btn btn-fill btn-primary">Share</button>
-
-                </form>
-
-            </div>
-
         </div>
     </div>
-
 
 {% endblock content %}
 

@@ -1,6 +1,6 @@
-{% extends "car_vendor/layouts/base.html" %}
+{% extends "trip_vendor/layouts/base.html" %}
 
-{% block title %}Delete Car{% endblock %}
+{% block title %}Delete Trip{% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -11,12 +11,14 @@
         <div class="col-md-12">
             <div class="card card-profile">
                 <div class="card-body">
-                    <h6 class="card-category text-gray">Delete Car</h6>
+                    <h6 class="card-category text-gray">Delete Trip</h6>
                     <h4 class="card-title">
-                        Are you sure you want to delete this Car?
+                        Are you sure you want to delete this Trip?
                     </h4>
-                    <a href="{% url 'car_vendor_home' %}" class="btn btn-primary btn-round">No</a>
-                    <a href="{% url 'car_vendor_home' %}" class="btn btn-danger btn-round">Yes</a>
+                    <p>{{ trip.trip_from }}-{{ trip.trip_to }}</p>
+                    <p>{{ trip.title }}</p>
+                    <a href="{% url 'trip_vendor_home' %}" class="btn btn-primary btn-round">No</a>
+                    <a href="{% url 'delete_trip_check' trip.id 1 %}" class="btn btn-danger btn-round">Yes</a>
                 </div>
             </div>
         </div>

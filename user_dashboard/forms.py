@@ -89,7 +89,7 @@ class ShareTripForm(forms.ModelForm):
     description = forms.CharField(
         widget=forms.Textarea(
             attrs={
-                "placeholder": "Describe your Trip",
+                "placeholder": "Share your Trip experience",
                 "class": "form-control"
             }
         ))
@@ -136,7 +136,7 @@ class ComplaintForm(forms.ModelForm):
     title = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Requested Role",
+                "placeholder": "Complaining for",
                 "class": "form-control",
 
             }
@@ -151,7 +151,7 @@ class ComplaintForm(forms.ModelForm):
     complaint_description = forms.CharField(
         widget=forms.Textarea(
             attrs={
-                "placeholder": "Why you need this Role?",
+                "placeholder": "Please Explain issue you faced",
                 "class": "form-control"
             }
         ))

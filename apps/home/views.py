@@ -3,12 +3,25 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from apps.authentication.forms import SignUpFormHome, LoginForm
+from car_vendor.models import Car
+from tour_guide.models import TourGuideProfile
+from trip_vendor.models import Trip
 from user_dashboard.models import ShareTrip
 
 
 def index(request):
     shared_trips = ShareTrip.objects.all()
-    return render(request, 'home/examples/get_recommendations.html', {'shared_trips': shared_trips})
+    vendor_trips = Trip.objects.all()
+    vendor_cars = Car.objects.all()
+    tour_guides = TourGuideProfile.objects.all()
+    ctx = {
+        'shared_trips': shared_trips,
+        'vendor_trips': vendor_trips,
+        'vendor_cars': vendor_cars,
+        'tour_guides': tour_guides
+
+    }
+    return render(request, 'home/examples/get_recommendations.html', ctx)
 
 
 def home_login(request):
@@ -23,7 +36,7 @@ def home_login(request):
             password = form.cleaned_data.get("password")
             user = authenticate(username=username, password=password)
             if user is not None:
-                login(request,user)
+                login(request, user)
                 if user.groups.filter(name="management") or user.is_superuser:
                     return redirect('admin:index')
                 if user.groups.filter(name="tour_guide"):
@@ -38,7 +51,7 @@ def home_login(request):
         else:
             msg = 'Error validating the form'
 
-    return render(request, 'home/examples/login-page.html',{'form':form})
+    return render(request, 'home/examples/login-page.html', {'form': form})
 
 
 def car_vendor(request):
@@ -62,6 +75,11 @@ def update_trip(request):
 
 
 def search(request):
+    return render(request, 'home/examples/search_trips.html')
+
+
+def search(request, text):
+    print(text)
     return render(request, 'home/examples/search_trips.html')
 
 

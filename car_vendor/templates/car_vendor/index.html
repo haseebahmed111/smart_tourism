@@ -1,6 +1,6 @@
 {% extends "car_vendor/layouts/base.html" %}
 
-{% block title %} UI Tables {% endblock %}
+{% block title %} Cars {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -33,21 +33,23 @@
               </tr>
             </thead>
             <tbody>
+            {% for car in cars %}
               <tr>
                 <td>
-                    Toyota Prius
+                    {{ car.make}} {{ car.model }}
                 </td>
                 <td>
-                2019
+                    {{ car.year }}
                 </td>
                 <td>
-                    21 January,2019
+                    {{ car.created}}
                 </td>
                 <td class="text-center">
-                <a href="{% url 'update_car' %}">Update</a>/
-                    <a href="{% url 'delete_car' %}">Delete</a>
+                <a href="{% url 'update_car' car.id %}">Update</a>/
+                    <a href="{% url 'delete_car' car.id %}">Delete</a>
                 </td>
               </tr>
+            {% endfor %}
             </tbody>
           </table>
         </div>

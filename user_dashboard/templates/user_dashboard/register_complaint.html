@@ -1,6 +1,6 @@
 {% extends "user_dashboard/layouts/base.html" %}
 
-{% block title %} Page User {% endblock %}
+{% block title %} Register Complain {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -8,30 +8,31 @@
 {% block content %}
 
     <div class="row">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="title">Request Role Elevation</h5>
-            </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="title">Register a Complain</h5>
+                </div>
 
-            <div class="card-body">
-                {% if not is_requested %}
-                <form enctype="multipart/form-data" role="form" method="post" action="">
+                <div class="card-body">
+                    {% if not is_complain_registered %}
+                        <form enctype="multipart/form-data" role="form" method="post" action="">
 
-                    {% csrf_token %}
-                    {{ form }}
-                    <button type="submit" class="btn btn-fill btn-primary">Request</button>
+                            {% csrf_token %}
+                            {{ form }}
+                            <button type="submit" class="btn btn-fill btn-primary">Submit</button>
 
-                </form>
+                        </form>
                     {% else %}
-                    <div class="alert alert-success" role="alert">
-  Thanks for Your Request is Successful! Management will contact you soon!
-</div>
-                    <p class="text-center"> Thanks for Showing interest to be a part of Smart Tourism Family</p>
-                {% endif %}
+                        <div class="alert alert-success" role="alert">
+                            Your Complain is registered Successful! Management will contact you soon and resolve your issue!
+                        </div>
+                        <p class="text-center"> Thanks for being a part of Smart Tourism Family</p>
+                    {% endif %}
+
+                </div>
 
             </div>
-
         </div>
     </div>
 

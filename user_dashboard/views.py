@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .forms import ShareTripForm, RoleForm
+from .forms import ShareTripForm, RoleForm, ComplaintForm
 from .models import ShareTrip
 
 
@@ -31,9 +31,8 @@ def share_trip_data(request):
 @login_required(login_url="/account/login/")
 def update_trip_data(request, id):
     shared_data = ShareTrip.objects.get(id=id)
-    form = ShareTripForm(instance=shared_data)
     if request.method == "POST":
-        form = ShareTripForm(request.POST, request.FILES)
+        form = ShareTripForm(request.POST, request.FILES,instance=shared_data)
         if form.is_valid():
             shared_data = form.save(commit=False)
             shared_data.user = request.user
@@ -42,6 +41,9 @@ def update_trip_data(request, id):
         else:
             print(form.errors)
             msg = 'Form is not valid'
+    else:
+        form = ShareTripForm(instance=shared_data)
+
     return render(request, 'user_dashboard/share_trip_data.html', {'form': form})
 
 
@@ -79,17 +81,17 @@ def role_elevation(request):
 
 @login_required(login_url="/account/login/")
 def complaint(request):
-    is_requested = False
+    is_complain_registered = False
     if request.method == "POST":
-        form = RoleForm(request.POST, request.FILES)
+        form = ComplaintForm(request.POST, request.FILES)
         if form.is_valid():
             shared_data = form.save(commit=False)
             shared_data.user = request.user
             shared_data.save()
-            is_requested = True
+            is_complain_registered = True
         else:
             print(form.errors)
             msg = 'Form is not valid'
     else:
-        form = RoleForm()
-    return render(request, 'user_dashboard/request_elevation.html', {'form': form, 'is_requested': is_requested})
+        form = ComplaintForm()
+    return render(request, 'user_dashboard/register_complaint.html', {'form': form, 'is_complain_registered': is_complain_registered})

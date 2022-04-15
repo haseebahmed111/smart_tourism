@@ -187,106 +187,111 @@
 <div class="container">
     <h2 class="section-title">Latest Trips</h2>
     <div class="row">
-        <div class="col-md-4">
-            <div class="card card-product card-plain">
-                <div class="card-image">
-                    <a href="#pablo">
-                        <img src="/static/assets/img/examples/gucci.jpg" alt=""/>
-                    </a>
-                </div>
-                <div class="card-content">
-                    <h4 class="card-title">
-                        <a href="#pablo">Gilgit Valley BY Junaid</a>
-                    </h4>
-                    <p class="card-description">Gilgit Valley is exceptionally beautiful and famous for its colorful
-                        lakes, which makes it the great focus of tourists attraction. It is located in the province of
-                        Gilgit Baltistan and is followed by the Gilgit River.</p>
-                    <div class="footer">
-                        <div class="price-container">
+        {% for trip in vendor_trips %}
+            <div class="col-md-4">
+                <div class="card card-product card-plain">
+                    <div class="card-image">
+                        <a href="#pablo">
+                            <img src="{{ trip.picture.url }}" alt=""/>
+                        </a>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">
+                            <a href="#pablo">{{ trip.title }}</a>
+                        </h4>
+                        <p class="card-description">{{ trip.trip_to }} - {{ trip.trip_from }}</p>
+                        <div class="footer">
+                            <div class="price-container">
 
-                            <span class="price price-new"> Rs.10,500</span>
-                        </div>
-                        <div class="stats">
-                            <button type="button" rel="tooltip" title="" class="btn btn-just-icon btn-simple btn-rose"
-                                    data-original-title="Saved to Wishlist">
-                                <i class="material-icons">favorite</i>
-                            </button>
+                                <span class="price price-new">Rs. {{ trip.trip_price_per_person }}/person </span>
+                            </div>
+                            <div class="stats">
+                                <button type="button" rel="tooltip" title=""
+                                        class="btn btn-just-icon btn-simple btn-rose"
+                                        data-original-title="Saved to Wishlist">
+                                    <i class="material-icons">favorite</i>
+                                    <a href="#">{{ trip.user }}</a>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endfor %}
 
-
-        <div class="col-md-4">
-            <div class="card card-product card-plain">
-                <div class="card-image">
-                    <a href="#pablo">
-                        <img src="/static/assets/img/examples/gucci.jpg" alt=""/>
-                    </a>
-                </div>
-                <div class="card-content">
-                    <h4 class="card-title">
-                        <a href="#pablo">Gilgit Valley By Ali Zain</a>
-                    </h4>
-                    <p class="card-description">Gilgit Valley is exceptionally beautiful and famous for its colorful
-                        lakes, which makes it the great focus of tourists attraction. It is located in the province of
-                        Gilgit Baltistan and is followed by the Gilgit River.</p>
-                    <div class="footer">
-                        <div class="price-container">
-
-                            <span class="price price-new"> Rs.11,000</span>
-                        </div>
-                        <div class="stats">
-                            <button type="button" rel="tooltip" title="" class="btn btn-just-icon btn-simple btn-rose"
-                                    data-original-title="Saved to Wishlist">
-                                <i class="material-icons">favorite</i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card card-product card-plain">
-                <div class="card-image">
-                    <a href="#pablo">
-                        <img src="/static/assets/img/examples/gucci.jpg" alt=""/>
-                    </a>
-                </div>
-                <div class="card-content">
-                    <h4 class="card-title">
-                        <a href="#pablo">Gilgit Valley By Haseeb</a>
-                    </h4>
-                    <p class="card-description">Gilgit Valley is exceptionally beautiful and famous for its colorful
-                        lakes, which makes it the great focus of tourists attraction. It is located in the province of
-                        Gilgit Baltistan and is followed by the Gilgit River.</p>
-                    <div class="footer">
-                        <div class="price-container">
-
-                            <span class="price price-new"> Rs.7,300</span>
-                        </div>
-                        <div class="stats">
-                            <button type="button" rel="tooltip" title="" class="btn btn-just-icon btn-simple btn-rose"
-                                    data-original-title="Saved to Wishlist">
-                                <i class="material-icons">favorite</i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
 </div>
-</div>
-</div><!-- section -->
-</div></div></div></div>
+<div class="section section-blog">
+    <div class="container">
+        <h2 class="section-title">Cars</h2>
+        <div class="row">
+            {% for car in vendor_cars %}
+                <div class="col-md-4">
 
-</div><!-- section -->
+                    <div class="card card-blog">
+                        <div class="card-image">
+                            <a href="#pablo">
+                                {% if car.picture %}
+                                    <img src="{{ car.picture.url }}" alt="">
+                                    </a>
+                                    <div class="colored-shadow"
+                                         style="background-image: url('{{ car.picture.url }}'); opacity: 1;"></div>
+                                    <div class="ripple-container"></div>
+                                {% endif %}
+                        </div>
+                        <div class="card-content">
+                            <h6 class="category text-rose">{{ car.make }} {{ car.model }} {{ car.year }} - {{ car.city }}</h6>
+                            <h4 class="card-title">
+                                <a href="#pablo">{{ car.title }}</a>
+                            </h4>
+                            <p class="card-description">
 
-</div> <!-- end-main-raised -->
-</div>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div><!-- section -->
+<div class="section section-blog">
+    <div class="container">
+        <h2 class="section-title">Tour Guides</h2>
+        <div class="row">
+            {% for guide in tour_guides %}
+                <div class="col-md-4">
+
+                    <div class="card card-blog">
+                        <div class="card-image">
+                            <a href="#pablo">
+                                {% if guide.picture %}
+                                    <img src="{{ guide.picture.url }}" alt="">
+                                    </a>
+                                    <div class="colored-shadow"
+                                         style="background-image: url('{{ guide.picture.url }}'); opacity: 1;"></div>
+                                    <div class="ripple-container"></div>
+                                {% endif %}
+                        </div>
+                        <div class="card-content">
+                            <h6 class="category text-rose">{{ guide.languages }} </h6>
+                            <h4 class="card-title">
+                                <a href="#pablo">{{ guide.name }}</a>
+                            </h4>
+                            <p class="card-description">
+                                {{ guide.brief_info }}
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div><!-- section -->
 <div class="section section-blog">
     <div class="container">
         <h2 class="section-title">Shared Trips Data</h2>
@@ -322,6 +327,8 @@
         </div>
     </div>
 </div><!-- section -->
+
+
 
 <div class="subscribe-line subscribe-line-image" data-parallax="true"
      style="background-image: url('/static/assets/img/examples/ecommerce-header.jpg');">

@@ -56,6 +56,11 @@
                     <a href="{% url 'delete_trip_data' trip.id %}">Delete</a>
                 </td>
               </tr>
+                 {% empty %}
+                 <tr>
+                                  You haven't shared any of your previous trip data. Share your previous trips to get benefits.
+
+                 </tr>
             {% endfor %}
 
             </tbody>

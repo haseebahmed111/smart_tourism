@@ -1,6 +1,6 @@
 {% extends "trip_vendor/layouts/base.html" %}
 
-{% block title %} UI Tables {% endblock %}
+{% block title %} {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -33,21 +33,23 @@
               </tr>
             </thead>
             <tbody>
+            {% for trip in trips %}
               <tr>
                 <td>
-                    Lahore
+                    {{ trip.trip_from }}
                 </td>
                 <td>
-                Kachmir
+                    {{ trip.trip_to }}
                 </td>
                 <td>
-                    29 January,2022
+                    {{ trip.departure_info}}
                 </td>
                 <td class="text-center">
-                <a href="{% url 'update_trip' %}">Update</a>/
-                    <a href="{% url 'delete_trip' %}">Delete</a>
+                <a href="{% url 'update_trip' trip.pk %}">Update</a>/
+                    <a href="{% url 'delete_trip' trip.pk %}">Delete</a>
                 </td>
               </tr>
+            {% endfor %}
             </tbody>
           </table>
         </div>

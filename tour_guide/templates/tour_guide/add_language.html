@@ -1,18 +1,24 @@
-{% extends "trip_vendor/layouts/base.html" %}
+{% extends "tour_guide/layouts/base.html" %}
 
-{% block title %} Trip {% endblock %}
+{% block title %} Language {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
 
-    <div class="row">
-        <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-8">
             <div class="card">
+
+
                 <div class="card-header">
-                    <h5 class="title">Add Trip</h5>
+                  <h5 class="title">Add Language</h5>
+
+                  <h6 class="card-category">
+                  </h6>
                 </div>
+
                 <div class="card-body">
                     <form enctype="multipart/form-data" role="form" method="post" action="">
                         {% csrf_token %}
@@ -22,8 +28,8 @@
                 </div>
 
             </div>
-        </div>
-    </div>
+          </div>
+      </div>
 
 
 {% endblock content %}

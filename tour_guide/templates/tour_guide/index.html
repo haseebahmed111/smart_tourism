@@ -22,7 +22,7 @@
                   Language
                 </th>
                 <th>
-                  Level
+                  is Native
                 </th>
                 <th>
                   Added
@@ -33,21 +33,23 @@
               </tr>
             </thead>
             <tbody>
+            {% for language in languages %}
               <tr>
                 <td>
-                    Urdu
+                    {{ language.language_name }}
                 </td>
                 <td>
-                Native
+                    {{ language.native }}
                 </td>
                 <td>
-                    21 January,2019
+                    {{ language.created}}
                 </td>
                 <td class="text-center">
-                <a href="{% url 'update_language' %}">Update</a>/
-                    <a href="{% url 'delete_language' %}">Delete</a>
+                <a href="{% url 'update_language' language.id %}">Update</a>/
+                    <a href="{% url 'delete_language' language.id %}">Delete</a>
                 </td>
               </tr>
+            {% endfor %}
             </tbody>
           </table>
         </div>
