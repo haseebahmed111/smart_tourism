@@ -18,7 +18,7 @@ class ShareTrip(models.Model):
     budget_spent_accommodation = models.IntegerField(default=0)
     budget_spent_travelling = models.IntegerField(default=0)
     description = models.TextField(max_length=1024)
-    image = models.FileField(upload_to='trips/', null=True)
+    image = models.FileField(upload_to='trips/', null=True, blank=True)
     shared_on = models.DateTimeField(default=timezone.now)
     is_approved = models.BooleanField(default=False)
 
