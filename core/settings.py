@@ -13,8 +13,7 @@ SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # load production server from .env
-ALLOWED_HOSTS = ['localhost', 'localhost:85', '127.0.0.1', 'smarttourismfast.herokuapp.com',
-                 "34.122.140.40"]
+ALLOWED_HOSTS = ['localhost', 'localhost:85', '127.0.0.1', 'smarttourismfast.herokuapp.com',"34.122.140.40"]
 CSRF_TRUSTED_ORIGINS = ['http://localhost:85', 'http://127.0.0.1', 'https://smarttourismfast.herokuapp.com',
                         ]
 
