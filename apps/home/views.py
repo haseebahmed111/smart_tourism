@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from apps.authentication.forms import SignUpFormHome, LoginForm
+from apps.home.forms import RecommendationForm
 from car_vendor.models import Car
 from tour_guide.models import TourGuideProfile
 from trip_vendor.models import Trip
@@ -14,11 +15,13 @@ def index(request):
     vendor_trips = Trip.objects.all()
     vendor_cars = Car.objects.all()
     tour_guides = TourGuideProfile.objects.all()
+    form = RecommendationForm()
     ctx = {
         'shared_trips': shared_trips,
         'vendor_trips': vendor_trips,
         'vendor_cars': vendor_cars,
-        'tour_guides': tour_guides
+        'tour_guides': tour_guides,
+        'form':form
 
     }
     return render(request, 'home/examples/get_recommendations.html', ctx)
