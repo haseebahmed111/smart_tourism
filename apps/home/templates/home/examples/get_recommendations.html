@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -68,6 +69,14 @@
                             <div class="form-question__title">
                                 <span>{{ form.days.label }}</span>
                                 {{ form.days }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 mt-lg-n2 mt-2">
+                        <div class="form-question">
+                            <div class="form-question__title">
+                                <span>{{ form.persons.label }}</span>
+                                {{ form.persons }}
                             </div>
                         </div>
                     </div>
@@ -296,7 +305,7 @@
                     <div class="footer">
                         <div class="price-container">
 
-                            <span class="price price-new">Rs. {{ trip.trip_price_per_person }}/person </span>
+                            <span class="price price-new">Rs. {{ trip.trip_price_per_person|intcomma }}/person </span>
                         </div>
                         <div class="stats">
                             <button type="button" rel="tooltip" title=""
@@ -396,13 +405,13 @@
                     <div class="card card-blog">
                         <div class="card-image">
                             <a href="#pablo">
-                                {% if trip.image %}
-                                    <img style="height: 300px;object-fit: cover" src="{{ trip.image.url }}" alt="">
+{#                                {% if trip.image %}#}
+                                    <img style="height: 300px;object-fit: cover" src="{% if trip.image %}{{ trip.image.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}" alt="">
                                     </a>
                                     <div class="colored-shadow"
-                                         style="background-image: url('{{ trip.image.url }}'); opacity: 1;"></div>
+                                         style="background-image: url('{% if trip.image %}{{ trip.image.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}'); opacity: 1;"></div>
                                     <div class="ripple-container"></div>
-                                {% endif %}
+{#                                {% endif %}#}
                         </div>
                         <div class="card-content">
                             <h6 class="category text-rose">{{ trip.from_city }} - {{ trip.to_city }}</h6>

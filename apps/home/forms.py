@@ -22,7 +22,7 @@ class RecommendationForm(forms.Form):
             }
         ))
     area = forms.ModelChoiceField(
-        queryset=Province.objects.all(),
+        queryset=Area.objects.all(),
         label="Area to visit",
         required=False,
         widget=forms.Select(
@@ -32,7 +32,7 @@ class RecommendationForm(forms.Form):
             }
         ))
     city = forms.ModelChoiceField(
-        queryset=Province.objects.all(),
+        queryset=City.objects.all(),
         label="City to visit",
         required=False,
         widget=forms.Select(
@@ -50,6 +50,13 @@ class RecommendationForm(forms.Form):
             }
         ))
     budget = forms.IntegerField(
+        required=False,
+        widget=forms.NumberInput(
+            attrs={
+                "class": "form-control"
+            }
+        ))
+    persons = forms.IntegerField(
         required=False,
         widget=forms.NumberInput(
             attrs={

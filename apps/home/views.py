@@ -1,3 +1,5 @@
+import math
+
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -17,17 +19,90 @@ def index(request):
     if request.method == "POST":
         if form.is_valid():
             results = True
-            print(form)
-            shared_trips = ShareTrip.objects.all().order_by('shared_on')[:10][::-1]
-            vendor_trips = Trip.objects.all().order_by('created')[:10][::-1]
-            vendor_cars = Car.objects.all().order_by('created')[:10][::-1]
-            tour_guides = TourGuideProfile.objects.all().order_by('information_added_on')[:10][::-1]
-            cities = City.objects.all()[:10][::-1]
+            from_city = form.cleaned_data.get('starting_location')
+            province = form.cleaned_data.get('province')
+            area = form.cleaned_data.get('area')
+            city = form.cleaned_data.get('city')
+            days = form.cleaned_data.get('days')
+            budget = form.cleaned_data.get('budget')
+            persons = form.cleaned_data.get('persons')
+            cities = City.objects.none()
+
+            # Collecting Cities from Shared Trip Data
+            shared_trips = ShareTrip.objects.filter(from_city=from_city).order_by('shared_on')
+            shared_trips_results = ShareTrip.objects.none()
+            cities |= city
+            for trip in shared_trips:
+                if budget:
+                    try:
+                        cost_per_person_day = trip.total_budget_spent / (
+                                int(1 if days is None else trip.trip_duration) * int(
+                            1 if persons is None else trip.persons))
+                        if cost_per_person_day * (
+                                int(1 if days is None else days) * int(1 if persons is None else persons)) <= budget:
+                            cities |= trip.to_city
+                            shared_trips_results |= trip
+
+                        # cost_per_day = 1
+                        # cost_per_person = 1
+                        # if days:
+                        #     cost_per_day = trip.total_budget_spent / trip.trip_duration
+                        # if persons:
+                        #     cost_per_person = trip.total_budget_spent/trip.persons
+                        #
+                        # if (cost_per_person * persons) <= budget:
+                        #     cities |= trip.to_city
+                    except ZeroDivisionError:
+                        cities |= trip.to_city
+                        shared_trips_results |= trip
+                else:
+                    cities |= trip.to_city
+                    shared_trips_results |= trip
+
+            # Collecting Cities from Vendor Trips
+            vendor_trips = Trip.objects.filter(trip_from=from_city).order_by('created')
+            vendor_trips_results = Trip.objects.none()
+            for trip in vendor_trips:
+                if budget:
+                    try:
+                        cost_per_person_day = trip.trip_price_per_person / (
+                            int(1 if days is None else trip.trip_duration))
+                        if cost_per_person_day * (
+                                int(1 if days is None else days) * int(1 if persons is None else persons)) <= budget:
+                            cities |= trip.to_city
+                            vendor_trips_results |= trip
+                    except ZeroDivisionError:
+                        cities |= trip.to_city
+                        vendor_trips_results |= trip
+
+                else:
+                    cities |= trip.to_city
+                    vendor_trips_results |= trip
+
+            # Collecting Cars from Vendor Cars
+            vendor_cars = Car.objects.filter(city=from_city).order_by('created')
+            vendor_cars_results = Car.objects.none()
+            for car in vendor_cars:
+                if budget:
+                    try:
+                        no_of_cars = math.ceil(int(1 if persons is None else persons) / car.seating_capacity)
+                        if car.rent_without_driver * (
+                                int(1 if days is None else days) * int(1 if persons is None else no_of_cars)) <= budget:
+                            vendor_cars_results |= car
+                    except ZeroDivisionError:
+                        vendor_cars_results |= car
+                else:
+                    vendor_cars_results |= car
+
+            # Collecting Cars from Vendor Cars
+            tour_guides_results = TourGuideProfile.objects.filter(city__in=cities)
+
+            # cities = City.objects.all()[:10][::-1]
             ctx = {
-                'shared_trips': shared_trips,
-                'vendor_trips': vendor_trips,
-                'vendor_cars': vendor_cars,
-                'tour_guides': tour_guides,
+                'shared_trips': shared_trips_results,
+                'vendor_trips': vendor_trips_results,
+                'vendor_cars': vendor_cars_results,
+                'tour_guides': tour_guides_results,
                 'cities': cities,
                 'form': form,
                 'results': results,

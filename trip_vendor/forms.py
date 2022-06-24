@@ -150,10 +150,17 @@ class TripForm(forms.ModelForm):
                 "class": "form-control"
             }
         ))
+    trip_duration = forms.IntegerField(
+        widget=forms.NumberInput(
+            attrs={
+                "placeholder": "Number of days",
+                "class": "form-control"
+            }
+        ))
     picture = forms.ImageField(required=False)
 
     class Meta:
         model = Trip
         fields = (
             'title', 'trip_from', 'trip_to', 'accommodation', 'breakfast', 'lunch', 'dinner', 'guide', 'other_expenses',
-            'departure_info', 'services_included', 'services_not_included','trip_price_per_person', 'picture')
+            'departure_info', 'services_included', 'services_not_included','trip_price_per_person','trip_duration', 'picture')

@@ -35,6 +35,7 @@ class Trip(models.Model):
     services_included = models.TextField(max_length=10000)
     services_not_included = models.TextField(max_length=10000)
     trip_price_per_person = models.IntegerField(default=0)
+    trip_duration = models.IntegerField(default=0)
     picture = models.FileField(upload_to='vendor_trip/', blank=True)
     is_verified = models.BooleanField(default=True)
     created = models.DateTimeField(default=timezone.now)
