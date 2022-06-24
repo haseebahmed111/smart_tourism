@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 
 from apps.authentication.forms import SignUpFormHome, LoginForm
 from apps.home.forms import RecommendationForm
+from apps.home.models import City
 from car_vendor.models import Car
 from tour_guide.models import TourGuideProfile
 from trip_vendor.models import Trip
@@ -11,17 +12,45 @@ from user_dashboard.models import ShareTrip
 
 
 def index(request):
-    shared_trips = ShareTrip.objects.all()
-    vendor_trips = Trip.objects.all()
-    vendor_cars = Car.objects.all()
-    tour_guides = TourGuideProfile.objects.all()
-    form = RecommendationForm()
+    form = RecommendationForm(request.POST or None)
+    results = False
+    if request.method == "POST":
+        if form.is_valid():
+            results = True
+            print(form)
+            shared_trips = ShareTrip.objects.all().order_by('shared_on')[:10][::-1]
+            vendor_trips = Trip.objects.all().order_by('created')[:10][::-1]
+            vendor_cars = Car.objects.all().order_by('created')[:10][::-1]
+            tour_guides = TourGuideProfile.objects.all().order_by('information_added_on')[:10][::-1]
+            cities = City.objects.all()[:10][::-1]
+            ctx = {
+                'shared_trips': shared_trips,
+                'vendor_trips': vendor_trips,
+                'vendor_cars': vendor_cars,
+                'tour_guides': tour_guides,
+                'cities': cities,
+                'form': form,
+                'results': results,
+
+            }
+            return render(request, 'home/examples/get_recommendations.html', ctx)
+        else:
+            print(form.errors)
+
+    shared_trips = ShareTrip.objects.all().order_by('shared_on')[:10][::-1]
+    vendor_trips = Trip.objects.all().order_by('created')[:10][::-1]
+    vendor_cars = Car.objects.all().order_by('created')[:10][::-1]
+    tour_guides = TourGuideProfile.objects.all().order_by('information_added_on')[:10][::-1]
+    cities = None
+
     ctx = {
         'shared_trips': shared_trips,
         'vendor_trips': vendor_trips,
         'vendor_cars': vendor_cars,
         'tour_guides': tour_guides,
-        'form':form
+        'cities': cities,
+        'form': form,
+        'results': results
 
     }
     return render(request, 'home/examples/get_recommendations.html', ctx)

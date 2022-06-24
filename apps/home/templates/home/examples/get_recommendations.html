@@ -36,8 +36,9 @@
         </div>
     </div>
 </div>
-
 <form role="form" id="search_trip" method="post">
+    {% csrf_token %}
+
     <!--	<div class="col-lg-5 col-md-6 col-sm-3">-->
     <div class="main main-raised">
 
@@ -55,13 +56,48 @@
                         </div>
                     </div>
                     <div class="col-lg-3 mt-lg-n2 mt-2">
-                        {{ form.province }}
+                        <div class="form-question">
+                            <div class="form-question__title">
+                                <span>{{ form.budget.label }}</span>
+                                {{ form.budget }}
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-3 mt-lg-n2 mt-2">
-                        {{ form.area }}
+                        <div class="form-question">
+                            <div class="form-question__title">
+                                <span>{{ form.days.label }}</span>
+                                {{ form.days }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h5>Select if you want to specify destination</h5>
+                <div class="row border-radius-md pb-4 p-3 mx-sm-0 mx-1 position-relative">
+
+                    <div class="col-lg-3 mt-lg-n2 mt-2">
+                        <div class="form-question">
+                            <div class="form-question__title">
+                                <span>{{ form.province.label }}</span>
+                                {{ form.province }}
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-3 mt-lg-n2 mt-2">
-                        {{ form.city }}
+                        <div class="form-question">
+                            <div class="form-question__title">
+                                <span>{{ form.area.label }}</span>
+                                {{ form.area }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 mt-lg-n2 mt-2">
+                        <div class="form-question">
+                            <div class="form-question__title">
+                                <span>{{ form.city.label }}</span>
+                                {{ form.city }}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -191,9 +227,19 @@
                 {#                            </div>#}
                 {#                        </div>#}
                 {#                    </div>#}
+                <div class="row border-radius-md pb-4 p-3 mx-sm-0 mx-1 position-relative">
 
-                <div class="col-md-8 col-md-offset-2">
-                    <button class="btn btn-primary btn-round">Get Recommendation</button>
+                    <div class="col-md-8 col-md-offset-2 text-center">
+                        <button class="btn btn-primary btn-round">Get Recommendation</button>
+                    </div>
+                    {% if results %}
+                        <div class="col-md-8 col-md-offset-2 text-center">
+
+                            <div class="alert alert-success" role="alert">
+                                Scroll to see recommendations
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -202,47 +248,76 @@
 </form>
 
 </br>
-<div class="container">
-    <h2 class="section-title">Latest Trips</h2>
-    <div class="row">
-        {% for trip in vendor_trips %}
-            <div class="col-md-4">
-                <div class="card card-product card-plain">
-                    <div class="card-image">
-                        <a href="#pablo">
-                            <img src="{{ trip.picture.url }}" alt=""/>
-                        </a>
-                    </div>
-                    <div class="card-content">
-                        <h4 class="card-title">
-                            <a href="#pablo">{{ trip.title }}</a>
-                        </h4>
-                        <p class="card-description">{{ trip.trip_to }} - {{ trip.trip_from }}</p>
-                        <div class="footer">
-                            <div class="price-container">
+{% if results %}
+<div class="section section-blog">
+    <div class="container">
+<h2 class="section-title">{% if results %}Recommended{% endif %} Cities to Visit</h2>
+<div class="row">
+    {% for city in cities %}
+        <div class="col-md-4">
+            <div class="card card-product card-plain">
+                <div class="card-image">
+                    <a href="#pablo">
+                        <img style="height: 200px;object-fit: cover" src="{{ city.picture.url }}" alt=""/>
+                    </a>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">
+                        <a href="#pablo">{{ city.name }}</a>
+                    </h4>
+                    <p class="card-description">{{ city.area }}, {{ city.province }}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 
-                                <span class="price price-new">Rs. {{ trip.trip_price_per_person }}/person </span>
-                            </div>
-                            <div class="stats">
-                                <button type="button" rel="tooltip" title=""
-                                        class="btn btn-just-icon btn-simple btn-rose"
-                                        data-original-title="Saved to Wishlist">
-                                    <i class="material-icons">favorite</i>
-                                    <a href="#">{{ trip.user }}</a>
-                                </button>
-                            </div>
+</div>
+    </div>
+</div>
+
+{% endif %}
+<div class="section section-blog">
+    <div class="container">
+<h2 class="section-title">Latest {% if results %}recommended{% endif %} Trips</h2>
+<div class="row">
+    {% for trip in vendor_trips %}
+        <div class="col-md-4">
+            <div class="card card-product card-plain">
+                <div class="card-image">
+                    <a href="#pablo">
+                        <img style="height: 200px;object-fit: cover" src="{{ trip.picture.url }}" alt=""/>
+                    </a>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">
+                        <a href="#pablo">{{ trip.title }}</a>
+                    </h4>
+                    <p class="card-description">{{ trip.trip_to }} - {{ trip.trip_from }}</p>
+                    <div class="footer">
+                        <div class="price-container">
+
+                            <span class="price price-new">Rs. {{ trip.trip_price_per_person }}/person </span>
+                        </div>
+                        <div class="stats">
+                            <button type="button" rel="tooltip" title=""
+                                    class="btn btn-just-icon btn-simple btn-rose"
+                                    data-original-title="Saved to Wishlist">
+                                <i class="material-icons">favorite</i>
+                                <a href="#">{{ trip.user }}</a>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-        {% endfor %}
+        </div>
+    {% endfor %}
 
+</div>
     </div>
-
 </div>
 <div class="section section-blog">
     <div class="container">
-        <h2 class="section-title">Cars</h2>
+        <h2 class="section-title">{% if results %}Recommended{% endif %} Cars</h2>
         <div class="row">
             {% for car in vendor_cars %}
                 <div class="col-md-4">
@@ -251,7 +326,7 @@
                         <div class="card-image">
                             <a href="#pablo">
                                 {% if car.picture %}
-                                    <img src="{{ car.picture.url }}" alt="">
+                                    <img style="height: 200px;object-fit: cover" src="{{ car.picture.url }}" alt="">
                                     </a>
                                     <div class="colored-shadow"
                                          style="background-image: url('{{ car.picture.url }}'); opacity: 1;"></div>
@@ -278,7 +353,7 @@
 </div><!-- section -->
 <div class="section section-blog">
     <div class="container">
-        <h2 class="section-title">Tour Guides</h2>
+        <h2 class="section-title">{% if results %}Recommended{% endif %} Tour Guides</h2>
         <div class="row">
             {% for guide in tour_guides %}
                 <div class="col-md-4">
@@ -287,7 +362,7 @@
                         <div class="card-image">
                             <a href="#pablo">
                                 {% if guide.picture %}
-                                    <img src="{{ guide.picture.url }}" alt="">
+                                    <img style="height: 400px;object-fit: cover" src="{{ guide.picture.url }}" alt="">
                                     </a>
                                     <div class="colored-shadow"
                                          style="background-image: url('{{ guide.picture.url }}'); opacity: 1;"></div>
@@ -313,7 +388,7 @@
 </div><!-- section -->
 <div class="section section-blog">
     <div class="container">
-        <h2 class="section-title">Shared Trips</h2>
+        <h2 class="section-title">{% if results %}Related{% endif %} Shared Trips</h2>
         <div class="row">
             {% for trip in shared_trips %}
                 <div class="col-md-4">
@@ -322,7 +397,7 @@
                         <div class="card-image">
                             <a href="#pablo">
                                 {% if trip.image %}
-                                    <img src="{{ trip.image.url }}" alt="">
+                                    <img style="height: 300px;object-fit: cover" src="{{ trip.image.url }}" alt="">
                                     </a>
                                     <div class="colored-shadow"
                                          style="background-image: url('{{ trip.image.url }}'); opacity: 1;"></div>
@@ -450,7 +525,7 @@
         <ul class="pull-left">
             <li>
                 <a href="{% url 'home' %}">
-                    Blog
+                    Home
                 </a>
             </li>
             <li>

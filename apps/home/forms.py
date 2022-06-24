@@ -13,7 +13,8 @@ class RecommendationForm(forms.Form):
         ))
     province = forms.ModelChoiceField(
         queryset=Province.objects.all(),
-        label="Wants to Visit Province",
+        label="Province to visit",
+        required=False,
         widget=forms.Select(
             attrs={
                 "class": "selectpicker"
@@ -22,6 +23,8 @@ class RecommendationForm(forms.Form):
         ))
     area = forms.ModelChoiceField(
         queryset=Province.objects.all(),
+        label="Area to visit",
+        required=False,
         widget=forms.Select(
             attrs={
                 "class": "selectpicker"
@@ -30,6 +33,8 @@ class RecommendationForm(forms.Form):
         ))
     city = forms.ModelChoiceField(
         queryset=Province.objects.all(),
+        label="City to visit",
+        required=False,
         widget=forms.Select(
             attrs={
                 "class": "selectpicker"
@@ -38,12 +43,14 @@ class RecommendationForm(forms.Form):
         ))
 
     days = forms.IntegerField(
+        required=False,
         widget=forms.NumberInput(
             attrs={
                 "class": "form-control"
             }
         ))
     budget = forms.IntegerField(
+        required=False,
         widget=forms.NumberInput(
             attrs={
                 "class": "form-control"
