@@ -7,8 +7,8 @@ from apps.home.models import City
 class ShareTrip(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=255)
-    from_city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=True, related_name="DepartureCity")
-    to_city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=True, related_name="ArrivalCity")
+    from_city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="DepartureCity")
+    to_city = models.ForeignKey(City, on_delete=models.CASCADE,  related_name="ArrivalCity")
     vehicle = models.CharField(max_length=255)
     date = models.DateField()
     trip_duration = models.IntegerField(default=0)
