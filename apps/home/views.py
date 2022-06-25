@@ -26,12 +26,11 @@ def index(request):
             days = form.cleaned_data.get('days')
             budget = form.cleaned_data.get('budget')
             persons = form.cleaned_data.get('persons')
-            cities = City.objects.none()
+            cities = []
 
             # Collecting Cities from Shared Trip Data
             shared_trips = ShareTrip.objects.filter(from_city=from_city).order_by('shared_on')
-            shared_trips_results = ShareTrip.objects.none()
-            cities |= city
+            shared_trips_results = []
             for trip in shared_trips:
                 if budget:
                     try:
@@ -40,8 +39,8 @@ def index(request):
                             1 if persons is None else trip.persons))
                         if cost_per_person_day * (
                                 int(1 if days is None else days) * int(1 if persons is None else persons)) <= budget:
-                            cities |= trip.to_city
-                            shared_trips_results |= trip
+                            cities.append(trip.to_city)
+                            shared_trips_results.append(trip)
 
                         # cost_per_day = 1
                         # cost_per_person = 1
@@ -53,15 +52,16 @@ def index(request):
                         # if (cost_per_person * persons) <= budget:
                         #     cities |= trip.to_city
                     except ZeroDivisionError:
-                        cities |= trip.to_city
-                        shared_trips_results |= trip
+                        cities.append(trip.to_city)
+                        shared_trips_results.append(trip)
+
                 else:
-                    cities |= trip.to_city
-                    shared_trips_results |= trip
+                    cities.append(trip.to_city)
+                    shared_trips_results.append(trip)
 
             # Collecting Cities from Vendor Trips
             vendor_trips = Trip.objects.filter(trip_from=from_city).order_by('created')
-            vendor_trips_results = Trip.objects.none()
+            vendor_trips_results = []
             for trip in vendor_trips:
                 if budget:
                     try:
@@ -69,35 +69,36 @@ def index(request):
                             int(1 if days is None else trip.trip_duration))
                         if cost_per_person_day * (
                                 int(1 if days is None else days) * int(1 if persons is None else persons)) <= budget:
-                            cities |= trip.to_city
-                            vendor_trips_results |= trip
+                            cities.append(trip.trip_to)
+                            vendor_trips_results.append(trip)
                     except ZeroDivisionError:
-                        cities |= trip.to_city
-                        vendor_trips_results |= trip
+                        cities.append(trip.trip_to)
+                        vendor_trips_results.append(trip)
 
                 else:
-                    cities |= trip.to_city
-                    vendor_trips_results |= trip
+                    cities.append(trip.trip_to)
+                    vendor_trips_results.append(trip)
 
             # Collecting Cars from Vendor Cars
             vendor_cars = Car.objects.filter(city=from_city).order_by('created')
-            vendor_cars_results = Car.objects.none()
+            vendor_cars_results = []
             for car in vendor_cars:
                 if budget:
                     try:
                         no_of_cars = math.ceil(int(1 if persons is None else persons) / car.seating_capacity)
                         if car.rent_without_driver * (
                                 int(1 if days is None else days) * int(1 if persons is None else no_of_cars)) <= budget:
-                            vendor_cars_results |= car
+                            vendor_cars_results.append(car)
                     except ZeroDivisionError:
-                        vendor_cars_results |= car
+                        vendor_cars_results.append(car)
                 else:
-                    vendor_cars_results |= car
+                    vendor_cars_results.append(car)
+
+            cities = list(set(cities))
 
             # Collecting Cars from Vendor Cars
             tour_guides_results = TourGuideProfile.objects.filter(city__in=cities)
 
-            # cities = City.objects.all()[:10][::-1]
             ctx = {
                 'shared_trips': shared_trips_results,
                 'vendor_trips': vendor_trips_results,
@@ -217,3 +218,7 @@ def signup(request):
     else:
         form = SignUpFormHome()
     return render(request, 'home/examples/signup-page.html', {'form': form})
+
+
+def view_trip(request,id):
+    return render(request,'home/examples/trip_page.html')
