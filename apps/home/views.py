@@ -22,7 +22,7 @@ def index(request):
             from_city = form.cleaned_data.get('starting_location')
             province = form.cleaned_data.get('province')
             area = form.cleaned_data.get('area')
-            city = form.cleaned_data.get('city')
+            city_to_visit = form.cleaned_data.get('city')
             days = form.cleaned_data.get('days')
             budget = form.cleaned_data.get('budget')
             persons = form.cleaned_data.get('persons')
@@ -99,12 +99,19 @@ def index(request):
             # Collecting Cars from Vendor Cars
             tour_guides_results = TourGuideProfile.objects.filter(city__in=cities)
 
+            print(province,area,city_to_visit)
+
+            print("\n\n0")
+
+
             shared_trips = []
             vendor_trips = []
             vendor_cars = []
             tour_guides = []
             cities = []
             if province:
+                print("Province filter:",province)
+
                 for trip in shared_trips_results:
                     if trip.to_city.province == province:
                         shared_trips.append(trip)
@@ -121,12 +128,11 @@ def index(request):
                     if city.province == province:
                         cities.append(city)
 
-            shared_trips_results = shared_trips
-            vendor_trips_results = vendor_trips
-            vendor_cars_results = vendor_cars
-            tour_guides_results = tour_guides
-            cities_results = cities
-
+                shared_trips_results = shared_trips
+                vendor_trips_results = vendor_trips
+                vendor_cars_results = vendor_cars
+                tour_guides_results = tour_guides
+                cities_results = cities
 
 
             shared_trips = []
@@ -135,6 +141,8 @@ def index(request):
             tour_guides = []
             cities = []
             if area:
+                print("Area filter:",area)
+
                 for trip in shared_trips_results:
                     if trip.to_city.area == area:
                         shared_trips.append(trip)
@@ -157,34 +165,39 @@ def index(request):
                 tour_guides_results = tour_guides
                 cities_results = cities
 
-                shared_trips = []
-                vendor_trips = []
-                vendor_cars = []
-                tour_guides = []
-                cities = []
 
-                if city:
-                    for trip in shared_trips_results:
-                        if trip.to_city.name == city:
-                            shared_trips.append(trip)
-                    for trip in vendor_trips_results:
-                        if trip.trip_from.name == city:
-                            vendor_trips.append(trip)
-                    for car in vendor_cars_results:
-                        if car.city.name == city:
-                            vendor_cars.append(car)
-                    for guide in tour_guides_results:
-                        if guide.city.name == city:
-                            tour_guides.append(guide)
-                    for city_ in cities_results:
-                        if city_.name == city:
-                            cities.append(city_)
+
+            shared_trips = []
+            vendor_trips = []
+            vendor_cars = []
+            tour_guides = []
+            cities = []
+
+            if city_to_visit:
+                print("City filter:",city_to_visit)
+
+                for trip in shared_trips_results:
+                    if trip.to_city.name == city_to_visit:
+                        shared_trips.append(trip)
+                for trip in vendor_trips_results:
+                    if trip.trip_from.name == city_to_visit:
+                        vendor_trips.append(trip)
+                for car in vendor_cars_results:
+                    if car.city.name == city_to_visit:
+                        vendor_cars.append(car)
+                for guide in tour_guides_results:
+                    if guide.city.name == city_to_visit:
+                        tour_guides.append(guide)
+                for city_ in cities_results:
+                    if city_.name == city_to_visit:
+                        cities.append(city_)
 
                 shared_trips_results = shared_trips
                 vendor_trips_results = vendor_trips
                 vendor_cars_results = vendor_cars
                 tour_guides_results = tour_guides
                 cities_results = cities
+
 
 
             ctx = {

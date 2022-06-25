@@ -167,7 +167,7 @@
                     <div class="card card-product card-plain">
                         <div class="card-image">
                             <a href="{% url 'view_trip' trip.id %}">
-                                <img style="height: 200px;object-fit: cover" src="{{ trip.picture.url }}" alt=""/>
+                                <img style="height: 200px;object-fit: cover" src="{% if trip.image %}{{ trip.image.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}" alt=""/>
                             </a>
                         </div>
                         <div class="card-content">
@@ -284,8 +284,7 @@
                                      alt="">
                             </a>
                             <div class="colored-shadow"
-                                 style="background-image: url('
-                                         {% if trip.image %}{{ trip.image.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}'); opacity: 1;"></div>
+                                 style="background-image: url('{% if trip.image %}{{ trip.image.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}'); opacity: 1;"></div>
                             <div class="ripple-container"></div>
                             {#                                {% endif %}#}
                         </div>
