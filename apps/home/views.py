@@ -94,17 +94,105 @@ def index(request):
                 else:
                     vendor_cars_results.append(car)
 
-            cities = list(set(cities))
+            cities_results = list(set(cities))
 
             # Collecting Cars from Vendor Cars
             tour_guides_results = TourGuideProfile.objects.filter(city__in=cities)
+
+            shared_trips = []
+            vendor_trips = []
+            vendor_cars = []
+            tour_guides = []
+            cities = []
+            if province:
+                for trip in shared_trips_results:
+                    if trip.to_city.province == province:
+                        shared_trips.append(trip)
+                for trip in vendor_trips_results:
+                    if trip.trip_from.province == province:
+                        vendor_trips.append(trip)
+                for car in vendor_cars_results:
+                    if car.city.province == province:
+                        vendor_cars.append(car)
+                for guide in tour_guides_results:
+                    if guide.city.province == province:
+                        tour_guides.append(guide)
+                for city in cities_results:
+                    if city.province == province:
+                        cities.append(city)
+
+            shared_trips_results = shared_trips
+            vendor_trips_results = vendor_trips
+            vendor_cars_results = vendor_cars
+            tour_guides_results = tour_guides
+            cities_results = cities
+
+
+
+            shared_trips = []
+            vendor_trips = []
+            vendor_cars = []
+            tour_guides = []
+            cities = []
+            if area:
+                for trip in shared_trips_results:
+                    if trip.to_city.area == area:
+                        shared_trips.append(trip)
+                for trip in vendor_trips_results:
+                    if trip.trip_from.area == area:
+                        vendor_trips.append(trip)
+                for car in vendor_cars_results:
+                    if car.city.area == area:
+                        vendor_cars.append(car)
+                for guide in tour_guides_results:
+                    if guide.city.area == area:
+                        tour_guides.append(guide)
+                for city in cities_results:
+                    if city.area == area:
+                        cities.append(city)
+
+                shared_trips_results = shared_trips
+                vendor_trips_results = vendor_trips
+                vendor_cars_results = vendor_cars
+                tour_guides_results = tour_guides
+                cities_results = cities
+
+                shared_trips = []
+                vendor_trips = []
+                vendor_cars = []
+                tour_guides = []
+                cities = []
+
+                if city:
+                    for trip in shared_trips_results:
+                        if trip.to_city.name == city:
+                            shared_trips.append(trip)
+                    for trip in vendor_trips_results:
+                        if trip.trip_from.name == city:
+                            vendor_trips.append(trip)
+                    for car in vendor_cars_results:
+                        if car.city.name == city:
+                            vendor_cars.append(car)
+                    for guide in tour_guides_results:
+                        if guide.city.name == city:
+                            tour_guides.append(guide)
+                    for city_ in cities_results:
+                        if city_.name == city:
+                            cities.append(city_)
+
+                shared_trips_results = shared_trips
+                vendor_trips_results = vendor_trips
+                vendor_cars_results = vendor_cars
+                tour_guides_results = tour_guides
+                cities_results = cities
+
 
             ctx = {
                 'shared_trips': shared_trips_results,
                 'vendor_trips': vendor_trips_results,
                 'vendor_cars': vendor_cars_results,
                 'tour_guides': tour_guides_results,
-                'cities': cities,
+                'cities': cities_results,
                 'form': form,
                 'results': results,
 
