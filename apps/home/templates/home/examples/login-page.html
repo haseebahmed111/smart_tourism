@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -115,12 +116,7 @@
                     </ul>
                 </li>
 
-                <li>
-                    <a href="{% url 'search' %}" target="_blank"
-                       class="btn btn-white btn-simple">
-                        <i class="material-icons">shopping_cart</i> Book Now
-                    </a>
-                </li>
+
             </ul>
         </div>
 
@@ -128,7 +124,7 @@
 </nav>
 
 <div class="page-header header-filter"
-     style="background-image: url('/static/assets/img/bg7.jpg'); background-size: cover; background-position: top center;">
+     style="background-image: url('{% static 'assets/img/bg7.jpg' %}'); background-size: cover; background-position: top center;">
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
@@ -146,37 +142,18 @@
 										<i class="material-icons">face</i>
 									</span>
                                 {{ form.username }}
-                                {#                                <input type="text" class="form-control" placeholder="First Name...">#}
                             </div>
-
-                            {#                            <div class="input-group">#}
-                            {#                            									<span class="input-group-addon">#}
-                            {#                            										<i class="material-icons">email</i>#}
-                            {#                            									</span>#}
-                            {#                                <input type="text" class="form-control" placeholder="Email...">#}
-                            {#                            </div>#}
 
                             <div class="input-group">
 									<span class="input-group-addon">
 										<i class="material-icons">lock_outline</i>
 									</span>
                                 {{ form.password }}
-                                {#                                <input type="password" placeholder="Password..." class="form-control"/>#}
                             </div>
-
-                            <!-- If you want to add a checkbox to this form, uncomment this code
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="optionsCheckboxes" checked>
-                                    Subscribe to newsletter
-                                </label>
-                            </div> -->
                         </div>
                         <div class="footer text-center">
                             <button type="submit" name="login" class="btn btn-fill btn-primary">Login</button>
 
-                            {#                            <a href="#pablo" class="btn btn-primary btn-simple btn-wd btn-lg">Get Started</a>#}
                         </div>
                                                 <div class="text-center">
 
@@ -188,7 +165,7 @@
             </div>
         </div>
     </div>
-    <footer class="footer">
+    <footer class="footer ">
         <div class="container">
             <nav class="pull-left">
                 <ul>
@@ -202,11 +179,7 @@
                             About Us
                         </a>
                     </li>
-                    <li>
-                        <a href="{% url 'search' %}">
-                            Trips
-                        </a>
-                    </li>
+
                     <li>
                         <a href="#">
                             Vendors
@@ -223,6 +196,7 @@
     </footer>
 
 </div>
+
 
 </body>
 <!--   Core JS Files   -->

@@ -8,6 +8,7 @@ from apps.home.forms import RecommendationForm
 from apps.home.models import City
 from car_vendor.models import Car
 from management.models import WebsiteSettings
+from management.views import allow_access
 from tour_guide.models import TourGuideProfile
 from trip_vendor.models import Trip
 from user_dashboard.forms import SharedTripImageForm, SharedTripVideoLinkForm
@@ -15,6 +16,7 @@ from user_dashboard.models import ShareTrip, SharedTripImage, SharedTripVideoLin
 
 
 def index(request):
+    allow_access(request)
     form = RecommendationForm(request.POST or None)
     results = False
     if request.method == "POST":
@@ -210,7 +212,7 @@ def index(request):
             print(form.errors)
 
     try:
-        settings = WebsiteSettings.objects.latest()
+        settings = WebsiteSettings.objects.last()
     except:
         settings = WebsiteSettings.objects.create()
         settings.save()

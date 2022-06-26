@@ -40,7 +40,6 @@
 <form role="form" id="search_trip" method="post">
     {% csrf_token %}
 
-    <!--	<div class="col-lg-5 col-md-6 col-sm-3">-->
     <div class="main main-raised">
 
         <div class="section">
@@ -139,18 +138,22 @@
                     <div class="col-md-4">
                         <div class="card card-product card-plain">
                             <div class="card-image">
-                                <a>
+                                <a href="{{ city.detail_link }}">
                                     <img style="height: 200px;object-fit: cover" src="{{ city.picture.url }}" alt=""/>
                                 </a>
                             </div>
                             <div class="card-content">
                                 <h4 class="card-title">
-                                    <a>{{ city.name }}</a>
+                                    <a href="{{ city.detail_link }}">{{ city.name }}</a>
                                 </h4>
                                 <p class="card-description">{{ city.area }}, {{ city.province }}</p>
                             </div>
                         </div>
                     </div>
+                    {% if forloop.counter|divisibleby:"3" %}
+                    </div>
+                    <div class="row">
+                {% endif %}
                 {% endfor %}
 
             </div>

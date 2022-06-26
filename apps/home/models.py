@@ -27,6 +27,7 @@ class City(models.Model):
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, unique=True)
+    detail_link = models.URLField()
     picture = models.ImageField(upload_to='city_images', blank=True)
 
     def __str__(self):
