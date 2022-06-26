@@ -12,6 +12,10 @@ def index(request):
     access_level = allow_access(request, ['trip_vendor'])
     if not access_level:
         return redirect('role_elevation')
+    try:
+        profile = TripVendorProfile.objects.get(user=request.user)
+    except TripVendorProfile.DoesNotExist:
+        return redirect('trip_vendor_profile')
     print(access_level)
     trips = Trip.objects.filter(user=request.user)
     return render(request, 'trip_vendor/index.html', {'trips': trips, 'access_level': access_level, })
