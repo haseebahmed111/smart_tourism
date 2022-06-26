@@ -94,7 +94,7 @@ class ShareTripForm(forms.ModelForm):
             }
         ))
 
-    image = forms.ImageField(label="Cover Image", widget=forms.FileInput(
+    cover = forms.ImageField(label="Cover Image", widget=forms.FileInput(
         attrs={
             "class": "form-control"
         }
@@ -104,7 +104,7 @@ class ShareTripForm(forms.ModelForm):
         model = ShareTrip
         fields = ('title', 'from_city', 'to_city', 'vehicle', 'date', 'trip_duration', 'persons', 'total_budget_spent',
                   'budget_spent_food',
-                  'budget_spent_accommodation', 'budget_spent_travelling', 'description', 'image')
+                  'budget_spent_accommodation', 'budget_spent_travelling', 'description', 'cover')
 
 
 class RoleForm(forms.ModelForm):
