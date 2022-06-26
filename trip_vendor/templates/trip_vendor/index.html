@@ -45,6 +45,7 @@
                     {{ trip.departure_info}}
                 </td>
                 <td class="text-center">
+                                    <a href="{% url 'view_trip' trip.id %}">view</a>/
                 <a href="{% url 'update_trip' trip.pk %}">Update</a>/
                     <a href="{% url 'delete_trip' trip.pk %}">Delete</a>
                 </td>
