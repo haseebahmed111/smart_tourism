@@ -10,7 +10,7 @@ from apps.home.models import City
 
 class CarVendorProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    company_name = models.CharField(max_length=255)
+    company_name = models.CharField(max_length=20)
     brief_info = models.CharField(max_length=255)
     mobile_number = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
@@ -23,6 +23,7 @@ class CarVendorProfile(models.Model):
 
 class Car(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    vendor = models.ForeignKey(CarVendorProfile, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     make = models.CharField(max_length=255)
     model = models.CharField(max_length=255)

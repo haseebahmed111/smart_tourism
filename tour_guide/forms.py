@@ -34,6 +34,13 @@ class TourGuideProfileFrom(forms.ModelForm):
                 "class": "form-control"
             }
         ))
+    charges_info = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "How you charge",
+                "class": "form-control"
+            }
+        ))
     mobile_number = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -45,6 +52,13 @@ class TourGuideProfileFrom(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Address of Office",
+                "class": "form-control"
+            }
+        ))
+    about = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "placeholder": "Tell about Yourself",
                 "class": "form-control"
             }
         ))
@@ -68,7 +82,7 @@ class TourGuideProfileFrom(forms.ModelForm):
     class Meta:
         model = TourGuideProfile
         fields = (
-            'name', 'city', 'languages', 'brief_info', 'mobile_number', 'address', 'policy', 'terms_and_condition',
+            'name', 'city', 'languages', 'brief_info','charges_info', 'mobile_number', 'address','about', 'policy', 'terms_and_condition',
             'picture')
 
 
@@ -81,6 +95,7 @@ class LanguageFrom(forms.ModelForm):
             }
         ))
     native = forms.BooleanField(
+        required=False,
         widget=forms.CheckboxInput(
             attrs={
                 "class": "form-control"

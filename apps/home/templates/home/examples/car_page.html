@@ -1,3 +1,4 @@
+{% load humanize %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -23,7 +24,7 @@
 <body class="product-page">
 {% include 'home/includes/navbar.html' %}
 
-<div class="page-header header-filter" data-parallax="true" filter-color="rose">
+<div class="page-header header-filter" data-parallax="true" filter-color="blue">
     <div class="container">
         <div class="row title-row">
             <div class="col-md-4 col-md-offset-8">
@@ -39,19 +40,19 @@
                 <div class="col-md-6 col-sm-6">
 
                     <div class="tab-content">
-                        {% if trip.picture %}
+                        {% if car.picture %}
                             <div class="tab-pane active" id="product-page1">
-                                <img src="{{ trip.picture.url }}"/>
+                                <img src="{{ car.picture.url }}"/>
                             </div>
                         {% endif %}
 
                     </div>
                     <ul class="nav flexi-nav" role="tablist" id="flexiselDemo1">
-                        {% if trip.picture %}
+                        {% if car.picture %}
 
                             <li class="active">
                                 <a href="#product-page1" role="tab" data-toggle="tab" aria-expanded="false">
-                                    <img src="{{ trip.picture.url }}"/>
+                                    <img src="{{ car.picture.url }}"/>
                                 </a>
                             </li>
                         {% endif %}
@@ -59,29 +60,13 @@
                     </ul>
                 </div>
                 <div class="col-md-6 col-sm-6">
-                    <h2 class="title"> {{ trip.title }} {% if trip.is_verified %}
+                    <h2 class="title"> {{ car.title }} {% if car.is_verified %}
                         <span class="label label-success">Verified</span>{% else %}
                         <span class="label label-danger">Not Verified</span>{% endif %}</h2>
-                    <h3 class="main-price">{{ trip.vendor.company_name }}</h3>
+                    <h3 class="main-price">{{ car.vendor.company_name }}</h3>
                     <div class="row pick-size">
                         <div class="col-md-6 col-sm-6">
-                            <label>Trip From</label>
-                            <select class="selectpicker" data-style="select-with-transition" data-size="7" disabled>
-                                <option value="1">{{ trip.trip_from }} </option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                            <label>Trip to</label>
-                            <select class="selectpicker" data-style="select-with-transition" data-size="7" disabled>
-                                <option value="1">{{ trip.trip_to }} </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-6">
-                            <p><b>Trip Duration:</b> {{ trip.trip_duration }} days</p>
-
-                            <p><b>Departure Info:</b> {{ trip.departure_info }}</p>
+                            <p><b>Car City:</b> {{ car.city }}</p>
                         </div>
                     </div>
 
@@ -92,31 +77,18 @@
                                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
                                        aria-expanded="true" aria-controls="collapseOne">
                                         <h4 class="panel-title">
-                                            Trip Details
+                                            Car Details
                                             <i class="material-icons">keyboard_arrow_down</i>
                                         </h4>
                                     </a>
                                 </div>
                                 <div id="collapseOne" class="panel-collapse collapse in">
                                     <div class="panel-body">
-                                        <p style="vertical-align: middle;display: flex;align-items: center;">
-                                            {% if trip.accommodation %}<i class="material-icons">check</i>{% else %}
-                                                <i class="material-icons">close</i>{% endif %} Accommodation</p>
-                                        <p style="vertical-align: middle;display: flex;align-items: center;">
-                                            {% if trip.breakfast %}<i class="material-icons">check</i>{% else %}
-                                                <i class="material-icons">close</i>{% endif %} Breakfast</p>
-                                        <p style="vertical-align: middle;display: flex;align-items: center;">
-                                            {% if trip.lunch %}<i class="material-icons">check</i>{% else %}
-                                                <i class="material-icons">close</i>{% endif %} Lunch</p>
-                                        <p style="vertical-align: middle;display: flex;align-items: center;">
-                                            {% if trip.dinner %}<i class="material-icons">check</i>{% else %}
-                                                <i class="material-icons">close</i>{% endif %} Dinner</p>
-                                        <p style="vertical-align: middle;display: flex;align-items: center;">
-                                            {% if trip.guide %}<i class="material-icons">check</i>{% else %}
-                                                <i class="material-icons">close</i>{% endif %} Guide</p>
-                                        <p style="vertical-align: middle;display: flex;align-items: center;">
-                                            {% if trip.other_expenses %}<i class="material-icons">check</i>{% else %}
-                                                <i class="material-icons">close</i>{% endif %} Other Expenses</p>
+                                        <p><b>Make: </b>{{ car.make }}</p>
+                                        <p><b>Model: </b>{{ car.model }}</p>
+                                        <p><b>Make: </b>{{ car.year }}</p>
+                                        <p><b>Seating Capacity: </b>{{ car.seating_capacity }} person</p>
+                                        <p><b>Fuel Average: </b>{{ car.fuel_average }}km/litre</p>
                                     </div>
                                 </div>
                             </div>
@@ -125,15 +97,15 @@
                                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
                                        aria-controls="collapseOne">
                                         <h4 class="panel-title">
-                                            Other Information
+                                            Rent Information
                                             <i class="material-icons">keyboard_arrow_down</i>
                                         </h4>
                                     </a>
                                 </div>
                                 <div id="collapseTwo" class="panel-collapse collapse">
                                     <div class="panel-body">
-                                        <p>Services Included: {{ trip.services_included }}</p>
-                                        <p>Services Not Included: {{ trip.services_not_included }}</p>
+                                        <p><b>Rent Without Driver:</b> Rs.{{ car.rent_without_driver|intcomma }}/-</p>
+                                        <p><b>Rent With Driver:</b> Rs.{{ car.rent_with_driver|intcomma }}/-</p>
                                     </div>
                                 </div>
                             </div>
@@ -142,20 +114,19 @@
                     </div><!--  end acordeon -->
 
                     <div class="row text-right">
+<a href="{% url 'view_car_vendor_profile' car.vendor.id %}">
 
+                            <button class="btn btn-rose btn-round">Contact Vendor &nbsp;<i
+                                    class="material-icons">call</i></button>
+                        </a>
                         {% if is_author %}
-                            <a href="{% url 'delete_trip' trip.id %}">
+                            <a href="{% url 'delete_car' car.id %}">
                                 <button class="btn btn-danger btn-round">Delete</button>
                             </a>
-                            <a href="{% url 'update_trip' trip.id %}">
+                            <a href="{% url 'update_car' car.id %}">
                                 <button class="btn btn-warning btn-round">Update</button>
                             </a>
-                        {% else %}
-                            <a href="{% url 'view_trip_vendor_profile' trip.vendor.id %}">
 
-                                <button class="btn btn-rose btn-round">Contact Vendor &nbsp;<i
-                                        class="material-icons">call</i></button>
-                            </a>
                         {% endif %}
 
                     </div>
@@ -171,7 +142,7 @@
                             <i class="material-icons">local_shipping</i>
                         </div>
                         <h4 class="info-title">Vendor Terms </h4>
-                        <p>{{ trip.vendor.terms_and_condition }}</p>
+                        <p>{{ car.vendor.terms_and_condition }}</p>
                     </div>
                 </div>
 
@@ -181,7 +152,7 @@
                             <i class="material-icons">verified_user</i>
                         </div>
                         <h4 class="info-title">Vendor Policy</h4>
-                        <p>{{ trip.vendor.policy }}</p>
+                        <p>{{ car.vendor.policy }}</p>
                     </div>
                 </div>
 

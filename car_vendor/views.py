@@ -30,10 +30,11 @@ def add_car(request):
     if request.method == "POST":
         form = CarForm(request.POST, request.FILES)
         if form.is_valid():
-            shared_data = form.save(commit=False)
-            shared_data.user = request.user
-            shared_data.save()
-            return redirect('car_vendor_home')
+            car = form.save(commit=False)
+            car.user = request.user
+            car.vendor = profile
+            car.save()
+            return redirect('view_car',car.id)
         else:
             print(form.errors)
             msg = 'Form is not valid'

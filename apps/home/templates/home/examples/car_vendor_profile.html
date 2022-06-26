@@ -6,7 +6,7 @@
     <link rel="icon" type="image/png" href="/static/assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
-    <title>vendor profile</title>
+    <title>Car vendor profile</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
 
@@ -21,115 +21,10 @@
 </head>
 
 <body class="profile-page">
-<nav class="navbar navbar-primary navbar-transparent navbar-fixed-top navbar-color-on-scroll">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{% url 'home' %}">Smart Tourism</a>
-        </div>
-
-                      <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="{% url 'home' %}">
-                        <i class="material-icons">apps</i> Trips
-                    </a>
-                </li>
-
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="material-icons">view_day</i> Vendors
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu dropdown-with-icons">
-                        <li>
-                            <a href="{% url 'car_vendor' %}">
-                                <i class="material-icons">dns</i> Car Vendor
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'vendor' %}">
-                                <i class="material-icons">build</i> Trip Vendor
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'tour_guide' %}">
-                                <i class="material-icons">list</i> Tour Guide
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="material-icons">view_carousel</i> Profile
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu dropdown-with-icons">
-                        {% if not request.user.is_authenticated %}
-                            <li>
-                                <a href="{% url 'home_login' %}">
-                                    <i class="material-icons">fingerprint</i> Login
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'home_signup' %}">
-                                    <i class="material-icons">person_add</i> Register
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'login' %}">
-                                    <i class="material-icons">person_add</i> Vendor Login
-                                </a>
-                            </li>
-                        {% endif %}
-                        <li>
-                            <a href="{% url 'private_trip' %}">
-                                <i class="material-icons">view_quilt</i> Private Trip
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'update_trip' %}">
-                                <i class="material-icons">location_on</i> Update Trip
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'share_trip_data' %}">
-                                <i class="material-icons">view_day</i> Share Data
-                            </a>
-                        </li>
-                        {% if request.user.is_authenticated %}
-                            <li>
-                                <a href="{% url 'logout' %}">
-                                    <i class="material-icons">person_add</i> Logout
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="{% url 'search' %}" target="_blank"
-                       class="btn btn-white btn-simple">
-                        <i class="material-icons">shopping_cart</i> Book Now
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-    </div>
-</nav>
+{% include 'home/includes/navbar.html' %}
 
 
-<div class="page-header header-filter" data-parallax="true"
-     style="background-image: url('/static/assets/img/examples/city.jpg');"></div>
+<div class="page-header header-filter" data-parallax="true"></div>
 
 <div class="main main-raised">
     <div class="profile-content">
@@ -139,62 +34,26 @@
                 <div class="col-xs-6 col-xs-offset-3">
                     <div class="profile">
                         <div class="avatar">
-                            <img src="/static/assets/img/faces/christian.jpg" alt="Circle Image"
+                            <img style="object-fit: cover; height: 300px;width: 300px; max-width: none" src="{{ vendor.picture.url }}" alt="Circle Image"
                                  class="img-circle img-responsive img-raised">
                         </div>
                         <div class="name">
-                            <h3 class="title">Muhammad Junaid</h3>
+                            <h3 class="title">{{ vendor.company_name}}</h3>
                             <h6>Car Vendor</h6>
-                            <a href="#pablo" class="btn btn-just-icon btn-simple btn-dribbble"><i
-                                    class="fa fa-dribbble"></i></a>
-                            <a href="#pablo" class="btn btn-just-icon btn-simple btn-twitter"><i
-                                    class="fa fa-twitter"></i></a>
-                            <a href="#pablo" class="btn btn-just-icon btn-simple btn-pinterest"><i
-                                    class="fa fa-pinterest"></i></a>
                         </div>
                     </div>
                 </div>
                 <div class="col-xs-2 follow">
-                    <!--<button class="btn btn-fab btn-primary" rel="tooltip" title="Follow this user">
-                         <i class="material-icons">add</i>
-                     </button>-->
+
                 </div>
             </div>
 
 
             <div class="description text-center">
-                <p>Description by CAr Vendor</p>
+                <p>{{ vendor.brief_info}}</p>
             </div>
 
-            <!--<div class="row">
-                <div class="col-md-6 col-md-offset-3">
-                    <div class="profile-tabs">
-                        <div class="nav-align-center">
-                            <ul class="nav nav-pills nav-pills-icons" role="tablist">
-                                <li class="active">
-                                    <a href="#work" role="tab" data-toggle="tab">
-                                        <i class="material-icons">palette</i>
-                                        Work
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#connections" role="tab" data-toggle="tab">
-                                        <i class="material-icons">people</i>
-                                        Connections
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#media" role="tab" data-toggle="tab">
-                                        <i class="material-icons">camera</i>
-                                        Media
-                                    </a>
-                                </li>
-                            </ul>
 
-
-                        </div>
-                    </div>-->
-            <!-- End Profile Tabs -->
         </div>
     </div>
 </div>
@@ -205,60 +64,27 @@
             <div class="col-md-7 col-md-offset-1">
                 <div id="navigation-pills">
                     <div class="title">
-                        <h3>Car Vendor</h3>
+                        <h3>Trip Vendor Info</h3>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
 
                             <ul class="nav nav-pills nav-pills-rose">
-                                <li class="active"><a href="#pill1" data-toggle="tab">Bio</a></li>
-                                <li><a href="#pill2" data-toggle="tab">Cars Available</a></li>
-                                <li><a href="#pill3" data-toggle="tab">Images</a></li>
+                                <li class="active"><a href="#pill1" data-toggle="tab">Contact</a></li>
+                                <li><a href="#pill5" data-toggle="tab">Policy</a></li>
+                                <li><a href="#pill6" data-toggle="tab">Terms and Conditions</a></li>
                             </ul>
                             <div class="tab-content tab-space">
                                 <div class="tab-pane active" id="pill1">
-                                    Collaboratively administrate empowered markets via plug-and-play networks.
-                                    Dynamically procrastinate B2C users after installed base benefits.
-                                    <br/><br/>
-                                    Dramatically visualize customer directed convergence without revolutionary ROI.
+                                    <b>Phone Number: </b>{{ vendor.mobile_number}}<br>
+                                 <b>Office Address: </b>{{ vendor.address}} </div>
+                             <div class="tab-pane" id="pill5">
+                                 {{ vendor.policy}}
                                 </div>
-                                <div class="tab-pane" id="pill2">
-                                    Efficiently unleash cross-media information without cross-media value. Quickly
-                                    maximize timely deliverables for real-time schemas.
-                                    <br/><br/>Dramatically maintain clicks-and-mortar solutions without functional
-                                    solutions.
+                             <div class="tab-pane" id="pill6">
+                                 {{ vendor.terms_and_condition}}
                                 </div>
-                                <div class="tab-pane" id="pill3">
-                                    <h4 class="title">Latest Car Posts</h4>
-                                    <div class="row collections">
-                                        <div class="col-md-6">
-                                            <div class="card card-background"
-                                                 style="background-image: url('/static/assets/img/examples/chris4.jpg')">
-                                                <a href="#pablo"></a>
-                                                <div class="card-content">
-                                                    <label class="label label-primary">Honda City 2021</label>
-                                                    <a href="#pablo">
-                                                        <h2 class="card-title"></h2>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="card card-background"
-                                                 style="background-image: url('/static/assets/img/examples/chris6.jpg')">
-                                                <a href="#pablo"></a>
-                                                <div class="card-content">
-                                                    <label class="label label-primary">Toyota Grande 2021</label>
-                                                    <a href="#pablo">
-                                                        <h2 class="card-title"></h2>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
 
-
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -268,99 +94,8 @@
     </div>
 </div>
 
-<footer class="footer footer-black footer-big">
-    <div class="container">
 
-        <div class="content">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>About Us</h5>
-                    <p>Smart Tourism is a platform where you can get trip recommendations according to your budget
-                        and timing. </p>
-                    <p>We love to explore nature and care deeply for how beautiful and charming it is. We power
-                        individuals to create better trips around the world. </p>
-                </div>
-
-                <div class="col-md-4">
-                    <h5>Recent Reviews</h5>
-                    <div class="social-feed">
-                        <div class="feed-line">
-                            <i class="fa fa-twitter"></i>
-                            <p>Was looking for such a platform for long time.</p>
-                        </div>
-                        <div class="feed-line">
-                            <i class="fa fa-twitter"></i>
-                            <p>Really help me exploring the nature.</p>
-                        </div>
-                        <div class="feed-line">
-                            <i class="fa fa-facebook-square"></i>
-                            <p>It's great to get car vendors and tour guides at same place.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <h5>Recent Trip Photos</h5>
-                    <div class="gallery-feed">
-                        <img src="/static/assets/img/faces/card-profile6-square.jpg"
-                             class="img img-raised img-rounded" alt=""/>
-                        <img src="/static/assets/img/faces/christian.jpg" class="img img-raised img-rounded"
-                             alt=""/>
-                        <img src="/static/assets/img/faces/card-profile4-square.jpg"
-                             class="img img-raised img-rounded" alt=""/>
-                        <img src="/static/assets/img/faces/card-profile1-square.jpg"
-                             class="img img-raised img-rounded" alt=""/>
-
-                        <img src="/static/assets/img/faces/marc.jpg" class="img img-raised img-rounded" alt=""/>
-                        <img src="/static/assets/img/faces/kendall.jpg" class="img img-raised img-rounded" alt=""/>
-                        <img src="/static/assets/img/faces/card-profile5-square.jpg"
-                             class="img img-raised img-rounded" alt=""/>
-                        <img src="/static/assets/img/faces/card-profile2-square.jpg"
-                             class="img img-raised img-rounded" alt=""/>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-
-        <hr/>
-
-        <ul class="pull-left">
-            <li>
-                <a href="{% url 'home' %}">
-                    Blog
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'search' %}">
-                    Search
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'share_trip_data' %}">
-                    Share your Trip
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'car_vendor' %}">
-                    Car Vendor
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'tour_guide' %}">
-                    Tour Guide
-                </a>
-            </li>
-        </ul>
-
-        <div class="copyright pull-right">
-            Copyright &copy;
-            <script>document.write(new Date().getFullYear())</script>
-            Smart Tourism All Rights Reserved.
-        </div>
-    </div>
-</footer>
+{% include 'home/includes/footer.html' %}
 
 </body>
 <!--   Core JS Files   -->

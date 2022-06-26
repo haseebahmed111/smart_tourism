@@ -29,9 +29,10 @@ def add_trip(request):
     if request.method == "POST":
         form = TripForm(request.POST, request.FILES)
         if form.is_valid():
-            shared_data = form.save(commit=False)
-            shared_data.user = request.user
-            shared_data.save()
+            trip = form.save(commit=False)
+            trip.user = request.user
+            trip.vendor = profile
+            trip.save()
             return redirect('trip_vendor_home')
         else:
             print(form.errors)

@@ -18,7 +18,7 @@
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="material-icons">view_carousel</i> Profile
+                        <i class="material-icons">person</i> Account
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu dropdown-with-icons">
@@ -33,11 +33,11 @@
                                     <i class="material-icons">person_add</i> Register
                                 </a>
                             </li>
-                            <li>
-                                <a href="{% url 'login' %}">
-                                    <i class="material-icons">person_add</i> Vendor Login
-                                </a>
-                            </li>
+{#                            <li>#}
+{#                                <a href="{% url 'login' %}">#}
+{#                                    <i class="material-icons">person_add</i> Vendor Login#}
+{#                                </a>#}
+{#                            </li>#}
                         {% endif %}
                         {% if access_level %}
                             {% if access_level.admin %}

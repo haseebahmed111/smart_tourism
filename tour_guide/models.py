@@ -6,12 +6,14 @@ from apps.home.models import City
 
 class TourGuideProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=30)
     city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=True)
     languages = models.CharField(max_length=255)
+    charges_info = models.CharField(max_length=255)
     brief_info = models.CharField(max_length=255)
     mobile_number = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
+    about = models.TextField(max_length=10000)
     policy = models.TextField(max_length=10000)
     terms_and_condition = models.TextField(max_length=10000)
     picture = models.ImageField(upload_to='tour_guide_images/', blank=True)

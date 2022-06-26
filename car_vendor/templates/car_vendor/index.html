@@ -45,6 +45,7 @@
                     {{ car.created}}
                 </td>
                 <td class="text-center">
+                <a href="{% url 'view_car' car.id %}">view</a>/
                 <a href="{% url 'update_car' car.id %}">Update</a>/
                     <a href="{% url 'delete_car' car.id %}">Delete</a>
                 </td>

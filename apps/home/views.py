@@ -6,11 +6,11 @@ from django.shortcuts import render, redirect
 from apps.authentication.forms import SignUpFormHome, LoginForm
 from apps.home.forms import RecommendationForm
 from apps.home.models import City
-from car_vendor.models import Car
+from car_vendor.models import Car, CarVendorProfile
 from management.models import WebsiteSettings
 from management.views import allow_access
-from tour_guide.models import TourGuideProfile
-from trip_vendor.models import Trip
+from tour_guide.models import TourGuideProfile, Language
+from trip_vendor.models import Trip, TripVendorProfile
 from user_dashboard.forms import SharedTripImageForm, SharedTripVideoLinkForm
 from user_dashboard.models import ShareTrip, SharedTripImage, SharedTripVideoLink
 
@@ -197,8 +197,6 @@ def index(request):
                 tour_guides_results = tour_guides
                 cities_results = cities
 
-
-
             ctx = {
                 'shared_trips': shared_trips_results,
                 'vendor_trips': vendor_trips_results,
@@ -244,96 +242,52 @@ def index(request):
     return render(request, 'home/examples/get_recommendations.html', ctx)
 
 
-def home_login(request):
-    form = LoginForm(request.POST or None)
-
-    msg = None
-
-    if request.method == "POST":
-
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                if user.groups.filter(name="management") or user.is_superuser:
-                    return redirect('admin:index')
-                if user.groups.filter(name="tour_guide"):
-                    return redirect('tour_guide_home')
-                if user.groups.filter(name="car_vendor"):
-                    return redirect('car_vendor_home')
-                if user.groups.filter(name="trip_vendor"):
-                    return redirect('trip_vendor_home')
-                return redirect("dashboard")
-            else:
-                msg = 'Invalid credentials'
-        else:
-            msg = 'Error validating the form'
-
-    return render(request, 'home/examples/login-page.html', {'form': form})
-
-
-def car_vendor(request):
-    return render(request, 'home/examples/car_vendor_profile.html')
-
-
-def tour_guide(request):
-    return render(request, 'home/examples/tourguide_profile.html')
-
-
-def vendor(request):
-    return render(request, 'home/examples/vendor_profile.html')
-
-
-def private_trip(request):
-    return render(request, 'home/examples/Private_trip_offer.html')
-
-
-def update_trip(request):
-    return render(request, 'home/examples/update_trip_data.html')
-
-
-def search(request):
-    return render(request, 'home/examples/search_trips.html')
-
-
-def search(request, text):
-    print(text)
-    return render(request, 'home/examples/search_trips.html')
-
-
-def share_data(request):
-    return render(request, 'home/examples/share_your_trip_data.html')
-
-
-def signup(request):
-    msg = None
-    success = False
-
-    if request.method == "POST":
-        form = SignUpFormHome(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get("username")
-            raw_password = form.cleaned_data.get("password1")
-            user = authenticate(username=username, password=raw_password)
-
-            msg = 'User created - please <a href="/login">login</a>.'
-            success = True
-
-            return redirect('home_login')
-
-        else:
-            print(form.errors)
-            msg = 'Form is not valid'
-    else:
-        form = SignUpFormHome()
-    return render(request, 'home/examples/signup-page.html', {'form': form})
-
-
 def view_trip(request, id):
-    return render(request, 'home/examples/trip_page.html')
+    access_level = allow_access(request)
+    trip = Trip.objects.get(id=id)
+    is_author = False
+    if request.user.is_authenticated and request.user == trip.user:
+        is_author = True
+        # if request.method == "POST":
+        #     form = TripImageForm(request.POST, request.FILES)
+        #     if form.is_valid():
+        #         image = form.save(commit=False)
+        #         image.trip = trip
+        #         image.save()
+        #         return redirect('view_trip', trip.id)
+        # else:
+        #     form = TripImageForm()
+
+    ctx = {
+        'trip': trip,
+        'access_level': access_level,
+        'is_author': is_author
+    }
+    return render(request, 'home/examples/trip_page.html', ctx)
+
+
+def view_car(request, id):
+    access_level = allow_access(request)
+    car = Car.objects.get(id=id)
+    is_author = False
+    if request.user.is_authenticated and request.user == car.user:
+        is_author = True
+        # if request.method == "POST":
+        #     form = TripImageForm(request.POST, request.FILES)
+        #     if form.is_valid():
+        #         image = form.save(commit=False)
+        #         image.trip = trip
+        #         image.save()
+        #         return redirect('view_trip', trip.id)
+        # else:
+        #     form = TripImageForm()
+
+    ctx = {
+        'car': car,
+        'access_level': access_level,
+        'is_author': is_author
+    }
+    return render(request, 'home/examples/car_page.html', ctx)
 
 
 def view_shared_trip(request, id):
@@ -379,3 +333,176 @@ def delete_shared_trip_image(request, trip_id, id):
     if request.user == trip_image.trip.user:
         trip_image.delete()
     return redirect('view_shared_trip', trip_id)
+
+
+def home_login(request):
+    form = LoginForm(request.POST or None)
+
+    msg = None
+
+    if request.method == "POST":
+
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                if request.GET.get('next', '/'):
+                    return redirect(request.GET.get('next', '/'))
+                if user.groups.filter(name="management") or user.is_superuser:
+                    return redirect('admin:index')
+                if user.groups.filter(name="tour_guide"):
+                    return redirect('tour_guide_home')
+                if user.groups.filter(name="car_vendor"):
+                    return redirect('car_vendor_home')
+                if user.groups.filter(name="trip_vendor"):
+                    return redirect('trip_vendor_home')
+                return redirect("dashboard")
+            else:
+                msg = 'Invalid credentials'
+        else:
+            msg = 'Error validating the form'
+
+    return render(request, 'home/examples/login-page.html', {'form': form, 'msg': msg})
+
+
+def signup(request):
+    msg = None
+    success = False
+
+    if request.method == "POST":
+        form = SignUpFormHome(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get("username")
+            raw_password = form.cleaned_data.get("password1")
+            user = authenticate(username=username, password=raw_password)
+
+            msg = 'User created - please <a href="/login">login</a>.'
+            success = True
+
+            return redirect('home_login')
+
+        else:
+            print(form.errors)
+            msg = 'Form is not valid'
+    else:
+        form = SignUpFormHome()
+    return render(request, 'home/examples/signup-page.html', {'form': form})
+
+
+@login_required(login_url="/login/")
+def view_tour_guide_profile(request, id):
+    access_level = allow_access(request)
+    guide = TourGuideProfile.objects.get(id=id)
+    languages = Language.objects.filter(user=guide.user)
+    is_author = False
+    if request.user.is_authenticated and request.user == guide.user:
+        is_author = True
+        # if request.method == "POST":
+        #     form = TripImageForm(request.POST, request.FILES)
+        #     if form.is_valid():
+        #         image = form.save(commit=False)
+        #         image.trip = trip
+        #         image.save()
+        #         return redirect('view_trip', trip.id)
+        # else:
+        #     form = TripImageForm()
+
+    ctx = {
+        'guide': guide,
+        'languages': languages,
+        'access_level': access_level,
+        'is_author': is_author,
+    }
+    return render(request, 'home/examples/tourguide_profile.html', ctx)
+
+
+@login_required(login_url="/login/")
+def view_trip_vendor_profile(request, id):
+    access_level = allow_access(request)
+    vendor = TripVendorProfile.objects.get(id=id)
+    trips = Trip.objects.filter(vendor=vendor)
+    is_author = False
+    if request.user.is_authenticated and request.user == vendor.user:
+        is_author = True
+        # if request.method == "POST":
+        #     form = TripImageForm(request.POST, request.FILES)
+        #     if form.is_valid():
+        #         image = form.save(commit=False)
+        #         image.trip = trip
+        #         image.save()
+        #         return redirect('view_trip', trip.id)
+        # else:
+        #     form = TripImageForm()
+
+    ctx = {
+        'vendor': vendor,
+        'trips': trips,
+        'access_level': access_level,
+        'is_author': is_author,
+    }
+    return render(request, 'home/examples/trip_vendor_profile.html', ctx)
+
+@login_required(login_url="/login/")
+def view_car_vendor_profile(request, id):
+    access_level = allow_access(request)
+    vendor = CarVendorProfile.objects.get(id=id)
+    cars = Car.objects.filter(vendor=vendor)
+    is_author = False
+    if request.user.is_authenticated and request.user == vendor.user:
+        is_author = True
+        # if request.method == "POST":
+        #     form = TripImageForm(request.POST, request.FILES)
+        #     if form.is_valid():
+        #         image = form.save(commit=False)
+        #         image.trip = trip
+        #         image.save()
+        #         return redirect('view_trip', trip.id)
+        # else:
+        #     form = TripImageForm()
+
+    ctx = {
+        'vendor': vendor,
+        'cars': cars,
+        'access_level': access_level,
+        'is_author': is_author,
+    }
+    return render(request, 'home/examples/car_vendor_profile.html', ctx)
+
+
+def private_trip(request):
+    return render(request, 'home/examples/Private_trip_offer.html')
+
+
+
+# def car_vendor(request):
+#     return render(request, 'home/examples/car_vendor_profile.html')
+#
+#
+# def tour_guide(request):
+#     return render(request, 'home/examples/tourguide_profile.html')
+#
+#
+# def vendor(request):
+#     return render(request, 'home/examples/vendor_profile.html')
+#
+#
+
+#
+# def update_trip(request):
+#     return render(request, 'home/examples/update_trip_data.html')
+#
+#
+# def search(request):
+#     return render(request, 'home/examples/search_trips.html')
+#
+#
+# def search(request, text):
+#     print(text)
+#     return render(request, 'home/examples/search_trips.html')
+#
+#
+# def share_data(request):
+#     return render(request, 'home/examples/share_your_trip_data.html')

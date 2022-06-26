@@ -87,6 +87,21 @@
                     <h2 class="title"> {{ trip.title }}{% if is_author %} {% if not trip.is_approved %}
                         <span class="label label-danger">Not Approved</span>{% endif %}{% endif %}</h2>
                     <h3 class="main-price">{{ trip.user.username }}</h3>
+                               <div class="row pick-size">
+                        <div class="col-md-6 col-sm-6">
+                            <label>From city</label>
+                            <select class="selectpicker" data-style="select-with-transition" data-size="7" disabled>
+                                <option value="1">{{ trip.from_city }}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label>To City</label>
+                            <select class="selectpicker" data-style="select-with-transition" data-size="7" disabled>
+                                <option value="1">{{ trip.to_city }}</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div id="acordeon">
                         <div class="panel-group" id="accordion">
                             <div class="panel panel-border panel-default">
@@ -161,20 +176,6 @@
                         </div>
                     </div><!--  end acordeon -->
 
-                    <div class="row pick-size">
-                        <div class="col-md-6 col-sm-6">
-                            <label>From city</label>
-                            <select class="selectpicker" data-style="select-with-transition" data-size="7" disabled>
-                                <option value="1">{{ trip.from_city }}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                            <label>To City</label>
-                            <select class="selectpicker" data-style="select-with-transition" data-size="7" disabled>
-                                <option value="1">{{ trip.to_city }}</option>
-                            </select>
-                        </div>
-                    </div>
 
                     <div class="row text-right">
                         {% if is_author %}
@@ -217,98 +218,7 @@
 </div>
 
 
-<footer class="footer footer-black footer-big">
-    <div class="container">
-
-        <div class="content">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>About Us</h5>
-                    <p>Smart Tourism is a platform where you can get trip recommendations according to your budget and
-                        timing. </p>
-                    <p>We love to explore nature and care deeply for how beautiful and charming it is. We power
-                        individuals to create better trips around the world. </p>
-                </div>
-
-                <div class="col-md-4">
-                    <h5>Recent Reviews</h5>
-                    <div class="social-feed">
-                        <div class="feed-line">
-                            <i class="fa fa-twitter"></i>
-                            <p>Was looking for such a platform for long time.</p>
-                        </div>
-                        <div class="feed-line">
-                            <i class="fa fa-twitter"></i>
-                            <p>Really help me exploring the nature.</p>
-                        </div>
-                        <div class="feed-line">
-                            <i class="fa fa-facebook-square"></i>
-                            <p>It's great to get car vendors and tour guides at same place.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <h5>Recent Trip Photos</h5>
-                    <div class="gallery-feed">
-                        <img src="/static/assets/img/faces/card-profile6-square.jpg" class="img img-raised img-rounded"
-                             alt=""/>
-                        <img src="/static/assets/img/faces/christian.jpg" class="img img-raised img-rounded" alt=""/>
-                        <img src="/static/assets/img/faces/card-profile4-square.jpg" class="img img-raised img-rounded"
-                             alt=""/>
-                        <img src="/static/assets/img/faces/card-profile1-square.jpg" class="img img-raised img-rounded"
-                             alt=""/>
-
-                        <img src="/static/assets/img/faces/marc.jpg" class="img img-raised img-rounded" alt=""/>
-                        <img src="/static/assets/img/faces/kendall.jpg" class="img img-raised img-rounded" alt=""/>
-                        <img src="/static/assets/img/faces/card-profile5-square.jpg" class="img img-raised img-rounded"
-                             alt=""/>
-                        <img src="/static/assets/img/faces/card-profile2-square.jpg" class="img img-raised img-rounded"
-                             alt=""/>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-
-        <hr/>
-
-        <ul class="pull-left">
-            <li>
-                <a href="{% url 'home' %}">
-                    Home
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'search' %}">
-                    Search
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'share_trip_data' %}">
-                    Share your Trip
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'car_vendor' %}">
-                    Car Vendor
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'tour_guide' %}">
-                    Tour Guide
-                </a>
-            </li>
-        </ul>
-
-        <div class="copyright pull-right">
-            Copyright &copy;
-            <script>document.write(new Date().getFullYear())</script>
-            Smart Tourism All Rights Reserved.
-        </div>
-    </div>
-</footer>
+<{% include 'home/includes/footer.html' %}
 
 </body>
 

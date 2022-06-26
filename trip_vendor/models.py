@@ -22,6 +22,7 @@ class TripVendorProfile(models.Model):
 
 class Trip(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    vendor = models.ForeignKey(TripVendorProfile, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     trip_from = models.ForeignKey(City, on_delete=models.CASCADE, related_name="TripDepartureCity")
     trip_to = models.ForeignKey(City, on_delete=models.CASCADE, related_name="TripArrivalCity")

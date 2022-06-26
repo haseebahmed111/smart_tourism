@@ -116,18 +116,18 @@
                     </div>
                     {% if results %}
                         {% if cities %}
-                        <div class="col-md-8 col-md-offset-2 text-center">
-                            <div class="alert alert-success" role="alert">
-                                Scroll to see recommendations
-                            </div>
-                        </div>
-                            {% else %}
                             <div class="col-md-8 col-md-offset-2 text-center">
-                            <div class="alert alert-danger" role="alert">
-                                No Recommended Cities! Try changing query.
+                                <div class="alert alert-success" role="alert">
+                                    Scroll to see recommendations
+                                </div>
                             </div>
-                        </div>
-                            {% endif %}
+                        {% else %}
+                            <div class="col-md-8 col-md-offset-2 text-center">
+                                <div class="alert alert-danger" role="alert">
+                                    No Recommended Cities! Try changing query.
+                                </div>
+                            </div>
+                        {% endif %}
 
                     {% endif %}
                 </div>
@@ -144,25 +144,27 @@
             <div class="row">
                 {% for city in cities %}
                     <div class="col-md-4">
-                        <div class="card card-product card-plain">
-                            <div class="card-image">
-                                <a href="{{ city.detail_link }}">
+                        <a href="{{ city.detail_link }}">
+
+                            <div class="card card-product card-blog">
+                                <div class="card-image">
                                     <img style="height: 200px;object-fit: cover" src="{{ city.picture.url }}" alt=""/>
-                                </a>
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">
+                                        <a href="{{ city.detail_link }}">{{ city.name }}</a>
+                                    </h4>
+                                    <p class="card-description">{{ city.area }}, {{ city.province }}</p>
+                                </div>
                             </div>
-                            <div class="card-content">
-                                <h4 class="card-title">
-                                    <a href="{{ city.detail_link }}">{{ city.name }}</a>
-                                </h4>
-                                <p class="card-description">{{ city.area }}, {{ city.province }}</p>
-                            </div>
-                        </div>
+                        </a>
+
                     </div>
                     {% if forloop.counter|divisibleby:"3" %}
                         </div>
                         <div class="row">
                     {% endif %}
-                    {% empty %}
+                {% empty %}
                     <p>No Recommended Cities</p>
                 {% endfor %}
 
@@ -177,43 +179,47 @@
         <div class="row">
             {% for trip in vendor_trips %}
                 <div class="col-md-4">
-                    <div class="card card-product card-plain">
-                        <div class="card-image">
-                            <a href="{% url 'view_trip' trip.id %}">
+                    <a href="{% url 'view_trip' trip.id %}">
+
+                        <div class="card card-product card-blog">
+                            <div class="card-image">
                                 <img style="height: 200px;object-fit: cover" src="
 
-                                        {% if trip.image %}{{ trip.image.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}"
-                                     alt=""/>
-                            </a>
-                        </div>
-                        <div class="card-content">
-                            <h4 class="card-title">
-                                <a href="{% url 'view_trip' trip.id %}">{{ trip.title }}</a>
-                            </h4>
-                            <p class="card-description">{{ trip.trip_to }} - {{ trip.trip_from }}</p>
-                            <div class="footer">
-                                <div class="price-container">
 
-                                    <span class="price price-new">Rs. {{ trip.trip_price_per_person|intcomma }}/person </span>
-                                </div>
-                                <div class="stats">
-                                    <button type="button" rel="tooltip" title=""
-                                            class="btn btn-just-icon btn-simple btn-rose"
-                                            data-original-title="Saved to Wishlist">
-                                        <i class="material-icons">favorite</i>
-                                        <a href="#">{{ trip.user }}</a>
-                                    </button>
+                                        {% if trip.picture %}{{ trip.picture.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}"
+                                     alt=""/>
+                            </div>
+                            <div class="card-content">
+                                <h4 class="card-title">
+                                    <a href="{% url 'view_trip' trip.id %}">{{ trip.title }}</a>
+                                </h4>
+                                <p class="card-description">{{ trip.trip_to }} - {{ trip.trip_from }}</p>
+                                <div class="footer">
+                                    <div class="price-container">
+
+                                        <span class="price price-new">Rs.{{ trip.trip_price_per_person|intcomma }}/person </span>
+                                    </div>
+
+                                    <div class="stats small">
+
+                                        <button type="button" rel="tooltip" title=""
+                                                class="btn btn-just-icon btn-sm btn-simple btn-rose"
+                                                data-original-title="Visit Vendor Profile">
+                                            <a href="{% url 'view_trip_vendor_profile' trip.vendor.id %}">{{ trip.vendor.company_name }}</a>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
+
                 </div>
                 {% if forloop.counter|divisibleby:"3" %}
                     </div>
                     <div class="row">
                 {% endif %}
-                 {% empty %}
-                    <p>No Recommended Trips</p>
+            {% empty %}
+                <p>No Recommended Trips</p>
             {% endfor %}
 
             </div>
@@ -225,37 +231,39 @@
         <div class="row">
             {% for car in vendor_cars %}
                 <div class="col-md-4">
+                    <a href="{% url 'view_car' car.id %}">
 
-                    <div class="card card-blog">
-                        <div class="card-image">
-                            <a href="#pablo">
+                        <div class="card card-blog">
+                            <div class="card-image">
                                 {% if car.picture %}
                                     <img style="height: 200px;object-fit: cover" src="{{ car.picture.url }}" alt="">
-                                    </a>
                                     <div class="colored-shadow"
                                          style="background-image: url('{{ car.picture.url }}'); opacity: 1;"></div>
                                     <div class="ripple-container"></div>
                                 {% endif %}
-                        </div>
-                        <div class="card-content">
-                            <h6 class="category text-rose">{{ car.make }} {{ car.model }} {{ car.year }}
-                                - {{ car.city }}</h6>
-                            <h4 class="card-title">
-                                <a href="#pablo">{{ car.title }}</a>
-                            </h4>
-                            <p class="card-description">
+                            </div>
+                            <div class="card-content">
+                                <h6 class="category text-rose">{{ car.make }} {{ car.model }} {{ car.year }}
+                                    - {{ car.city }} </h6>
+                                <h4 class="card-title">
 
-                            </p>
+                                    <span class="price price-new text-rose">Rs.{{ car.rent_without_driver|intcomma }}/- </span>
+<a href="{% url 'view_car' car.id %}">{{ car.title }}</a>
+                                </h4>
+                                <p class="card-description">
+
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
 
                 </div>
                 {% if forloop.counter|divisibleby:"3" %}
                     </div>
                     <div class="row">
                 {% endif %}
-                 {% empty %}
-                    <p>No Recommended Cars</p>
+            {% empty %}
+                <p>No Recommended Cars</p>
             {% endfor %}
 
             </div>
@@ -267,36 +275,36 @@
         <div class="row">
             {% for guide in tour_guides %}
                 <div class="col-md-4">
+                    <a href="{% url 'view_tour_guide_profile' guide.id %}">
 
-                    <div class="card card-blog">
-                        <div class="card-image">
-                            <a href="#pablo">
+                        <div class="card card-blog">
+                            <div class="card-image">
                                 {% if guide.picture %}
                                     <img style="height: 400px;object-fit: cover" src="{{ guide.picture.url }}" alt="">
-                                    </a>
                                     <div class="colored-shadow"
                                          style="background-image: url('{{ guide.picture.url }}'); opacity: 1;"></div>
                                     <div class="ripple-container"></div>
                                 {% endif %}
+                            </div>
+                            <div class="card-content">
+                                <h6 class="category text-rose">{{ guide.languages }} </h6>
+                                <h4 class="card-title">
+                                    <a href="{% url 'view_trip_vendor_profile' guide.id %}">{{ guide.name }}</a>
+                                </h4>
+                                <p class="card-description">
+                                    {{ guide.brief_info }}
+                                </p>
+                            </div>
                         </div>
-                        <div class="card-content">
-                            <h6 class="category text-rose">{{ guide.languages }} </h6>
-                            <h4 class="card-title">
-                                <a href="#pablo">{{ guide.name }}</a>
-                            </h4>
-                            <p class="card-description">
-                                {{ guide.brief_info }}
-                            </p>
-                        </div>
-                    </div>
+                    </a>
 
                 </div>
                 {% if forloop.counter|divisibleby:"3" %}
                     </div>
                     <div class="row">
                 {% endif %}
-                 {% empty %}
-                    <p>No Recommended Guides</p>
+            {% empty %}
+                <p>No Recommended Guides</p>
             {% endfor %}
 
             </div>
@@ -313,6 +321,7 @@
                         <div class="card card-blog">
                             <div class="card-image">
                                 <img style="height: 300px;object-fit: cover" src="
+
                                         {% if trip.cover %}{{ trip.cover.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}"
                                      alt="">
                                 <div class="colored-shadow"
@@ -337,82 +346,16 @@
                     </div>
                     <div class="row">
                 {% endif %}
-                 {% empty %}
-                    <p>No Related Shared Trips</p>
+            {% empty %}
+                <p>No Related Shared Trips</p>
             {% endfor %}
 
             </div>
     </div>
 </div><!-- section -->
 
+{% include 'home/includes/footer.html' %}
 
-<footer class="footer footer-black footer-big">
-    <div class="container">
-
-        <div class="content">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>About Us</h5>
-                    <p>Smart Tourism is a platform where you can get trip recommendations according to your budget and
-                        timing. </p>
-                    <p>We love to explore nature and care deeply for how beautiful and charming it is. We power
-                        individuals to create better trips around the world. </p>
-                </div>
-
-                <div class="col-md-4">
-                    <h5>Recent Reviews</h5>
-                    <div class="social-feed">
-                        <div class="feed-line">
-                            <i class="fa fa-twitter"></i>
-                            <p>Was looking for such a platform for long time.</p>
-                        </div>
-                        <div class="feed-line">
-                            <i class="fa fa-twitter"></i>
-                            <p>Really help me exploring the nature.</p>
-                        </div>
-                        <div class="feed-line">
-                            <i class="fa fa-facebook-square"></i>
-                            <p>It's great to get car vendors and tour guides at same place.</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-
-        <hr/>
-
-        <ul class="pull-left">
-            <li>
-                <a href="{% url 'home' %}">
-                    Home
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'share_trip_data' %}">
-                    Share your Trip
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'car_vendor' %}">
-                    Car Vendor
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'tour_guide' %}">
-                    Tour Guide
-                </a>
-            </li>
-        </ul>
-
-        <div class="copyright pull-right">
-            Copyright &copy;
-            <script>document.write(new Date().getFullYear())</script>
-            Smart Tourism All Rights Reserved.
-        </div>
-    </div>
-</footer>
 </body>
 
 <!--   Core JS Files   -->

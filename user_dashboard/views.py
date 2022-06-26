@@ -6,8 +6,7 @@ from .forms import ShareTripForm, RoleForm, ComplaintForm
 from .models import ShareTrip
 
 
-# Create your views here.
-# @login_required(login_url="/account/login/")
+@login_required(login_url="/account/login/")
 def dashboard(request):
     access_level = allow_access(request)
     if not access_level:
