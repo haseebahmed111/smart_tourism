@@ -68,7 +68,10 @@
                                 <li class="nav-link"><a href="{% url 'trip_vendor_home' %}" class="nav-item dropdown-item">Trip Vendor Dashboard</a></li>
                                 {% endif %}
                             {% if access_level.management %}
-                                <li class="nav-link"><a href="{% url 'management_home' %}" class="nav-item dropdown-item">Management Dashboard</a></li>
+                                <li class="nav-link"><a href="{% url 'admin:index' %}" class="nav-item dropdown-item">Management Dashboard</a></li>
+                                {% endif %}
+                            {% if access_level.staff %}
+                                <li class="nav-link"><a href="{% url 'admin:index' %}" class="nav-item dropdown-item">Staff Dashboard</a></li>
                                 {% endif %}
                             {% if access_level.car_vendor %}
                                 <li class="nav-link"><a href="{% url 'car_vendor_home' %}" class="nav-item dropdown-item">Car Vendor Dashboard</a></li>
