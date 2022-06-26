@@ -8,67 +8,80 @@
 {% block content %}
 
 <div class="row">
-  <div class="col-md-12">
-    <div class="card ">
-      <div class="card-header">
-        <h4 class="card-title">Your Shared trips</h4>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table tablesorter " id="">
-            <thead class=" text-primary">
+{% for trip in shared_trips %}
+      <div class="col-md-3">
 
-              <tr>
-                <th>
-                   From
-                </th>
-                <th>
-                  To
-                </th>
-                <th>
-                  Shared on
-                </th>
-                  <th>
-                  Approved
-                </th>
-                <th class="text-center">
-                  Manage
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-             {% for trip in shared_trips %}
-   <tr>
-                <td>
-                    {{ trip.from_city }}
-                </td>
-                <td>
-                    {{ trip.to_city }}
-                </td>
-                <td>
-                    {{ trip.shared_on}}
-                </td>
-       <td>
-                    {{ trip.is_approved}}
-                </td>
-                <td class="text-center">
-                <a href="{% url 'update_trip_data' trip.id %}">Update</a>/
-                    <a href="{% url 'delete_trip_data' trip.id %}">Delete</a>
-                </td>
-              </tr>
-                 {% empty %}
-                 <tr>
-                                  You haven't shared any of your previous trip data. Share your previous trips to get benefits.
-
-                 </tr>
-            {% endfor %}
-
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+<div class="card" style="width: 20rem;">
+  <img style="height: 300px;object-fit: cover" class="card-img-top"  src="{% if trip.cover %}{{ trip.cover.url }}{% endif %}" alt="Card image cap">
+  <div class="card-body">
+    <h4 class="card-title">{{ trip.title}}</h4>
+    <p class="card-text">{{ trip.from_city }} - {{ trip.to_city }}</p>
+    <a href="{% url 'view_shared_trip' trip.id %}" class="btn btn-primary">View</a>
   </div>
+</div>
+      </div>
+    {% endfor %}
+{#  <div class="col-md-12">#}
+{#    <div class="card ">#}
+{#      <div class="card-header">#}
+{#        <h4 class="card-title">Your Shared trips</h4>#}
+{#      </div>#}
+{#      <div class="card-body">#}
+{#        <div class="table-responsive">#}
+{#          <table class="table tablesorter " id="">#}
+{#            <thead class=" text-primary">#}
+{##}
+{#              <tr>#}
+{#                <th>#}
+{#                   From#}
+{#                </th>#}
+{#                <th>#}
+{#                  To#}
+{#                </th>#}
+{#                <th>#}
+{#                  Shared on#}
+{#                </th>#}
+{#                  <th>#}
+{#                  Approved#}
+{#                </th>#}
+{#                <th class="text-center">#}
+{#                  Manage#}
+{#                </th>#}
+{#              </tr>#}
+{#            </thead>#}
+{#            <tbody>#}
+{#             {% for trip in shared_trips %}#}
+{#   <tr>#}
+{#                <td>#}
+{#                    {{ trip.from_city }}#}
+{#                </td>#}
+{#                <td>#}
+{#                    {{ trip.to_city }}#}
+{#                </td>#}
+{#                <td>#}
+{#                    {{ trip.shared_on}}#}
+{#                </td>#}
+{#       <td>#}
+{#                    {{ trip.is_approved}}#}
+{#                </td>#}
+{#                <td class="text-center">#}
+{#                <a href="{% url 'update_trip_data' trip.id %}">Update</a>/#}
+{#                    <a href="{% url 'delete_trip_data' trip.id %}">Delete</a>#}
+{#                </td>#}
+{#              </tr>#}
+{#                 {% empty %}#}
+{#                 <tr>#}
+{#                                  You haven't shared any of your previous trip data. Share your previous trips to get benefits.#}
+{##}
+{#                 </tr>#}
+{#            {% endfor %}#}
+{##}
+{#            </tbody>#}
+{#          </table>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
 </div>
 
 {% endblock content %}

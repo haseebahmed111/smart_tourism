@@ -1,7 +1,7 @@
 from django import forms
 
 from apps.home.models import City
-from .models import ShareTrip, RoleElevationRequest, Complaint
+from .models import ShareTrip, RoleElevationRequest, Complaint, SharedTripImage, SharedTripVideoLink
 
 
 class ShareTripForm(forms.ModelForm):
@@ -94,7 +94,11 @@ class ShareTripForm(forms.ModelForm):
             }
         ))
 
-    image = forms.ImageField(required=False)
+    image = forms.ImageField(label="Cover Image", widget=forms.FileInput(
+        attrs={
+            "class": "form-control"
+        }
+    ))
 
     class Meta:
         model = ShareTrip
@@ -159,3 +163,28 @@ class ComplaintForm(forms.ModelForm):
     class Meta:
         model = Complaint
         fields = ('title', 'contact_number', 'complaint_description')
+
+
+class SharedTripImageForm(forms.ModelForm):
+    image = forms.ImageField(
+        label="Trip Image")
+
+    class Meta:
+        model = SharedTripImage
+        fields = ['image']
+
+
+class SharedTripVideoLinkForm(forms.ModelForm):
+    url = forms.URLField(
+        label="Video Url",
+        widget=forms.URLInput(
+            attrs={
+                "placeholder": "Video Link to video for trip",
+                "class": "form-control"
+            }
+        )
+    )
+
+    class Meta:
+        model = SharedTripVideoLink
+        fields = ['url']

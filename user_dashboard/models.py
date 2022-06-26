@@ -5,10 +5,10 @@ from apps.home.models import City
 
 
 class ShareTrip(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     from_city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="DepartureCity")
-    to_city = models.ForeignKey(City, on_delete=models.CASCADE,  related_name="ArrivalCity")
+    to_city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="ArrivalCity")
     vehicle = models.CharField(max_length=255)
     date = models.DateField()
     trip_duration = models.IntegerField(default=0)
@@ -18,9 +18,24 @@ class ShareTrip(models.Model):
     budget_spent_accommodation = models.IntegerField(default=0)
     budget_spent_travelling = models.IntegerField(default=0)
     description = models.TextField(max_length=1024)
-    image = models.FileField(upload_to='trips/', null=True, blank=True)
+    cover = models.FileField(upload_to='trips/')
     shared_on = models.DateTimeField(default=timezone.now)
     is_approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.user.username} | {self.from_city} - {self.to_city}'
+
+
+class SharedTripImage(models.Model):
+    trip = models.ForeignKey(ShareTrip, on_delete=models.CASCADE)
+    image = models.FileField(upload_to='trips/', null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+
+class SharedTripVideoLink(models.Model):
+    trip = models.ForeignKey(ShareTrip, on_delete=models.CASCADE)
+    url = models.URLField()
+    created = models.DateTimeField(auto_now_add=True)
 
 
 class Complaint(models.Model):

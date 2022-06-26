@@ -4,6 +4,8 @@ from apps.home import views
 urlpatterns = [
     path('', views.index, name='home'),
     path('trip/<id>', views.view_trip, name='view_trip'),
+    path('shared_trip/<id>', views.view_shared_trip, name='view_shared_trip'),
+    path('delete_shared_trip_image/<trip_id>/<id>', views.delete_shared_trip_image, name='delete_shared_trip_image'),
     path('login', views.home_login, name='home_login'),
     path('car_vendor', views.car_vendor, name='car_vendor'),
     path('tour_guide', views.tour_guide, name='tour_guide'),

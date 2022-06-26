@@ -1,0 +1,396 @@
+{% load humanize %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="/static/assets/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+    <title>Trip Details</title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
+
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
+
+    <!-- CSS Files -->
+    <link href="/static/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/static/assets/css/material-kit.css?v=1.2.1" rel="stylesheet"/>
+</head>
+
+<body class="product-page">
+{% include 'home/includes/navbar.html' %}
+
+<div class="page-header header-filter" data-parallax="true" filter-color="rose">
+    <div class="container">
+        <div class="row title-row">
+            <div class="col-md-4 col-md-offset-8">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section section-gray">
+    <div class="container">
+        <div class="main main-raised main-product">
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+
+                    <div class="tab-content">
+                        {% if trip.cover %}
+
+                            <div class="tab-pane active" id="image-cover">
+                                <img src="{{ trip.cover.url }}"/>
+                                {% if is_author %}
+                                    <br>
+                                    <a href="{% url 'update_trip_data' trip.id %}"> <span
+                                            class="label label-info">update</span></a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        {% for image in trip_images %}
+
+                            <div class="tab-pane" id="image-page{{ image.id }}">
+                                <img src="{{ image.image.url }}"/>
+                                {% if is_author %}
+                                    <br>
+
+                                    <a href="{% url 'delete_shared_trip_image' trip.id image.id %}"> <span
+                                            class="label label-danger">delete</span></a>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        {#                              <div class="tab-pane active" id="product-page2">#}
+                        {#                                  <img src="../assets/img/examples/product2.jpg"/>#}
+                        {#                             </div>#}
+                        {#                              <div class="tab-pane" id="product-page3">#}
+                        {#                                  <img src="../assets/img/examples/product3.jpg"/>#}
+                        {#                              </div>#}
+                        {#                              <div class="tab-pane" id="product-page4">#}
+                        {#                                  <img src="../assets/img/examples/product4.jpg"/>#}
+                        {#                              </div>#}
+                    </div>
+                    <ul class="nav flexi-nav" role="tablist" id="flexiselDemo1">
+                        {% if trip.cover %}
+                            <li>
+                                <a href="#image-cover" role="tab" data-toggle="tab" aria-expanded="false">
+                                    <img src="{{ trip.cover.url }}"/>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% for image in trip_images %}
+
+                            <li>
+                                <a href="#image-page{{ image.id }}" role="tab" data-toggle="tab" aria-expanded="false">
+                                    <img src="{{ image.image.url }}"/>
+                                </a>
+                            </li>
+                        {% endfor %}
+                        {#							<li class="active">#}
+                        {#								<a href="#product-page2" role="tab" data-toggle="tab" aria-expanded="false">#}
+                        {#									<img src="../assets/img/examples/product2.jpg"/>#}
+                        {#								</a>#}
+                        {#							</li>#}
+                        {#							<li>#}
+                        {#								<a href="#product-page3" role="tab" data-toggle="tab" aria-expanded="false">#}
+                        {#									<img src="../assets/img/examples/product3.jpg"/>#}
+                        {#								</a>#}
+                        {#							</li>#}
+                        {#							<li>#}
+                        {#								<a href="#product-page4" role="tab" data-toggle="tab" aria-expanded="true">#}
+                        {#									<img src="../assets/img/examples/product4.jpg"/>#}
+                        {#								</a>#}
+                        {#							</li>#}
+                    </ul>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <h2 class="title"> {{ trip.title }} {% if not trip.is_approved %}
+                        <span class="label label-danger">Not Approved</span>{% endif %}</h2>
+                    <h3 class="main-price">{{ trip.user.username }}</h3>
+                    <div id="acordeon">
+                        <div class="panel-group" id="accordion">
+                            <div class="panel panel-border panel-default">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                       aria-expanded="true" aria-controls="collapseOne">
+                                        <h4 class="panel-title">
+                                            Trip Information
+                                            <i class="material-icons">keyboard_arrow_down</i>
+                                        </h4>
+                                    </a>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <p>Trip date: {{ trip.date }}</p>
+                                        <ul>
+                                            <li>Vehicle: {{ trip.vehicle }}</li>
+                                            <li>Days Spent: {{ trip.trip_duration }}</li>
+                                            <li>Persons: {{ trip.persons }}</li>
+                                            <li>Travelling Expense: Rs.{{ trip.budget_spent_travelling|intcomma }}/-
+                                            </li>
+                                            <li>Accommodation
+                                                Expense: {{ trip.budget_spent_accommodation|intcomma }}/-
+                                            </li>
+                                            <li>Food Expense: {{ trip.budget_spent_food|intcomma }}/-</li>
+                                            <li>Total Trip Expense: {{ trip.total_budget_spent|intcomma }}/-</li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-border panel-default">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
+                                       aria-controls="collapseOne">
+                                        <h4 class="panel-title">
+                                            Description
+                                            <i class="material-icons">keyboard_arrow_down</i>
+                                        </h4>
+                                    </a>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <p>{{ trip.description }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-border panel-default">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                       href="#collapseThree" aria-controls="collapseOne">
+                                        <h4 class="panel-title">
+                                            Trip Videos
+                                            <i class="material-icons">keyboard_arrow_down</i>
+                                        </h4>
+                                    </a>
+                                </div>
+                                <div id="collapseThree" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul>
+                                            {% for link in video_links %}
+                                                <li><a href="{{ link.url }}" target="_blank">{{ link.url }}</a></li>
+                                            {% empty %}
+                                                <p>No Videos added yet!</p>
+                                            {% endfor %}
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!--  end acordeon -->
+
+                    <div class="row pick-size">
+                        <div class="col-md-6 col-sm-6">
+                            <label>From city</label>
+                            <select class="selectpicker" data-style="select-with-transition" data-size="7" disabled>
+                                <option value="1">{{ trip.from_city }}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label>To City</label>
+                            <select class="selectpicker" data-style="select-with-transition" data-size="7" disabled>
+                                <option value="1">{{ trip.to_city }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row text-right">
+                        {% if is_author %}
+                            <a href="{% url 'delete_trip_data' trip.id %}">
+                                <button class="btn btn-danger btn-round">Delete</button>
+                            </a>
+                            <a href="{% url 'update_trip_data' trip.id %}">
+                                <button class="btn btn-warning btn-round">Update</button>
+                            </a>
+                        {% else %}
+                            <button class="btn btn-rose btn-round">Like</button>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <h5>Share More data:</h5>
+                        <form enctype="multipart/form-data" role="form" method="post" action="">
+
+                            {% csrf_token %}
+                            {{ form1 }}
+                            <button type="submit" class="btn btn-fill btn-primary">Share</button>
+
+                        </form>
+                        <br>
+                        <form enctype="multipart/form-data" role="form" method="post" action="">
+
+                            {% csrf_token %}
+                            {{ form2 }}
+                            <button type="submit" class="btn btn-fill btn-primary">Share</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<footer class="footer footer-black footer-big">
+    <div class="container">
+
+        <div class="content">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>About Us</h5>
+                    <p>Smart Tourism is a platform where you can get trip recommendations according to your budget and
+                        timing. </p>
+                    <p>We love to explore nature and care deeply for how beautiful and charming it is. We power
+                        individuals to create better trips around the world. </p>
+                </div>
+
+                <div class="col-md-4">
+                    <h5>Recent Reviews</h5>
+                    <div class="social-feed">
+                        <div class="feed-line">
+                            <i class="fa fa-twitter"></i>
+                            <p>Was looking for such a platform for long time.</p>
+                        </div>
+                        <div class="feed-line">
+                            <i class="fa fa-twitter"></i>
+                            <p>Really help me exploring the nature.</p>
+                        </div>
+                        <div class="feed-line">
+                            <i class="fa fa-facebook-square"></i>
+                            <p>It's great to get car vendors and tour guides at same place.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <h5>Recent Trip Photos</h5>
+                    <div class="gallery-feed">
+                        <img src="/static/assets/img/faces/card-profile6-square.jpg" class="img img-raised img-rounded"
+                             alt=""/>
+                        <img src="/static/assets/img/faces/christian.jpg" class="img img-raised img-rounded" alt=""/>
+                        <img src="/static/assets/img/faces/card-profile4-square.jpg" class="img img-raised img-rounded"
+                             alt=""/>
+                        <img src="/static/assets/img/faces/card-profile1-square.jpg" class="img img-raised img-rounded"
+                             alt=""/>
+
+                        <img src="/static/assets/img/faces/marc.jpg" class="img img-raised img-rounded" alt=""/>
+                        <img src="/static/assets/img/faces/kendall.jpg" class="img img-raised img-rounded" alt=""/>
+                        <img src="/static/assets/img/faces/card-profile5-square.jpg" class="img img-raised img-rounded"
+                             alt=""/>
+                        <img src="/static/assets/img/faces/card-profile2-square.jpg" class="img img-raised img-rounded"
+                             alt=""/>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <hr/>
+
+        <ul class="pull-left">
+            <li>
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'search' %}">
+                    Search
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'share_trip_data' %}">
+                    Share your Trip
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'car_vendor' %}">
+                    Car Vendor
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'tour_guide' %}">
+                    Tour Guide
+                </a>
+            </li>
+        </ul>
+
+        <div class="copyright pull-right">
+            Copyright &copy;
+            <script>document.write(new Date().getFullYear())</script>
+            Smart Tourism All Rights Reserved.
+        </div>
+    </div>
+</footer>
+
+</body>
+
+<!--   Core JS Files   -->
+<script src="/static/assets/js/jquery.min.js" type="text/javascript"></script>
+<script src="/static/assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/static/assets/js/material.min.js"></script>
+
+<!--    Plugin for Date Time Picker and Full Calendar Plugin   -->
+<script src="/static/assets/js/moment.min.js"></script>
+
+<!--	Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/   -->
+<script src="/static/assets/js/nouislider.min.js" type="text/javascript"></script>
+
+<!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker   -->
+<script src="/static/assets/js/bootstrap-datetimepicker.js" type="text/javascript"></script>
+
+<!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select   -->
+<script src="/static/assets/js/bootstrap-selectpicker.js" type="text/javascript"></script>
+
+<!--	Plugin for Tags, full documentation here: http://xoxco.com/projects/code/tagsinput/   -->
+<script src="/static/assets/js/bootstrap-tagsinput.js"></script>
+
+<!--	Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput   -->
+<script src="/static/assets/js/jasny-bootstrap.min.js"></script>
+
+<!--    Plugin For Google Maps   -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+
+<!--	Plugin for Product Gallery, full documentation here: https://9bitstudios.github.io/flexisel/ -->
+<script src="/static/assets/js/jquery.flexisel.js"></script>
+
+
+<!--    Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc    -->
+<script src="/static/assets/js/material-kit.js?v=1.2.1" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#flexiselDemo1").flexisel({
+            visibleItems: 4,
+            itemsToScroll: 1,
+            animationSpeed: 400,
+            enableResponsiveBreakpoints: true,
+            responsiveBreakpoints: {
+                portrait: {
+                    changePoint: 480,
+                    visibleItems: 3
+                },
+                landscape: {
+                    changePoint: 640,
+                    visibleItems: 3
+                },
+                tablet: {
+                    changePoint: 768,
+                    visibleItems: 3
+                }
+            }
+        });
+    });
+</script>
+
+
+</html>

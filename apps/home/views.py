@@ -1,5 +1,4 @@
 import math
-
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -10,7 +9,8 @@ from apps.home.models import City
 from car_vendor.models import Car
 from tour_guide.models import TourGuideProfile
 from trip_vendor.models import Trip
-from user_dashboard.models import ShareTrip
+from user_dashboard.forms import SharedTripImageForm, SharedTripVideoLinkForm
+from user_dashboard.models import ShareTrip, SharedTripImage, SharedTripVideoLink
 
 
 def index(request):
@@ -99,10 +99,9 @@ def index(request):
             # Collecting Cars from Vendor Cars
             tour_guides_results = TourGuideProfile.objects.filter(city__in=cities)
 
-            print(province,area,city_to_visit)
+            print(province, area, city_to_visit)
 
             print("\n\n0")
-
 
             shared_trips = []
             vendor_trips = []
@@ -110,7 +109,7 @@ def index(request):
             tour_guides = []
             cities = []
             if province:
-                print("Province filter:",province)
+                print("Province filter:", province)
 
                 for trip in shared_trips_results:
                     if trip.to_city.province == province:
@@ -134,14 +133,13 @@ def index(request):
                 tour_guides_results = tour_guides
                 cities_results = cities
 
-
             shared_trips = []
             vendor_trips = []
             vendor_cars = []
             tour_guides = []
             cities = []
             if area:
-                print("Area filter:",area)
+                print("Area filter:", area)
 
                 for trip in shared_trips_results:
                     if trip.to_city.area == area:
@@ -165,8 +163,6 @@ def index(request):
                 tour_guides_results = tour_guides
                 cities_results = cities
 
-
-
             shared_trips = []
             vendor_trips = []
             vendor_cars = []
@@ -174,7 +170,7 @@ def index(request):
             cities = []
 
             if city_to_visit:
-                print("City filter:",city_to_visit)
+                print("City filter:", city_to_visit)
 
                 for trip in shared_trips_results:
                     if trip.to_city.name == city_to_visit:
@@ -197,8 +193,6 @@ def index(request):
                 vendor_cars_results = vendor_cars
                 tour_guides_results = tour_guides
                 cities_results = cities
-
-
 
             ctx = {
                 'shared_trips': shared_trips_results,
@@ -321,5 +315,50 @@ def signup(request):
     return render(request, 'home/examples/signup-page.html', {'form': form})
 
 
-def view_trip(request,id):
-    return render(request,'home/examples/trip_page.html')
+def view_trip(request, id):
+    return render(request, 'home/examples/trip_page.html')
+
+
+def view_shared_trip(request, id):
+    trip = ShareTrip.objects.get(id=id)
+    trip_images = SharedTripImage.objects.filter(trip__id=trip.id)
+    video_links = SharedTripVideoLink.objects.filter(trip__id=trip.id)
+    is_author = False
+    form1 = None
+    form2 = None
+    if request.user.is_authenticated and request.user == trip.user:
+        is_author = True
+        if request.method == "POST":
+            form1 = SharedTripImageForm(request.POST, request.FILES, prefix="form1")
+            form2 = SharedTripVideoLinkForm(request.POST, prefix="form2")
+            if form1.is_valid():
+                image = form1.save(commit=False)
+                image.trip = trip
+                image.save()
+                return redirect('view_shared_trip',trip.id)
+            if form2.is_valid():
+                link = form2.save(commit=False)
+                link.trip = trip
+                link.save()
+                return redirect('view_shared_trip',trip.id)
+        else:
+            form1 = SharedTripImageForm(prefix="form1")
+            form2 = SharedTripVideoLinkForm(prefix="form2")
+
+    ctx = {
+        'trip': trip,
+        'trip_images': trip_images,
+        'video_links': video_links,
+        'is_author': is_author,
+        'form1': form1,
+        'form2': form2,
+    }
+    return render(request, 'home/examples/shared_trip_page.html', ctx)
+
+
+@login_required(login_url="/account/login/")
+def delete_shared_trip_image(request, trip_id, id):
+    trip_image = SharedTripImage.objects.get(id=id)
+    if request.user == trip_image.trip.user:
+        trip_image.delete()
+    return redirect('view_shared_trip', trip_id)

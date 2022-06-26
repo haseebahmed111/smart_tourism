@@ -19,7 +19,7 @@ def share_trip_data(request):
             shared_data = form.save(commit=False)
             shared_data.user = request.user
             shared_data.save()
-            return redirect('dashboard')
+            return redirect('view_shared_trip', shared_data.id)
         else:
             print(form.errors)
             msg = 'Form is not valid'
@@ -32,7 +32,7 @@ def share_trip_data(request):
 def update_trip_data(request, id):
     shared_data = ShareTrip.objects.get(id=id)
     if request.method == "POST":
-        form = ShareTripForm(request.POST, request.FILES,instance=shared_data)
+        form = ShareTripForm(request.POST, request.FILES, instance=shared_data)
         if form.is_valid():
             shared_data = form.save(commit=False)
             shared_data.user = request.user
@@ -94,4 +94,5 @@ def complaint(request):
             msg = 'Form is not valid'
     else:
         form = ComplaintForm()
-    return render(request, 'user_dashboard/register_complaint.html', {'form': form, 'is_complain_registered': is_complain_registered})
+    return render(request, 'user_dashboard/register_complaint.html',
+                  {'form': form, 'is_complain_registered': is_complain_registered})
