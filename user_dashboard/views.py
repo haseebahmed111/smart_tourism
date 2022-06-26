@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+
+from management.views import allow_access
 from .forms import ShareTripForm, RoleForm, ComplaintForm
 from .models import ShareTrip
 
@@ -7,12 +9,18 @@ from .models import ShareTrip
 # Create your views here.
 # @login_required(login_url="/account/login/")
 def dashboard(request):
+    access_level = allow_access(request)
+    if not access_level:
+        return redirect('role_elevation')
     shared_tips = ShareTrip.objects.filter(user=request.user)
-    return render(request, 'user_dashboard/index.html', {'shared_trips': shared_tips})
+    return render(request, 'user_dashboard/index.html', {'shared_trips': shared_tips, 'access_level': access_level})
 
 
 @login_required(login_url="/account/login/")
 def share_trip_data(request):
+    access_level = allow_access(request)
+    if not access_level:
+        return redirect('role_elevation')
     if request.method == "POST":
         form = ShareTripForm(request.POST, request.FILES)
         if form.is_valid():
@@ -25,11 +33,14 @@ def share_trip_data(request):
             msg = 'Form is not valid'
     else:
         form = ShareTripForm()
-    return render(request, 'user_dashboard/share_trip_data.html', {'form': form})
+    return render(request, 'user_dashboard/share_trip_data.html', {'form': form, 'access_level': access_level})
 
 
 @login_required(login_url="/account/login/")
 def update_trip_data(request, id):
+    access_level = allow_access(request)
+    if not access_level:
+        return redirect('role_elevation')
     shared_data = ShareTrip.objects.get(id=id)
     if request.method == "POST":
         form = ShareTripForm(request.POST, request.FILES, instance=shared_data)
@@ -44,17 +55,23 @@ def update_trip_data(request, id):
     else:
         form = ShareTripForm(instance=shared_data)
 
-    return render(request, 'user_dashboard/share_trip_data.html', {'form': form})
+    return render(request, 'user_dashboard/share_trip_data.html', {'form': form, 'access_level': access_level})
 
 
 @login_required(login_url="/account/login/")
 def delete_trip_data(request, id):
+    access_level = allow_access(request)
+    if not access_level:
+        return redirect('role_elevation')
     shared_data = ShareTrip.objects.get(id=id)
-    return render(request, 'user_dashboard/delete_trip.html', {'shared_data': shared_data})
+    return render(request, 'user_dashboard/delete_trip.html', {'shared_data': shared_data, 'access_level': access_level})
 
 
 @login_required(login_url="/account/login/")
 def delete_trip_data_check(request, id, check):
+    access_level = allow_access(request)
+    if not access_level:
+        return redirect('role_elevation')
     shared_data = ShareTrip.objects.get(id=id)
     if check:
         shared_data.delete()
@@ -63,6 +80,9 @@ def delete_trip_data_check(request, id, check):
 
 @login_required(login_url="/account/login/")
 def role_elevation(request):
+    access_level = allow_access(request)
+    if not access_level:
+        return redirect('role_elevation')
     is_requested = False
     if request.method == "POST":
         form = RoleForm(request.POST, request.FILES)
@@ -76,11 +96,14 @@ def role_elevation(request):
             msg = 'Form is not valid'
     else:
         form = RoleForm()
-    return render(request, 'user_dashboard/request_elevation.html', {'form': form, 'is_requested': is_requested})
+    return render(request, 'user_dashboard/request_elevation.html', {'form': form, 'is_requested': is_requested, 'access_level': access_level})
 
 
 @login_required(login_url="/account/login/")
 def complaint(request):
+    access_level = allow_access(request)
+    if not access_level:
+        return redirect('role_elevation')
     is_complain_registered = False
     if request.method == "POST":
         form = ComplaintForm(request.POST, request.FILES)
@@ -95,4 +118,4 @@ def complaint(request):
     else:
         form = ComplaintForm()
     return render(request, 'user_dashboard/register_complaint.html',
-                  {'form': form, 'is_complain_registered': is_complain_registered})
+                  {'form': form, 'is_complain_registered': is_complain_registered, 'access_level': access_level})

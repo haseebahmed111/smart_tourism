@@ -16,7 +16,7 @@ from user_dashboard.models import ShareTrip, SharedTripImage, SharedTripVideoLin
 
 
 def index(request):
-    allow_access(request)
+    access_level = allow_access(request)
     form = RecommendationForm(request.POST or None)
     results = False
     if request.method == "POST":
@@ -197,6 +197,9 @@ def index(request):
                 tour_guides_results = tour_guides
                 cities_results = cities
 
+            if not cities_results or len(cities_results) < 1:
+                results = False
+
             ctx = {
                 'shared_trips': shared_trips_results,
                 'vendor_trips': vendor_trips_results,
@@ -205,6 +208,7 @@ def index(request):
                 'cities': cities_results,
                 'form': form,
                 'results': results,
+                'access_level': access_level,
 
             }
             return render(request, 'home/examples/get_recommendations.html', ctx)
@@ -213,6 +217,10 @@ def index(request):
 
     try:
         settings = WebsiteSettings.objects.last()
+        if not settings:
+            settings = WebsiteSettings.objects.create()
+            settings.save()
+
     except:
         settings = WebsiteSettings.objects.create()
         settings.save()
@@ -230,7 +238,8 @@ def index(request):
         'tour_guides': tour_guides,
         'cities': cities,
         'form': form,
-        'results': results
+        'results': results,
+        'access_level': access_level,
 
     }
     return render(request, 'home/examples/get_recommendations.html', ctx)
@@ -344,12 +353,12 @@ def view_shared_trip(request, id):
                 image = form1.save(commit=False)
                 image.trip = trip
                 image.save()
-                return redirect('view_shared_trip',trip.id)
+                return redirect('view_shared_trip', trip.id)
             if form2.is_valid():
                 link = form2.save(commit=False)
                 link.trip = trip
                 link.save()
-                return redirect('view_shared_trip',trip.id)
+                return redirect('view_shared_trip', trip.id)
         else:
             form1 = SharedTripImageForm(prefix="form1")
             form2 = SharedTripVideoLinkForm(prefix="form2")

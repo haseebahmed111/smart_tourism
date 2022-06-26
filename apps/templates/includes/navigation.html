@@ -10,7 +10,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="javascript:void(0)">
+            <a class="navbar-brand" href="{% url 'home' %}">
               <img class="img-fluid pt-2" src="{% static 'st_logo3.png'%}" style="height: 35px">
             </a>
           </div>
@@ -56,6 +56,28 @@
                   </p>
                 </a>
                 <ul class="dropdown-menu dropdown-navbar">
+                  <li class="nav-link"><a href="{% url 'home' %}" class="nav-item dropdown-item">Smart Tourism Home</a></li>
+                    <li class="nav-link"><a href="{% url 'dashboard' %}" class="nav-item dropdown-item">User Dashboard Home</a></li>
+
+                    <li class="dropdown-divider"></li>
+                        {% if access_level %}
+                            {% if access_level.admin %}
+                                <li class="nav-link"><a href="{% url 'admin:index' %}" class="nav-item dropdown-item">Admin Dashboard</a></li>
+                                {% endif %}
+                            {% if access_level.trip_vendor %}
+                                <li class="nav-link"><a href="{% url 'trip_vendor_home' %}" class="nav-item dropdown-item">Trip Vendor Dashboard</a></li>
+                                {% endif %}
+                            {% if access_level.management %}
+                                <li class="nav-link"><a href="{% url 'management_home' %}" class="nav-item dropdown-item">Management Dashboard</a></li>
+                                {% endif %}
+                            {% if access_level.car_vendor %}
+                                <li class="nav-link"><a href="{% url 'car_vendor_home' %}" class="nav-item dropdown-item">Car Vendor Dashboard</a></li>
+                                {% endif %}
+                            {% if access_level.tour_guide %}
+                                <li class="nav-link"><a href="{% url 'tour_guide_home' %}" class="nav-item dropdown-item">Tour Guide Dashboard</a></li>
+                                {% endif %}
+
+                        {% endif %}
                   <li class="dropdown-divider"></li>
                   <li class="nav-link"><a href="{% url 'logout' %}" class="nav-item dropdown-item">Log out</a></li>
                 </ul>

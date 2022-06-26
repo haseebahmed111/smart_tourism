@@ -2,18 +2,26 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from management.views import allow_access
 from trip_vendor.forms import TripVendorProfileFrom, TripForm
 from trip_vendor.models import TripVendorProfile, Trip
 
 
 @login_required(login_url="/account/login/")
 def index(request):
+    access_level = allow_access(request, ['trip_vendor'])
+    if not access_level:
+        return redirect('role_elevation')
+    print(access_level)
     trips = Trip.objects.filter(user=request.user)
-    return render(request, 'trip_vendor/index.html', {'trips': trips})
+    return render(request, 'trip_vendor/index.html', {'trips': trips, 'access_level': access_level, })
 
 
 @login_required(login_url="/account/login/")
 def add_trip(request):
+    access_level = allow_access(request, ['trip_vendor'])
+    if not access_level:
+        return redirect('role_elevation')
     if request.method == "POST":
         form = TripForm(request.POST, request.FILES)
         if form.is_valid():
@@ -26,27 +34,36 @@ def add_trip(request):
             msg = 'Form is not valid'
     else:
         form = TripForm()
-    return render(request, 'trip_vendor/add_trip.html', {'form': form})
+    return render(request, 'trip_vendor/add_trip.html', {'form': form, 'access_level': access_level})
 
 
 @login_required(login_url="/account/login/")
 def delete_trip(request, id):
+    access_level = allow_access(request, ['trip_vendor'])
+    if not access_level:
+        return redirect('role_elevation')
     trip = Trip.objects.get(id=id)
 
-    return render(request, 'trip_vendor/delete_trip.html', {'trip': trip})
+    return render(request, 'trip_vendor/delete_trip.html', {'trip': trip, 'access_level': access_level})
 
 
 @login_required(login_url="/account/login/")
 def delete_trip_check(request, id, check):
+    access_level = allow_access(request, ['trip_vendor'])
+    if not access_level:
+        return redirect('role_elevation')
     trip = Trip.objects.get(id=id)
     if check:
         trip.delete()
         return redirect('trip_vendor_home')
-    return render(request, 'trip_vendor/delete_trip.html', {'trip': trip})
+    return render(request, 'trip_vendor/delete_trip.html', {'trip': trip, 'access_level': access_level})
 
 
 @login_required(login_url="/account/login/")
 def update_trip(request, id):
+    access_level = allow_access(request, ['trip_vendor'])
+    if not access_level:
+        return redirect('role_elevation')
     trip = Trip.objects.get(id=id)
     if request.method == "POST":
         form = TripForm(request.POST, request.FILES, instance=trip)
@@ -60,11 +77,14 @@ def update_trip(request, id):
             msg = 'Form is not valid'
     else:
         form = TripForm(instance=trip)
-    return render(request, 'trip_vendor/add_trip.html', {'form': form})
+    return render(request, 'trip_vendor/add_trip.html', {'form': form, 'access_level': access_level})
 
 
 @login_required(login_url="/account/login/")
 def trip_vendor_profile(request):
+    access_level = allow_access(request, ['trip_vendor'])
+    if not access_level:
+        return redirect('role_elevation')
     try:
         profile = TripVendorProfile.objects.get(user=request.user)
     except TripVendorProfile.DoesNotExist:
@@ -82,4 +102,4 @@ def trip_vendor_profile(request):
     else:
 
         form = TripVendorProfileFrom(instance=profile)
-    return render(request, 'trip_vendor/trip_vendor_profile.html', {'form': form})
+    return render(request, 'trip_vendor/trip_vendor_profile.html', {'form': form, 'access_level': access_level})

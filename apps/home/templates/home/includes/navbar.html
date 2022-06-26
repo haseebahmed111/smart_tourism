@@ -68,14 +68,45 @@
                                 </a>
                             </li>
                         {% endif %}
-                    {% if request.user.is_superuser %}
-                    <li>
-                            <a href="{% url 'admin:index' %}">
-                                <i class="material-icons">view_quilt</i> Admin Dashboard
-                            </a>
-                        </li>
+                        {% if access_level %}
+                            {% if access_level.admin %}
+                                <li>
+                                    <a href="{% url 'admin:index' %}">
+                                        <i class="material-icons">view_quilt</i> Admin Dashboard
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if access_level.trip_vendor %}
+                                <li>
+                                    <a href="{% url 'trip_vendor_home' %}">
+                                        <i class="material-icons">view_quilt</i> Trip Vendor Dashboard
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if access_level.management %}
+                                <li>
+                                    <a href="{% url 'management_home' %}">
+                                        <i class="material-icons">view_quilt</i> Management Dashboard
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if access_level.car_vendor %}
+                                <li>
+                                    <a href="{% url 'car_vendor_home' %}">
+                                        <i class="material-icons">view_quilt</i> Car Vendor Dashboard
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if access_level.tour_guide %}
+                                <li>
+                                    <a href="{% url 'tour_guide_home' %}">
+                                        <i class="material-icons">view_quilt</i> Tour Guide Dashboard
+                                    </a>
+                                </li>
+                            {% endif %}
 
-                    {% endif %}
+
+                        {% endif %}
                         <li>
                             <a href="{% url 'dashboard' %}">
                                 <i class="material-icons">view_quilt</i> Dashboard
@@ -86,22 +117,19 @@
                                 <i class="material-icons">view_quilt</i> Private Trip
                             </a>
                         </li>
-                        <li>
-                            <a href="{% url 'update_trip' %}">
-                                <i class="material-icons">location_on</i> Update Trip
-                            </a>
-                        </li>
+
                         <li>
                             <a href="{% url 'share_trip_data' %}">
                                 <i class="material-icons">view_day</i> Share Data
                             </a>
                         </li>
-                        <li>
-                            <a href="{% url 'role_elevation' %}">
-                                <i class="material-icons">view_day</i> Request Role Elevation
-                            </a>
-                        </li>
+
                         {% if request.user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'role_elevation' %}">
+                                    <i class="material-icons">view_day</i> Request Role Elevation
+                                </a>
+                            </li>
                             <li>
                                 <a href="{% url 'logout' %}">
                                     <i class="material-icons">person_add</i> Logout
@@ -111,12 +139,12 @@
                     </ul>
                 </li>
 
-{#                <li>#}
-{#                    <a href="{% url 'search' %}" target="_blank"#}
-{#                       class="btn btn-white btn-simple">#}
-{#                        <i class="material-icons">shopping_cart</i> Book Now#}
-{#                    </a>#}
-{#                </li>#}
+                {#                <li>#}
+                {#                    <a href="{% url 'search' %}" target="_blank"#}
+                {#                       class="btn btn-white btn-simple">#}
+                {#                        <i class="material-icons">shopping_cart</i> Book Now#}
+                {#                    </a>#}
+                {#                </li>#}
             </ul>
         </div>
 
