@@ -145,7 +145,7 @@
                             </div>
                             <div class="card-content">
                                 <h4 class="card-title">
-                                    <a >{{ city.name }}</a>
+                                    <a>{{ city.name }}</a>
                                 </h4>
                                 <p class="card-description">{{ city.area }}, {{ city.province }}</p>
                             </div>
@@ -167,7 +167,9 @@
                     <div class="card card-product card-plain">
                         <div class="card-image">
                             <a href="{% url 'view_trip' trip.id %}">
-                                <img style="height: 200px;object-fit: cover" src="{% if trip.image %}{{ trip.image.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}" alt=""/>
+                                <img style="height: 200px;object-fit: cover" src="
+                                        {% if trip.image %}{{ trip.image.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}"
+                                     alt=""/>
                             </a>
                         </div>
                         <div class="card-content">
@@ -192,9 +194,13 @@
                         </div>
                     </div>
                 </div>
+                {% if forloop.counter|divisibleby:"3" %}
+                    </div>
+                    <div class="row">
+                {% endif %}
             {% endfor %}
 
-        </div>
+            </div>
     </div>
 </div>
 <div class="section section-blog">
@@ -280,11 +286,13 @@
                             <a href="{% url 'view_shared_trip' trip.id %}">
                                 {#                                {% if trip.image %}#}
                                 <img style="height: 300px;object-fit: cover" src="
+
                                         {% if trip.cover %}{{ trip.cover.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}"
                                      alt="">
                             </a>
                             <div class="colored-shadow"
-                                 style="background-image: url('{% if trip.cover %}{{ trip.cover.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}'); opacity: 1;"></div>
+                                 style="background-image: url('
+                                         {% if trip.cover %}{{ trip.cover.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}'); opacity: 1;"></div>
                             <div class="ripple-container"></div>
                             {#                                {% endif %}#}
                         </div>
@@ -300,6 +308,10 @@
                     </div>
 
                 </div>
+                {% if forloop.counter|divisibleby:"3" %}
+                    </div>
+                    <div class="row">
+                {% endif %}
             {% endfor %}
 
         </div>
