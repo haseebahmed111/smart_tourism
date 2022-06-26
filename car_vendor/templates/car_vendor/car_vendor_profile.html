@@ -12,6 +12,11 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="title">Edit Profile</h5>
+                    {% if not profile %}
+                        <div class="alert-danger text-center text-white">You cannot Perform Any Other Operation without
+                            Creating a Profile.
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="card-body">
 

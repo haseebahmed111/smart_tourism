@@ -48,7 +48,7 @@ class CarVendorProfileFrom(forms.ModelForm):
             }
         ))
 
-    picture = forms.ImageField(required=False)
+    picture = forms.ImageField()
 
     class Meta:
         model = CarVendorProfile
@@ -128,7 +128,7 @@ class CarForm(forms.ModelForm):
                 "class": "form-control"
             }
         ))
-    picture = forms.ImageField(required=False)
+    picture = forms.ImageField()
 
     class Meta:
         model = Car

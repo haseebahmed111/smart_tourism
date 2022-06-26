@@ -84,8 +84,8 @@
                     </ul>
                 </div>
                 <div class="col-md-6 col-sm-6">
-                    <h2 class="title"> {{ trip.title }} {% if not trip.is_approved %}
-                        <span class="label label-danger">Not Approved</span>{% endif %}</h2>
+                    <h2 class="title"> {{ trip.title }}{% if is_author %} {% if not trip.is_approved %}
+                        <span class="label label-danger">Not Approved</span>{% endif %}{% endif %}</h2>
                     <h3 class="main-price">{{ trip.user.username }}</h3>
                     <div id="acordeon">
                         <div class="panel-group" id="accordion">
@@ -188,6 +188,7 @@
                             <button class="btn btn-rose btn-round">Like</button>
                         {% endif %}
                     </div>
+                {% if is_author %}
                     <div class="row">
                         <h5>Share More data:</h5>
                         <form enctype="multipart/form-data" role="form" method="post" action="">
@@ -206,6 +207,7 @@
 
                         </form>
                     </div>
+                {% endif %}
                 </div>
             </div>
         </div>

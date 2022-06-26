@@ -115,12 +115,20 @@
                         <button class="btn btn-primary btn-round">Get Recommendation</button>
                     </div>
                     {% if results %}
+                        {% if cities %}
                         <div class="col-md-8 col-md-offset-2 text-center">
-
                             <div class="alert alert-success" role="alert">
                                 Scroll to see recommendations
                             </div>
                         </div>
+                            {% else %}
+                            <div class="col-md-8 col-md-offset-2 text-center">
+                            <div class="alert alert-danger" role="alert">
+                                No Recommended Cities! Try changing query.
+                            </div>
+                        </div>
+                            {% endif %}
+
                     {% endif %}
                 </div>
             </div>
@@ -151,12 +159,14 @@
                         </div>
                     </div>
                     {% if forloop.counter|divisibleby:"3" %}
-                    </div>
-                    <div class="row">
-                {% endif %}
+                        </div>
+                        <div class="row">
+                    {% endif %}
+                    {% empty %}
+                    <p>No Recommended Cities</p>
                 {% endfor %}
 
-            </div>
+                </div>
         </div>
     </div>
 
@@ -171,6 +181,7 @@
                         <div class="card-image">
                             <a href="{% url 'view_trip' trip.id %}">
                                 <img style="height: 200px;object-fit: cover" src="
+
                                         {% if trip.image %}{{ trip.image.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}"
                                      alt=""/>
                             </a>
@@ -201,6 +212,8 @@
                     </div>
                     <div class="row">
                 {% endif %}
+                 {% empty %}
+                    <p>No Recommended Trips</p>
             {% endfor %}
 
             </div>
@@ -237,13 +250,15 @@
                     </div>
 
                 </div>
-                                {% if forloop.counter|divisibleby:"3" %}
+                {% if forloop.counter|divisibleby:"3" %}
                     </div>
                     <div class="row">
                 {% endif %}
+                 {% empty %}
+                    <p>No Recommended Cars</p>
             {% endfor %}
 
-        </div>
+            </div>
     </div>
 </div><!-- section -->
 <div class="section section-blog">
@@ -276,13 +291,15 @@
                     </div>
 
                 </div>
-                                {% if forloop.counter|divisibleby:"3" %}
+                {% if forloop.counter|divisibleby:"3" %}
                     </div>
                     <div class="row">
                 {% endif %}
+                 {% empty %}
+                    <p>No Recommended Guides</p>
             {% endfor %}
 
-        </div>
+            </div>
     </div>
 </div><!-- section -->
 <div class="section section-blog">
@@ -291,86 +308,43 @@
         <div class="row">
             {% for trip in shared_trips %}
                 <div class="col-md-4">
+                    <a href="{% url 'view_shared_trip' trip.id %}">
 
-                    <div class="card card-blog">
-                        <div class="card-image">
-                            <a href="{% url 'view_shared_trip' trip.id %}">
-                                {#                                {% if trip.image %}#}
+                        <div class="card card-blog">
+                            <div class="card-image">
                                 <img style="height: 300px;object-fit: cover" src="
-
                                         {% if trip.cover %}{{ trip.cover.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}"
                                      alt="">
-                            </a>
-                            <div class="colored-shadow"
-                                 style="background-image: url('
-                                         {% if trip.cover %}{{ trip.cover.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}'); opacity: 1;"></div>
-                            <div class="ripple-container"></div>
-                            {#                                {% endif %}#}
+                                <div class="colored-shadow"
+                                     style="background-image: url('
+                                             {% if trip.cover %}{{ trip.cover.url }}{% else %}{% static 'assets/img/no_shared_trip_image.jpg' %}{% endif %}'); opacity: 1;"></div>
+                                <div class="ripple-container"></div>
+                            </div>
+                            <div class="card-content">
+                                <h6 class="category text-rose">{{ trip.from_city }} - {{ trip.to_city }}</h6>
+                                <h4 class="card-title">
+                                    <a href="{% url 'view_shared_trip' trip.id %}">{{ trip.title }}</a>
+                                </h4>
+                                <p class="card-description">
+                                    {{ trip.description }}
+                                </p>
+                            </div>
                         </div>
-                        <div class="card-content">
-                            <h6 class="category text-rose">{{ trip.from_city }} - {{ trip.to_city }}</h6>
-                            <h4 class="card-title">
-                                <a href="{% url 'view_shared_trip' trip.id %}">{{ trip.title }}</a>
-                            </h4>
-                            <p class="card-description">
-                                {{ trip.description }}
-                            </p>
-                        </div>
-                    </div>
+                    </a>
 
                 </div>
                 {% if forloop.counter|divisibleby:"3" %}
                     </div>
                     <div class="row">
                 {% endif %}
+                 {% empty %}
+                    <p>No Related Shared Trips</p>
             {% endfor %}
 
-        </div>
+            </div>
     </div>
 </div><!-- section -->
 
-
-<div class="subscribe-line subscribe-line-image" data-parallax="true"
-     style="background-image: url('{% static 'assets/img/examples/ecommerce-header.jpg' %}');">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="text-center">
-                    <h3 class="title">Subscribe to our Newsletter</h3>
-                    <p class="description">
-                        Join our newsletter and get news in your inbox every week! We hate spam too, so no worries about
-                        this.
-                    </p>
-                </div>
-
-                <div class="card card-raised card-form-horizontal">
-                    <div class="card-content">
-                        <form method="" action="">
-                            <div class="row">
-                                <div class="col-sm-8">
-
-                                    <div class="input-group">
-											<span class="input-group-addon">
-												<i class="material-icons">mail</i>
-											</span>
-                                        <div class="form-group is-empty"><input type="email" value=""
-                                                                                placeholder="Your Email..."
-                                                                                class="form-control"><span
-                                                class="material-input"></span></div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <button type="button" class="btn btn-rose btn-block">Subscribe</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
 
 <footer class="footer footer-black footer-big">
     <div class="container">
@@ -403,26 +377,6 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <h5>Recent Trip Photos</h5>
-                    <div class="gallery-feed">
-                        <img src="/static/assets/img/faces/card-profile6-square.jpg" class="img img-raised img-rounded"
-                             alt=""/>
-                        <img src="/static/assets/img/faces/christian.jpg" class="img img-raised img-rounded" alt=""/>
-                        <img src="/static/assets/img/faces/card-profile4-square.jpg" class="img img-raised img-rounded"
-                             alt=""/>
-                        <img src="/static/assets/img/faces/card-profile1-square.jpg" class="img img-raised img-rounded"
-                             alt=""/>
-
-                        <img src="/static/assets/img/faces/marc.jpg" class="img img-raised img-rounded" alt=""/>
-                        <img src="/static/assets/img/faces/kendall.jpg" class="img img-raised img-rounded" alt=""/>
-                        <img src="/static/assets/img/faces/card-profile5-square.jpg" class="img img-raised img-rounded"
-                             alt=""/>
-                        <img src="/static/assets/img/faces/card-profile2-square.jpg" class="img img-raised img-rounded"
-                             alt=""/>
-                    </div>
-
-                </div>
             </div>
         </div>
 
@@ -433,11 +387,6 @@
             <li>
                 <a href="{% url 'home' %}">
                     Home
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'search' %}">
-                    Search
                 </a>
             </li>
             <li>

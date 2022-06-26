@@ -22,6 +22,10 @@ def add_trip(request):
     access_level = allow_access(request, ['trip_vendor'])
     if not access_level:
         return redirect('role_elevation')
+    try:
+        profile = TripVendorProfile.objects.get(user=request.user)
+    except TripVendorProfile.DoesNotExist:
+        return redirect('trip_vendor_profile')
     if request.method == "POST":
         form = TripForm(request.POST, request.FILES)
         if form.is_valid():
@@ -42,6 +46,10 @@ def delete_trip(request, id):
     access_level = allow_access(request, ['trip_vendor'])
     if not access_level:
         return redirect('role_elevation')
+    try:
+        profile = TripVendorProfile.objects.get(user=request.user)
+    except TripVendorProfile.DoesNotExist:
+        return redirect('trip_vendor_profile')
     trip = Trip.objects.get(id=id)
 
     return render(request, 'trip_vendor/delete_trip.html', {'trip': trip, 'access_level': access_level})
@@ -52,6 +60,10 @@ def delete_trip_check(request, id, check):
     access_level = allow_access(request, ['trip_vendor'])
     if not access_level:
         return redirect('role_elevation')
+    try:
+        profile = TripVendorProfile.objects.get(user=request.user)
+    except TripVendorProfile.DoesNotExist:
+        return redirect('trip_vendor_profile')
     trip = Trip.objects.get(id=id)
     if check:
         trip.delete()
@@ -64,6 +76,10 @@ def update_trip(request, id):
     access_level = allow_access(request, ['trip_vendor'])
     if not access_level:
         return redirect('role_elevation')
+    try:
+        profile = TripVendorProfile.objects.get(user=request.user)
+    except TripVendorProfile.DoesNotExist:
+        return redirect('trip_vendor_profile')
     trip = Trip.objects.get(id=id)
     if request.method == "POST":
         form = TripForm(request.POST, request.FILES, instance=trip)
@@ -102,4 +118,5 @@ def trip_vendor_profile(request):
     else:
 
         form = TripVendorProfileFrom(instance=profile)
-    return render(request, 'trip_vendor/trip_vendor_profile.html', {'form': form, 'access_level': access_level})
+    return render(request, 'trip_vendor/trip_vendor_profile.html',
+                  {'form': form, 'profile': profile, 'access_level': access_level})

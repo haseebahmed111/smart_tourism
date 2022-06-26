@@ -48,7 +48,7 @@ class TripVendorProfileFrom(forms.ModelForm):
             }
         ))
 
-    picture = forms.ImageField(required=False)
+    picture = forms.ImageField()
 
     class Meta:
         model = TripVendorProfile
@@ -157,7 +157,7 @@ class TripForm(forms.ModelForm):
                 "class": "form-control"
             }
         ))
-    picture = forms.ImageField(required=False)
+    picture = forms.ImageField()
 
     class Meta:
         model = Trip

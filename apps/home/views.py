@@ -197,8 +197,7 @@ def index(request):
                 tour_guides_results = tour_guides
                 cities_results = cities
 
-            if not cities_results or len(cities_results) < 1:
-                results = False
+
 
             ctx = {
                 'shared_trips': shared_trips_results,

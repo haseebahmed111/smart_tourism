@@ -94,11 +94,7 @@ class ShareTripForm(forms.ModelForm):
             }
         ))
 
-    cover = forms.ImageField(label="Cover Image", widget=forms.FileInput(
-        attrs={
-            "class": "form-control"
-        }
-    ))
+    cover = forms.ImageField()
 
     class Meta:
         model = ShareTrip

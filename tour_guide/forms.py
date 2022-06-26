@@ -63,7 +63,7 @@ class TourGuideProfileFrom(forms.ModelForm):
             }
         ))
 
-    picture = forms.ImageField(required=False)
+    picture = forms.ImageField()
 
     class Meta:
         model = TourGuideProfile
