@@ -7,6 +7,7 @@ from apps.authentication.forms import SignUpFormHome, LoginForm
 from apps.home.forms import RecommendationForm
 from apps.home.models import City
 from car_vendor.models import Car
+from management.models import WebsiteSettings
 from tour_guide.models import TourGuideProfile
 from trip_vendor.models import Trip
 from user_dashboard.forms import SharedTripImageForm, SharedTripVideoLinkForm
@@ -208,10 +209,16 @@ def index(request):
         else:
             print(form.errors)
 
-    shared_trips = ShareTrip.objects.all().order_by('shared_on')[:10][::-1]
-    vendor_trips = Trip.objects.all().order_by('created')[:10][::-1]
-    vendor_cars = Car.objects.all().order_by('created')[:10][::-1]
-    tour_guides = TourGuideProfile.objects.all().order_by('information_added_on')[:10][::-1]
+    try:
+        settings = WebsiteSettings.objects.latest()
+    except:
+        settings = WebsiteSettings.objects.create()
+        settings.save()
+
+    shared_trips = ShareTrip.objects.all().order_by('shared_on')[:settings.number_of_objects][::-1]
+    vendor_trips = Trip.objects.all().order_by('created')[:settings.number_of_objects][::-1]
+    vendor_cars = Car.objects.all().order_by('created')[:settings.number_of_objects][::-1]
+    tour_guides = TourGuideProfile.objects.all().order_by('information_added_on')[:settings.number_of_objects][::-1]
     cities = None
 
     ctx = {
