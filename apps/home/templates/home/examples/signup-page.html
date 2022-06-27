@@ -81,20 +81,25 @@
                                 <div class="card-content">
                                     <div class="input-group">
 											<span class="input-group-addon">
-												<i class="material-icons">face</i>
+												<i class="material-icons">person</i>
 											</span>
                                         {{ form.first_name }}
-                                        {#                                        <input type="text" class="form-control" placeholder="Your Sweet Name...">#}
                                     </div>
                                     <span class="text-danger">{{ form.first_name.errors }}</span>
                                     <div class="input-group">
 											<span class="input-group-addon">
-												<i class="material-icons">face</i>
+												<i class="material-icons">person</i>
 											</span>
                                         {{ form.last_name }}
-                                        {#                                        <input type="text" class="form-control" placeholder="Your Sweet Name...">#}
                                     </div>
                                     <span class="text-danger">{{ form.last_name.errors }}</span>
+                                    <div class="input-group">
+											<span class="input-group-addon">
+												<i class="material-icons">perm_identity</i>
+											</span>
+                                        {{ form.username }}
+                                    </div>
+                                    <span class="text-danger">{{ form.username.errors }}</span>
 
 
                                     <div class="input-group">
@@ -102,18 +107,9 @@
 												<i class="material-icons">email</i>
 											</span>
                                         {{ form.email }}
-                                        {#                                        <input type="email" class="form-control" placeholder="Email...">#}
                                     </div>
                                     <span class="text-danger">{{ form.email.errors }}</span>
 
-                                    <div class="input-group">
-											<span class="input-group-addon">
-												<i class="material-icons">perm_identity</i>
-											</span>
-                                        {{ form.username }}
-                                        {#                                        <input type="email" class="form-control" placeholder="Email...">#}
-                                    </div>
-                                    <span class="text-danger">{{ form.username.errors }}</span>
 
                                     <div class="input-group">
 											<span class="input-group-addon">
