@@ -2,10 +2,11 @@ import math
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.utils import timezone
 
 from apps.authentication.forms import SignUpFormHome, LoginForm
-from apps.home.forms import RecommendationForm
-from apps.home.models import City
+from apps.home.forms import RecommendationForm, CustomTripOfferForm, CustomTripOfferViewForm, CustomTripOfferBidForm
+from apps.home.models import City, CustomTripOffer, CustomTripBid
 from car_vendor.models import Car, CarVendorProfile
 from management.models import WebsiteSettings
 from management.views import allow_access
@@ -445,6 +446,7 @@ def view_trip_vendor_profile(request, id):
     }
     return render(request, 'home/examples/trip_vendor_profile.html', ctx)
 
+
 @login_required(login_url="/login/")
 def view_car_vendor_profile(request, id):
     access_level = allow_access(request)
@@ -472,9 +474,72 @@ def view_car_vendor_profile(request, id):
     return render(request, 'home/examples/car_vendor_profile.html', ctx)
 
 
-def private_trip(request):
-    return render(request, 'home/examples/Private_trip_offer.html')
+@login_required(login_url="/login/")
+def create_private_trip(request):
+    access_level = allow_access(request)
+    form = CustomTripOfferForm(None or request.POST)
+    if request.method == "POST":
+        if form.is_valid():
+            last_offer = CustomTripOffer.objects.filter(user=request.user)
+            if not last_offer.exists() or last_offer.latest('created').created < timezone.now() - timezone.timedelta(
+                    days=7):
+                custom_trip = form.save(commit=False)
+                custom_trip.user = request.user
+                custom_trip.save()
+                return redirect('view_private_trip', custom_trip.id)
 
+    ctx = {
+        # 'vendor': vendor,
+        # 'cars': cars,
+        'access_level': access_level,
+        'form': form,
+        # 'is_author': is_author,
+    }
+    return render(request, 'home/examples/Private_trip_offer.html', ctx)
+
+
+@login_required(login_url="/login/")
+def view_private_trip(request, id):
+    access_level = allow_access(request)
+    offer = CustomTripOffer.objects.get(id=id)
+    form = CustomTripOfferViewForm(instance=offer, prefix='form1')
+    post = True
+    form2 = None
+    is_author = False
+    previous_bids = None
+
+    if request.user == offer.user:
+        is_author = True
+        previous_bids = CustomTripBid.objects.filter(offer=offer)
+    elif access_level['trip_vendor']:
+        previous_bids = CustomTripBid.objects.filter(user=request.user,offer=offer)
+        try:
+            profile = TripVendorProfile.objects.get(user=request.user)
+        except TripVendorProfile.DoesNotExist:
+            return redirect('trip_vendor_profile')
+        form2 = CustomTripOfferBidForm(None or request.POST, prefix='form2')
+        if request.method == 'POST':
+            if form2.is_valid():
+                bid = form2.save(commit=False)
+                bid.user = request.user
+                bid.offer = offer
+                bid.save()
+
+
+    ctx = {
+        'access_level': access_level,
+        'form': form,
+        'form2': form2,
+        'post': post,
+        'is_author': is_author,
+        'previous_bids': previous_bids,
+    }
+    return render(request, 'home/examples/Private_trip_offer.html', ctx)
+
+
+def detect_trip_vendor(request,id):
+    vendor = TripVendorProfile.objects.get(user__id=id)
+    return redirect('view_trip_vendor_profile',vendor.id)
 
 
 # def car_vendor(request):

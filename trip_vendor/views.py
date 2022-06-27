@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from apps.home.models import CustomTripOffer
 from management.views import allow_access
 from trip_vendor.forms import TripVendorProfileFrom, TripForm
 from trip_vendor.models import TripVendorProfile, Trip
@@ -125,3 +126,17 @@ def trip_vendor_profile(request):
         form = TripVendorProfileFrom(instance=profile)
     return render(request, 'trip_vendor/trip_vendor_profile.html',
                   {'form': form, 'profile': profile, 'access_level': access_level})
+
+@login_required(login_url="/account/login/")
+def view_custom_offers(request):
+    access_level = allow_access(request)
+    try:
+        profile = TripVendorProfile.objects.get(user=request.user)
+    except TripVendorProfile.DoesNotExist:
+        return redirect('trip_vendor_profile')
+    custom_offers = CustomTripOffer.objects.all().order_by('created')
+    ctx = {
+        'custom_offers': custom_offers,
+        'access_level': access_level
+    }
+    return render(request, 'trip_vendor/custom_trip_offers.html', ctx)

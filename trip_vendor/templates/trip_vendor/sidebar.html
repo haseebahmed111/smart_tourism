@@ -28,6 +28,13 @@
               <p>Add Trip</p>
             </a>
           </li>
+            <li class="{% if 'view_custom_offers' in segment %} active {% endif %}">
+            <a href="{% url 'view_custom_offers' %}">
+              <i class="tim-icons icon-atom"></i>
+              <p>View Custom Trip Offers</p>
+            </a>
+          </li>
+
           <li class="{% if 'maps' in segment %} active {% endif %}">
             <a href="{% url 'trip_vendor_profile' %}">
               <i class="tim-icons icon-pin"></i>

@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
+from apps.home.models import CustomTripOffer
 from management.views import allow_access
 from .forms import ShareTripForm, RoleForm, ComplaintForm
 from .models import ShareTrip
@@ -63,7 +64,8 @@ def delete_trip_data(request, id):
     if not access_level:
         return redirect('role_elevation')
     shared_data = ShareTrip.objects.get(id=id)
-    return render(request, 'user_dashboard/delete_trip.html', {'shared_data': shared_data, 'access_level': access_level})
+    return render(request, 'user_dashboard/delete_trip.html',
+                  {'shared_data': shared_data, 'access_level': access_level})
 
 
 @login_required(login_url="/account/login/")
@@ -95,7 +97,8 @@ def role_elevation(request):
             msg = 'Form is not valid'
     else:
         form = RoleForm()
-    return render(request, 'user_dashboard/request_elevation.html', {'form': form, 'is_requested': is_requested, 'access_level': access_level})
+    return render(request, 'user_dashboard/request_elevation.html',
+                  {'form': form, 'is_requested': is_requested, 'access_level': access_level})
 
 
 @login_required(login_url="/account/login/")
@@ -118,3 +121,14 @@ def complaint(request):
         form = ComplaintForm()
     return render(request, 'user_dashboard/register_complaint.html',
                   {'form': form, 'is_complain_registered': is_complain_registered, 'access_level': access_level})
+
+
+@login_required(login_url="/account/login/")
+def view_custom_offers(request):
+    access_level = allow_access(request)
+    custom_offers = CustomTripOffer.objects.filter(user=request.user)
+    ctx = {
+        'custom_offers': custom_offers,
+        'access_level': access_level
+    }
+    return render(request, 'user_dashboard/custom_trip_offers.html', ctx)

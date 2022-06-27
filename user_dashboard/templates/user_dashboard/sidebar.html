@@ -28,6 +28,12 @@
               <p>Share Trip Data</p>
             </a>
           </li>
+            <li class="{% if 'view_created_custom_offers' in segment %} active {% endif %}">
+            <a href="{% url 'view_created_custom_offers' %}">
+              <i class="tim-icons icon-atom"></i>
+              <p>Custom Trip Offers</p>
+            </a>
+          </li>
           <li class="{% if 'role_elevation' in segment %} active {% endif %}">
             <a href="{% url 'role_elevation' %}">
               <i class="tim-icons icon-atom"></i>

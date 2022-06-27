@@ -12,7 +12,9 @@ urlpatterns = [
     path('guide/tour/<id>', views.view_tour_guide_profile, name='view_tour_guide_profile'),
     path('vendor/trip/<id>', views.view_trip_vendor_profile, name='view_trip_vendor_profile'),
     path('vendor/car/<id>', views.view_car_vendor_profile, name='view_car_vendor_profile'),
-    path('private_trip', views.private_trip, name='private_trip'),
+    path('private_trip', views.create_private_trip, name='create_private_trip'),
+    path('private_trip/<id>', views.view_private_trip, name='view_private_trip'),
+    path('vendor/trip/detect/<id>/', views.detect_trip_vendor, name='detect_trip_vendor'),
 
     # path('vendor/car/<id>', views.car_vendor_profile, name='car_vendor_profile'),
     # path('car_vendor', views.car_vendor, name='car_vendor'),

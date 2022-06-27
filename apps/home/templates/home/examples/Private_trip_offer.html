@@ -6,7 +6,7 @@
     <link rel="icon" type="image/png" href="/static/assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
-    <title>Private Trip Offer</title>
+    <title>Private Trip</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
 
@@ -20,10 +20,10 @@
     <link href="/static/assets/css/material-kit.css?v=1.2.1" rel="stylesheet"/>
 </head>
 
-<body class="contact-page">
-
+<body class="product-page">
 {% include 'home/includes/navbar.html' %}
-<div class="page-header header-filter" data-parallax="true" filter-color="rose">
+
+<div class="page-header header-filter" data-parallax="true" filter-color="red">
     <div class="container">
         <div class="row title-row">
             <div class="col-md-4 col-md-offset-8">
@@ -32,185 +32,134 @@
     </div>
 </div>
 
-<div class="main main-raised">
-    <div class="contact-content">
-        <div class="container">
-            <h2 class="title">Send Your Private custom Trip to Vendors</h2>
+<div class="section section-gray">
+    <div class="container">
+        <div class="main main-raised main-product">
             <div class="row">
-                <div class="col-md-6">
-                    <p class="description">You can contact us with anything related to our Products. We'll get in touch
-                        with you as soon as possible.<br><br>
-                    </p>
-                    <form role="form" id="contact-form" method="post">
-                        <div class="form-group label-floating">
-                            <label class="control-label">Your name</label>
-                            <input type="text" name="name" class="form-control">
-                        </div>
-                        <div class="form-group label-floating">
-                            <div class="col-lg-5 col-md-6 col-sm-3">
-                                <select class="selectpicker" data-style="btn btn-primary btn-round"
-                                        title="Starting From" data-size="7">
 
-                                    <option disabled> Choose City</option>
-                                    <option value="2">karachi</option>
-                                    <option value="3">Lahore</option>
-                                    <option value="4">Islamabad</option>
-                                    <option value="5">Faisalabad</option>
-                                    <option value="6">Rawalpindi</option>
-                                    <option value="7">Multan</option>
-                                    <option value="8">Gujranwala</option>
-                                    <option value="9">Hyderabad</option>
-                                    <option value="10">Peshawar</option>
-                                    <option value="11">Quetta</option>
-                                    <option value="12">Sargodha</option>
-                                    <option value="13">Sialkot</option>
-                                    <option value="14">Bahawalpur</option>
-                                    <option value="15">Sukkur</option>
-                                    <option value="16">Sheikhupura</option>
-                                    <option value="17">Mardan</option>
-                                    <option value="18">Gujrat</option>
-                                    <option value="19">Larkana</option>
-                                    <option value="20">kasur</option>
-                                    <option value="21">Rahim Yar Khan</option>
-                                    <option value="22">Sahiwal</option>
-                                    <option value="23">Okara</option>
-                                    <option value="24">Dera Ghazi Khan</option>
-                                    <option value="25">Chiniot</option>
-                                    <option value="26">Jhelum</option>
-                                    <option value="27">Sadiqabad</option>
-                                    <option value="28">Muzaffargarh</option>
-                                    <option value="29">kohat</option>
-                                    <option value="30">Pakpattan</option>
-                                    <option value="31">Abbottabad</option>
-                                    <option value="32">Daska</option>
-                                    <option value="33">Dera Ismail Khan</option>
-                                    <option value="34">Vehari</option>
-                                    <option value="35">Wazirabad</option>
-                                    <option value="36">Swabi</option>
-                                    <option value="37">Chakwal</option>
-                                    <option value="38">Mianwali</option>
-                                    <option value="39">Vehari</option>
-                                    <option value="40">Mansehra</option>
-                                </select>
-                            </div>
+                <div class="col-md-12 col-sm-12">
+                    <h2 class="title">Custom Trip Offer</h2>
+                    <h5 class="main-price">Personalized Trip just for your friends and family.</h5>
+                    {% if not post %}
+                        <form role="form" id="search_trip" method="post">
+                        {% csrf_token %}{% endif %}
+                    <div class="row pick-size">
+                        <div class="col-md-6 col-sm-6">
+                            <label>Trip From</label>
+                            {{ form.trip_from }}
                         </div>
-                        </br>
-                        <div class="form-group label-floating">
-                            <div class="col-lg-5 col-md-6 col-sm-3">
+                    </div>
+                    <h5>All fields are optional</h5>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6">
+                            <label>Trip to Province</label>
+                            {{ form.to_province }}
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <label>Trip to Area</label>
+                            {{ form.to_area }}
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <label>Trip to City</label>
+                            {{ form.to_city }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8">
+                            <label>Trip Destination Note</label>
+                            {{ form.destination_note }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6">
+                            <label>Max Budget</label>
+                            {{ form.max_budget }}
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <label>Persons</label>
+                            {{ form.persons }}
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <label>Min Days</label>
+                            {{ form.min_days }}
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <label>Max Days</label>
+                            {{ form.max_days }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 col-sm-12">
+                            <label>Further Information </label>
+                            {{ form.description }}
+                        </div>
+                    </div>
+                    {% if not post %}
+                        <button class="btn btn-primary btn-round">Request</button>{% endif %}
 
-                                <select class="selectpicker" data-style="btn btn-primary btn-round"
-                                        title="Ending Location" data-size="7">
-                                    <option disabled> Choose City</option>
-                                    <option value="2">karachi</option>
-                                    <option value="3">Lahore</option>
-                                    <option value="4">Islamabad</option>
-                                    <option value="5">Faisalabad</option>
-                                    <option value="6">Rawalpindi</option>
-                                    <option value="7">Multan</option>
-                                    <option value="8">Hunza</option>
-                                    <option value="9">Naltar Valley</option>
-                                    <option value="10">Naran kagan</option>
-                                    <option value="11">kashmir</option>
-                                    <option value="12">Sawat</option>
-                                    <option value="13">kalam</option>
-                                    <option value="14">Sakardu</option>
-                                    <option value="15">Nanga Perbat</option>
-                                    <option value="16">China Border</option>
-                                    <option value="17">Mardan</option>
-                                    <option value="18">Rati Gali</option>
-                                    <option value="19">K-2 Base Camp</option>
-                                    <option value="20">kasur</option>
-                                    <option value="21">Rahim Yar Khan</option>
-                                    <option value="22">Sahiwal</option>
-                                    <option value="23">Okara</option>
-                                    <option value="24">Dera Ghazi Khan</option>
-                                    <option value="25">Chiniot</option>
-                                    <option value="26">Jhelum</option>
-                                    <option value="27">Sadiqabad</option>
-                                    <option value="28">Muzaffargarh</option>
-                                    <option value="29">kohat</option>
-                                    <option value="30">Pakpattan</option>
-                                    <option value="31">Abbottabad</option>
-                                    <option value="32">Daska</option>
-                                    <option value="33">Dera Ismail Khan</option>
-                                    <option value="34">Vehari</option>
-                                    <option value="35">Wazirabad</option>
-                                    <option value="36">Swabi</option>
-                                    <option value="37">Chakwal</option>
-                                    <option value="38">Mianwali</option>
-                                    <option value="39">Vehari</option>
-                                    <option value="40">Mansehra</option>
-                                </select>
-                            </div>
-                        </div>
-                        </br></br>
-                        </br>
-                        <div class="form-group label-floating">
-                            <label class="control-label">Budget</label>
-                            <input type="text" name="Budget" class="form-control"/>
-                        </div>
-                        <div class="form-group label-floating">
-                            <label class="control-label">Duration</label>
-                            <input type="text" name="Duration" class="form-control"/>
-                        </div>
-                        <div class="form-group label-floating">
-                            <label class="control-label">Phone No.</label>
-                            <input type="text" name="phone" class="form-control"/>
-                        </div>
-                        <div class="form-group label-floating">
-                            <label class="control-label">Description</label>
-                            <textarea name="message" class="form-control" id="message" rows="6"></textarea>
-                        </div>
-                        <div class="submit text-center">
-                            <input type="submit" class="btn btn-primary btn-raised btn-round" value="Contact Us"/>
-                        </div>
                     </form>
+
+                    <div class="row ">
+                        <h4>{% if is_author %}Bids on your Offer{% else %}Your Bids{% endif %}</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Trip</th>
+                                    <th>Info</th>
+                                    <th>Description</th>
+                                    <th>Vendor</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for bid in previous_bids %}
+                                    <tr>
+                                        <td>{{ bid.trip_from }}-{{ bid.to_city }}</td>
+                                        <td>
+                                            Budget: {{ bid.budget }}<br>
+                                            Persons: {{ bid.persons }}<br>
+                                            days: {{ bid.days }}<br>
+                                        </td>
+                                        <td>{{ bid.description }}</td>
+                                        <td><a href="{% url 'detect_trip_vendor' bid.user.id %}">view vendor</a></td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                    <td></td>
+                                    <td>
+                                    No bids yet!
+                                    </td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                {% if not is_author %}
+                    {% if access_level.trip_vendor %}
+                        <div class="row">
+                            <h5>Bid on Offer:</h5>
+                            <br>
+                            <form enctype="multipart/form-data" role="form" method="post" action="">
+
+                                {% csrf_token %}
+                                {{ form2 }}
+                                <button type="submit" class="btn btn-fill btn-primary">Bid</button>
+
+                            </form>
+                        </div>
+                    {% endif %}
+{% endif %}
                 </div>
-                <div class="col-md-4 col-md-offset-2">
-                    <div class="info info-horizontal">
-                        <div class="icon icon-primary">
-                            <i class="material-icons">pin_drop</i>
-                        </div>
-                        <div class="description">
-                            <h4 class="info-title">Find us at the office</h4>
-                            <p> Bld Mihail Kogalniceanu, nr. 8,<br>
-                                7652 Bucharest,<br>
-                                Romania
-                            </p>
-                        </div>
-                    </div>
-                    <div class="info info-horizontal">
-                        <div class="icon icon-primary">
-                            <i class="material-icons">phone</i>
-                        </div>
-                        <div class="description">
-                            <h4 class="info-title">Give us a ring</h4>
-                            <p> Michael Jordan<br>
-                                +40 762 321 762<br>
-                                Mon - Fri, 8:00-22:00
-                            </p>
-                        </div>
-                    </div>
-                    <div class="info info-horizontal">
-                        <div class="icon icon-primary">
-                            <i class="material-icons">business_center</i>
-                        </div>
-                        <div class="description">
-                            <h4 class="info-title">Legal Information</h4>
-                            <p> Smart Tourism Ltd.<br>
-                                VAT &middot; EN2341241<br>
-                                IBAN &middot; EN8732ENGB2300099123<br>
-                                Bank &middot; Great Britain Bank
-                            </p>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
+
+
     </div>
 </div>
-
-
 
 
 {% include 'home/includes/footer.html' %}
@@ -247,29 +196,30 @@
 <script src="/static/assets/js/material-kit.js?v=1.2.1" type="text/javascript"></script>
 
 <script type="text/javascript">
+
     $(document).ready(function () {
-
-        var slider2 = document.getElementById('sliderRefine');
-
-        noUiSlider.create(slider2, {
-            start: [42, 880],
-            connect: true,
-            range: {
-                'min': [30],
-                'max': [900]
-            }
-        });
-
-        var limitFieldMin = document.getElementById('price-left');
-        var limitFieldMax = document.getElementById('price-right');
-
-        slider2.noUiSlider.on('update', function (values, handle) {
-            if (handle) {
-                limitFieldMax.innerHTML = $('#price-right').data('currency') + Math.round(values[handle]);
-            } else {
-                limitFieldMin.innerHTML = $('#price-left').data('currency') + Math.round(values[handle]);
+        $("#flexiselDemo1").flexisel({
+            visibleItems: 4,
+            itemsToScroll: 1,
+            animationSpeed: 400,
+            enableResponsiveBreakpoints: true,
+            responsiveBreakpoints: {
+                portrait: {
+                    changePoint: 480,
+                    visibleItems: 3
+                },
+                landscape: {
+                    changePoint: 640,
+                    visibleItems: 3
+                },
+                tablet: {
+                    changePoint: 768,
+                    visibleItems: 3
+                }
             }
         });
     });
 </script>
+
+
 </html>

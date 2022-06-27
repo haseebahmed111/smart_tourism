@@ -13,7 +13,7 @@ SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # load production server from .env
-ALLOWED_HOSTS = ['localhost', 'localhost:85', '127.0.0.1', 'smarttourismfast.herokuapp.com',"34.122.140.40"]
+ALLOWED_HOSTS = ['localhost', 'localhost:85', '127.0.0.1', 'smarttourismfast.herokuapp.com', "34.122.140.40"]
 CSRF_TRUSTED_ORIGINS = ['http://localhost:85', 'http://127.0.0.1', 'https://smarttourismfast.herokuapp.com',
                         ]
 
@@ -127,7 +127,6 @@ USE_TZ = True
 
 X_FRAME_OPTIONS = 'ALLOWALL'
 
-
 #############################################################
 # SRC: https://devcenter.heroku.com/articles/django-assets
 
@@ -201,10 +200,10 @@ JAZZMIN_SETTINGS = {
     # #############
 
     # # Additional links to include in the user menu on the top right ("app" url type is not allowed)
-    # "usermenu_links": [
-    #     {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
-    #     {"model": "auth.user"}
-    # ],
+    "usermenu_links": [
+        # {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
+        {"name": "Smart Tourism Home", 'url': 'home'}
+    ],
 
     # #############
     # # Side Menu #
@@ -276,3 +275,4 @@ JAZZMIN_SETTINGS = {
 JAZZMIN_UI_TWEAKS = {
     # "theme": "yeti",
 }
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

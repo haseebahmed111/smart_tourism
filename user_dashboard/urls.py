@@ -9,6 +9,7 @@ urlpatterns = [
     path('delete_trip_data_check/<id>/<check>', views.delete_trip_data_check, name='delete_trip_data'),
     path('role_elevation', views.role_elevation, name='role_elevation'),
     path('complaint', views.complaint, name='complaint'),
+    path('view_custom_offers', views.view_custom_offers, name='view_created_custom_offers'),
     #path('view_trip_data', views.view_share_trip_data, name='view_share_trip_data'),
 
 ]

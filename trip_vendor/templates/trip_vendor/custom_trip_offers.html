@@ -1,0 +1,64 @@
+{% extends "trip_vendor/layouts/base.html" %}
+
+{% block title %} Trip Vendor {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card ">
+      <div class="card-header">
+        <h4 class="card-title"> Custom Trip Offers</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table tablesorter " id="">
+            <thead class=" text-primary">
+              <tr>
+                <th>
+                   From
+                </th>
+                <th>
+                  Note
+                </th>
+                <th>
+                  Created on
+                </th>
+                <th class="text-center">
+                  Manage
+                </th>
+
+              </tr>
+            </thead>
+            <tbody>
+            {% for offer in custom_offers %}
+              <tr>
+                <td>
+                    {{ offer.trip_from }}
+                </td>
+                <td>
+                    {{ offer.destination_note }}
+                </td>
+                <td>
+                    {{ offer.created}}
+                </td>
+                <td class="text-center">
+                    <a href="{% url 'view_private_trip' offer.id %}">view</a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
