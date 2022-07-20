@@ -42,7 +42,6 @@ class Complaint(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=255)
     contact_number = models.CharField(max_length=255)
-
     complaint_description = models.TextField(max_length=1024)
     is_resolved = models.BooleanField(default=False)
 

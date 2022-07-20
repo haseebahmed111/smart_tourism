@@ -37,3 +37,4 @@ class Car(models.Model):
     picture = models.FileField(upload_to='vendor_trip/', blank=True)
     is_verified = models.BooleanField(default=True)
     created = models.DateTimeField(default=timezone.now)
+
